@@ -6,7 +6,7 @@ import static edu.wpi.first.units.Units.Volts;
 import com.ctre.phoenix6.SignalLogger;
 
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.configuration.factory.SwerveRequestFactory;
+import frc.robot.configuration.factories.SwerveRequestFactory;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 
 public class SysIdRoutineManager {

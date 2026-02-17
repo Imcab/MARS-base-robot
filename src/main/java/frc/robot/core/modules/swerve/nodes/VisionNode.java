@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
@@ -38,7 +37,7 @@ public class VisionNode extends Node<VisionNode.VisionMsg>{
         void updateData(VisionMsg data);
     }
 
-    private final VisionIO hardwareDriver;
+    protected final VisionIO hardwareDriver;
 
     public VisionNode(String name, VisionIO hardwareDriver, Consumer<VisionMsg> topicPublisher) {
         super(name, new VisionMsg(), topicPublisher);

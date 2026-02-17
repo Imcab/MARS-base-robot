@@ -29,7 +29,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.SwerveConstants;
 import frc.robot.configuration.constants.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.configuration.factory.SwerveRequestFactory;
+import frc.robot.configuration.factories.SwerveRequestFactory;
 import frc.robot.helpers.PoseFinder;
 import frc.robot.helpers.SysIdRoutineManager;
 

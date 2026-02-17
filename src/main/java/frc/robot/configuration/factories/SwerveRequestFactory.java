@@ -1,4 +1,4 @@
-package frc.robot.configuration.factory;
+package frc.robot.configuration.factories;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;

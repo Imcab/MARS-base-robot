@@ -5,6 +5,9 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.configuration.constants.SwerveConstants;
+import frc.robot.configuration.constants.TunerConstants;
+import frc.robot.configuration.constants.VisionConstants;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
@@ -13,19 +16,61 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
+import frc.robot.core.modules.swerve.nodes.QuestNavNode;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
+import mars.source.operator.ControllerOI;
+import mars.source.operator.PS5OI;
+import mars.source.operator.XboxOI;
 
 public class Manifest {
 
     public enum Mode { REAL, SIM }
+    public enum ControllerType { PS5, XBOX }
+
+    private static final int DRIVER_PORT = 0;
+    private static final int OPERATOR_PORT = 1;
+
     public static final Mode CURRENT_MODE = Mode.SIM;
+
+    public static final ControllerType DRIVER_CONTROLLER = ControllerType.PS5;
+    public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
     public static final boolean HAS_DRIVETRAIN = true;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
     public static final boolean HAS_LIMELIGHT = true;
+    public static final boolean HAS_QUESTNAV = false;
+
+    public static class ControlsBuilder {
+        
+        public static ControllerOI buildDriver() {
+            return DRIVER_CONTROLLER == ControllerType.PS5 
+                   ? new PS5OI(DRIVER_PORT) 
+                   : new XboxOI(DRIVER_PORT);
+        }
+        public static ControllerOI buildOperator() {
+            return OPERATOR_CONTROLLER == ControllerType.PS5 
+                   ? new PS5OI(OPERATOR_PORT) 
+                   : new XboxOI(OPERATOR_PORT);
+        }
+    }
  
+    public static class DrivetrainBuilder {
+        
+        public static CommandSwerveDrivetrain buildModule() {
+            if (!HAS_DRIVETRAIN) return null;
+
+            CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+            SwerveTelemetry telemetry = new SwerveTelemetry(SwerveConstants.MaxSpeed);
+            drivetrain.registerTelemetry(telemetry::telemeterize);
+
+            return drivetrain;
+        }
+    }
+
     public static class ArmBuilder{
         
         private static ArmIO injectIO() {
@@ -52,11 +97,9 @@ public class Manifest {
             }
         }
 
-        // Requiere el Drivetrain para calcular la cinemática
         public static Turret buildModule(CommandSwerveDrivetrain drivetrain) {
             if (!HAS_TURRET) return null;
             
-            // Asumiendo que tu torreta pide IO, un Supplier de Pose y un Supplier de Velocidad
             return new Turret(
                 injectIO(), 
                 () -> drivetrain.getState().Pose, 
@@ -65,9 +108,9 @@ public class Manifest {
         }
     }
 
-    public static class VisionBuilder {
+    public static class VisionBuilder{
         
-        public static LimelightNode buildLimelightNode(
+        public static LimelightNode limelightNode(
                 Supplier<Rotation2d> yawSupplier, 
                 DoubleSupplier yawRateSupplier, 
                 Consumer<VisionMsg> topicPublisher) {
@@ -76,6 +119,14 @@ public class Manifest {
 
             return new LimelightNode(KeyManager.LIMELIGHT_KEY, yawSupplier, yawRateSupplier, topicPublisher);
         }
+
+        public static QuestNavNode questNode(Consumer<VisionMsg> topicPublisher){
+
+            if(!HAS_QUESTNAV) return null;
+
+            return new QuestNavNode(KeyManager.QUESTNAV_KEY, VisionConstants.ROBOT_TO_QUEST, topicPublisher);
+        }
+
     }
 
 }

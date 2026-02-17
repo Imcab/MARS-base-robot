@@ -21,7 +21,7 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
     public Arm(ArmIO io){
 
         super(SubsystemBuilder.<ArmInputs, ArmIO>setup()
-            .key(KeyManager.ANGULADOR_KEY)
+            .key(KeyManager.ARM_KEY)
             .hardware(io, new ArmInputs())
             .request(IDLE)
             .telemetry(new ArmTelemetry())
@@ -44,14 +44,14 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
 
         @Override
         public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
-            NetworkIO.set(KeyManager.ANGULADOR_KEY, "Grados", data.position);
-            NetworkIO.set(KeyManager.ANGULADOR_KEY, "DistanceHub", data.distanceToHub);
-            NetworkIO.set(KeyManager.ANGULADOR_KEY, "Timestamp", data.timestamp);
+            NetworkIO.set(KeyManager.ARM_KEY, "Grados", data.position);
+            NetworkIO.set(KeyManager.ARM_KEY, "DistanceHub", data.distanceToHub);
+            NetworkIO.set(KeyManager.ARM_KEY, "Timestamp", data.timestamp);
 
             if(lastStatus != null && lastStatus.code != null){
-                NetworkIO.set(KeyManager.ANGULADOR_KEY, "Status/Name", lastStatus.getPayload().name());
-                NetworkIO.set(KeyManager.ANGULADOR_KEY, "Status/Hex", lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.ANGULADOR_KEY, "Status/Message", lastStatus.getPayload().message());
+                NetworkIO.set(KeyManager.ARM_KEY, "Status/Name", lastStatus.getPayload().name());
+                NetworkIO.set(KeyManager.ARM_KEY, "Status/Hex", lastStatus.getPayload().colorHex());
+                NetworkIO.set(KeyManager.ARM_KEY, "Status/Message", lastStatus.getPayload().message());
             }
             
         }
