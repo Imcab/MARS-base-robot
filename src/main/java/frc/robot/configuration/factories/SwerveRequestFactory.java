@@ -7,9 +7,9 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
-import frc.robot.configuration.constants.TunerConstants;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 public class SwerveRequestFactory {
 

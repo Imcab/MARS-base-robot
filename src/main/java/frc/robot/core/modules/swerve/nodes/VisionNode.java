@@ -8,7 +8,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import frc.robot.configuration.constants.VisionConstants;
+import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import mars.source.models.nodes.Node;
 import mars.source.models.nodes.NodeMessage;
 

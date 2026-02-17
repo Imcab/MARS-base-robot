@@ -5,7 +5,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.configuration.constants.TurretConstants;
+import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;

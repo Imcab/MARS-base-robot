@@ -74,6 +74,11 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             this.targetLocation = targetLocation;
         }
 
+        public LockOnTarget withTarget(Translation2d targetLocation){
+            this.targetLocation = targetLocation;
+            return this;
+        }
+
         public LockOnTarget withFuelVelocity(double mps) {
             this.fuelVelocityMPS = mps;
             return this;

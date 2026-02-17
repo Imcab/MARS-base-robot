@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.configuration.constants.VisionConstants;
+import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionIO;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
 import frc.robot.helpers.LimelightHelpers;

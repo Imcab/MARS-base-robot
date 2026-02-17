@@ -5,9 +5,9 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.configuration.constants.SwerveConstants;
-import frc.robot.configuration.constants.TunerConstants;
-import frc.robot.configuration.constants.VisionConstants;
+import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
+import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
@@ -34,7 +34,7 @@ public class Manifest {
 
     public static final Mode CURRENT_MODE = Mode.SIM;
 
-    public static final ControllerType DRIVER_CONTROLLER = ControllerType.PS5;
+    public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
     public static final boolean HAS_DRIVETRAIN = true;

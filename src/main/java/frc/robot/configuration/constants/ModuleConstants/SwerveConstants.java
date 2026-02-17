@@ -1,4 +1,4 @@
-package frc.robot.configuration.constants;
+package frc.robot.configuration.constants.ModuleConstants;
 
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;

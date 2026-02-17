@@ -2,7 +2,7 @@ package frc.robot.core.requests.moduleRequests;
 
 import java.util.function.DoubleSupplier;
 
-import frc.robot.configuration.constants.ArmConstants;
+import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.diagnostics.ArmCode;

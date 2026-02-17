@@ -1,4 +1,4 @@
-package frc.robot.configuration.constants;
+package frc.robot.configuration.constants.ModuleConstants;
 
 import static edu.wpi.first.units.Units.*;
 

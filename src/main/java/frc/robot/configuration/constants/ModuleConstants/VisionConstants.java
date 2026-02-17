@@ -1,4 +1,4 @@
-package frc.robot.configuration.constants;
+package frc.robot.configuration.constants.ModuleConstants;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
