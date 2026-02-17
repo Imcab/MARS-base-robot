@@ -63,6 +63,11 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
             this.angle = initialAngle;
         }
 
+        public SetAngle withAngle(double angle){
+            this.angle = angle;
+            return this;
+        }
+
         public SetAngle withTolerance(double tol){
             this.tolerance = tol;
             return this;

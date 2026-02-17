@@ -4,14 +4,20 @@
 
 package frc.robot;
 
+import com.stzteam.forgemini.io.SmartChooser;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.Manifest.ArmBuilder;
+import frc.robot.configuration.Manifest.AutoBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
+import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
+import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
@@ -24,6 +30,8 @@ public class RobotContainer implements IRobotContainer{
 
   public final ControllerOI driver;
   public final ControllerOI operator;
+
+  public final SmartChooser<Command> autoChooser;
 
   public final CommandSwerveDrivetrain drivetrain;
   public final LimelightNode limelight;
@@ -49,13 +57,19 @@ public class RobotContainer implements IRobotContainer{
     this.turret = TurretBuilder.buildModule(drivetrain);
     this.arm = ArmBuilder.buildModule();
 
-    DriverBindings.parameterized(drivetrain).bind(driver);
+    this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
+
+    AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
+    
+    DriverBindings.parameterized(drivetrain, driver).bind();
+
+    OperatorBindings.parameterized(operator, turret, arm).bind();
 
   }
 
   @Override
   public void updateNodes() {
-    
+
       if (limelight != null) {
         limelight.periodic();
       }

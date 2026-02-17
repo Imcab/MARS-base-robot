@@ -11,16 +11,19 @@ public class DriverBindings implements Binding{
 
     private final CommandSwerveDrivetrain drivetrain;
 
-    private DriverBindings(CommandSwerveDrivetrain drivetrain) {
+    private final ControllerOI driver;
+
+    private DriverBindings(CommandSwerveDrivetrain drivetrain, ControllerOI driver) {
         this.drivetrain = drivetrain;
+        this.driver = driver;
     }
 
-    public static DriverBindings parameterized(CommandSwerveDrivetrain drivetrain) {
-        return new DriverBindings(drivetrain);
+    public static DriverBindings parameterized(CommandSwerveDrivetrain drivetrain, ControllerOI driver) {
+        return new DriverBindings(drivetrain, driver);
     }
 
     @Override
-    public void bind(ControllerOI driver) {
+    public void bind() {
         var driverLeftStick = driver.getLeftStick();
         var driverRightStick = driver.getRightStick();
         var driverDPad = driver.getDPadTriggers();

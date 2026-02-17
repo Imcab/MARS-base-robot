@@ -4,7 +4,14 @@ import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.stzteam.forgemini.io.SmartChooser;
+
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
@@ -56,7 +63,38 @@ public class Manifest {
                    : new XboxOI(OPERATOR_PORT);
         }
     }
- 
+
+    public static class AutoBuilder {
+
+        public static SmartChooser<Command> build(String chooser){
+            return new SmartChooser<>(chooser);
+        }
+        
+        public static Command buildPath(
+                String pathName, 
+                CommandSwerveDrivetrain drivetrain, 
+                QuestNavNode questnav) {
+            
+            return new SequentialCommandGroup(
+                new PathPlannerAuto(pathName),
+                
+                Commands.runOnce(() -> {
+                    if (questnav != null) {
+                        questnav.resetQuestPose(new Pose3d(drivetrain.getState().Pose));
+                    }
+                })
+            );
+        }
+
+        public static Command buildPath(
+                String pathName, 
+                CommandSwerveDrivetrain drivetrain) {
+            
+            return new PathPlannerAuto(pathName);
+        }
+    }
+
+
     public static class DrivetrainBuilder {
         
         public static CommandSwerveDrivetrain buildModule() {
