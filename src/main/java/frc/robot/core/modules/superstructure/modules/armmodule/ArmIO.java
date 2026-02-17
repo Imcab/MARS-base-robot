@@ -11,7 +11,6 @@ public interface ArmIO extends IO<ArmIO.ArmInputs>{
 
         public double position;
         public Rotation2d rotation;
-        public double distanceToHub;
         public double targetAngle;
 
     }

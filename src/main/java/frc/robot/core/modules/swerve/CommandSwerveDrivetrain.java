@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.configuration.KeyManager;
+import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.configuration.factories.SwerveRequestFactory;
@@ -109,8 +110,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 setOperatorPerspectiveForward(
                     allianceColor == Alliance.Red
-                        ? SwerveConstants.kRedAlliancePerspectiveRotation
-                        : SwerveConstants.kBlueAlliancePerspectiveRotation
+                        ? Constants.kRedAlliancePerspectiveRotation
+                        : Constants.kBlueAlliancePerspectiveRotation
                 );
                 m_hasAppliedOperatorPerspective = true;
             });
@@ -180,7 +181,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             m_lastSimTime = currentTime;
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
-        m_simNotifier.startPeriodic(SwerveConstants.kSimLoopPeriod);
+        m_simNotifier.startPeriodic(Constants.kSimLoopPeriod);
     }
 
     @Override

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.configuration.KeyManager;
+import frc.robot.configuration.KeyManager.CommonTables;
 
 public class SwerveTelemetry {
     private final double MaxSpeed;
@@ -72,14 +73,14 @@ public class SwerveTelemetry {
     public void telemeterize(SwerveDriveState state) {
 
         /* Telemeterize the swerve drive state */
-        NetworkIO.set(tableName,"Pose", state.Pose);
-        NetworkIO.set(tableName, "Gyro", state.Pose.getRotation());
-        NetworkIO.set(tableName, "Speeds", state.Speeds);
-        NetworkIO.set(tableName, "ModuleStates", state.ModuleStates);
-        NetworkIO.set(tableName, "ModuleTargets",state.ModuleTargets);
-        NetworkIO.set(tableName, "ModulePositions", state.ModulePositions);
-        NetworkIO.set(tableName,"Timestamp", state.Timestamp);
-        NetworkIO.set(tableName, "OdometryFrequency", 1.0 / state.OdometryPeriod);
+        NetworkIO.set(tableName,CommonTables.POSE_KEY, state.Pose);
+        NetworkIO.set(tableName, CommonTables.GYRO_KEY, state.Pose.getRotation());
+        NetworkIO.set(tableName, CommonTables.sPluralOf(CommonTables.SPEED_KEY), state.Speeds);
+        NetworkIO.set(tableName, CommonTables.sPluralOf(CommonTables.MODULE_KEY + CommonTables.STATE_KEY), state.ModuleStates);
+        NetworkIO.set(tableName, CommonTables.sPluralOf(CommonTables.MODULE_KEY + CommonTables.TARGET_KEY),state.ModuleTargets);
+        NetworkIO.set(tableName, CommonTables.sPluralOf(CommonTables.MODULE_KEY + CommonTables.POSITION_KEY), state.ModulePositions);
+        NetworkIO.set(tableName,CommonTables.TIMESTAMP_KEY, state.Timestamp);
+        NetworkIO.set(tableName, CommonTables.ODOMETRY_KEY + CommonTables.FREQUENCY_KEY, 1.0 / state.OdometryPeriod);
 
         /* Also write to log file */
         SignalLogger.writeStruct("DriveState/Pose", Pose2d.struct, state.Pose);
@@ -96,7 +97,7 @@ public class SwerveTelemetry {
         m_poseArray[1] = state.Pose.getY();
         m_poseArray[2] = state.Pose.getRotation().getDegrees();
 
-        NetworkIO.set(positioningKey, "robotPose", m_poseArray);
+        NetworkIO.set(positioningKey, CommonTables.ROBOT_KEY + CommonTables.POSE_KEY, m_poseArray);
 
         /* Telemeterize each module state to a Mechanism2d */
         for (int i = 0; i < 4; ++i) {

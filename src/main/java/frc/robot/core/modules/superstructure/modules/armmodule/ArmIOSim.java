@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
 
 public class ArmIOSim implements ArmIO {
@@ -57,14 +58,14 @@ public class ArmIOSim implements ArmIO {
 
         this.arm = root.append(
             new MechanismLigament2d(
-                "Brazo",
+                "arm",
                 ArmConstants.kArmLengthMeters,
                 0, 6, new Color8Bit(Color.kYellow))
         );
         
         this.armTarget = root.append(
             new MechanismLigament2d(
-                "BrazoTarget",
+                "armTarget",
                 ArmConstants.kArmLengthMeters,
                 0, 3, new Color8Bit(Color.kRed))
         );
@@ -97,7 +98,7 @@ public class ArmIOSim implements ArmIO {
         inputs.rotation = Rotation2d.fromDegrees(simulatedDegrees);
         inputs.targetAngle = currentTargetAngle;
         
-        SmartDashboard.putData("Angulador/Mechanism", mech);
+        SmartDashboard.putData(KeyManager.ARM_KEY + "/Mech", mech);
   
     }
 

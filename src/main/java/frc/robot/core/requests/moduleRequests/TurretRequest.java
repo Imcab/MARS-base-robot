@@ -2,6 +2,7 @@ package frc.robot.core.requests.moduleRequests;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
@@ -16,7 +17,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
             actor.stop();
             data.targetAngle = data.angle; //Evita NPE y hace que el target fantasma se quede donde está
-            return ActionStatus.of(TurretCode.IDLE, "Torreta en reposo");
+            return ActionStatus.of(TurretCode.IDLE, "Idle");
         }
     }
 
@@ -32,7 +33,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
             actor.setVoltage(m_volts);
             data.targetAngle = data.angle; //En voltaje puro no hay target, seguimos donde estamos
-            return ActionStatus.of(TurretCode.MANUAL_OVERRIDE, "SysId: " + m_volts + "V");
+            return ActionStatus.of(TurretCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + m_volts + "V");
         }
     }
 
@@ -58,9 +59,9 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             //Verificamos si ya llegamos a la posición fija
             double error = Math.abs(data.angle.minus(m_targetAngle).getDegrees());
             if (error < toleranceDegrees) {
-                return ActionStatus.of(TurretCode.LOCKED, "Posición alcanzada");
+                return ActionStatus.of(TurretCode.LOCKED, StatusCodes.TARGETREACHED_STATUS);
             } else {
-                return ActionStatus.of(TurretCode.TRACKING, "Moviendo a " + Math.round(m_targetAngle.getDegrees()) + "°");
+                return ActionStatus.of(TurretCode.TRACKING, StatusCodes.TARGET_STATUS + Math.round(m_targetAngle.getDegrees()) + "°");
             }
         }
     }
@@ -114,9 +115,9 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             double error = Math.abs(data.angle.minus(turretSetpoint).getDegrees());
             
             if (error < toleranceDegrees) {
-                return ActionStatus.of(TurretCode.LOCKED, "¡Objetivo Centrado!");
+                return ActionStatus.of(TurretCode.LOCKED, StatusCodes.LOCK_STATUS);
             } else {
-                return ActionStatus.of(TurretCode.TRACKING, "Calculando...");
+                return ActionStatus.of(TurretCode.TRACKING, StatusCodes.MOVING_STATUS);
             }
         }
     }
