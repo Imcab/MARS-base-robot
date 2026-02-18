@@ -8,6 +8,8 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import frc.robot.configuration.KeyManager.CommonTables;
+import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import mars.source.models.nodes.Node;
 import mars.source.models.nodes.NodeMessage;
@@ -25,11 +27,11 @@ public class VisionNode extends Node<VisionNode.VisionMsg>{
         @Override
         public void telemeterize(String tableName) {
 
-            NetworkIO.set(tableName, "HasTarget", hasTarget);
+            NetworkIO.set(tableName, Terminology.HAS + CommonTables.TARGET_KEY, hasTarget);
             
-            NetworkIO.set(tableName, "BotPose", botPose);
+            NetworkIO.set(tableName, CommonTables.ROBOT_KEY + CommonTables.POSE_KEY, botPose);
    
-            NetworkIO.set(tableName, "Timestamp", timestamp);
+            NetworkIO.set(tableName, CommonTables.TIMESTAMP_KEY, timestamp);
         }
     }
 

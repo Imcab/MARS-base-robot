@@ -1,7 +1,5 @@
 package frc.robot.configuration;
 
-import java.security.PublicKey;
-
 public class KeyManager {
 
     private KeyManager() {}
@@ -74,7 +72,18 @@ public class KeyManager {
         public static final String ROBOT_KEY = "Robot";
         public static final String SPEED_KEY = "Speed";
         public static final String POSITION_KEY = "Position";
-
+        public static final String BATERY_KEY = "Battery";
+        public static final String VIRTUAL_KEY = "Virtual";
+        public static final String COUNT_KEY = "Count";
+        public static final String TAG_KEY = "Tag";
+        public static final String SIM_KEY = "Sim";
+        public static final String REAL_KEY = "Real";
+        public static final String VALID_KEY = "Valid";
+        public static final String REQUEST_KEY = "Request";
+        public static final String CURRENT_KEY = "Current";
+        public static final String ACTIVE_KEY = "Active";
+        public static final String RESULT_KEY = "Result";
+     
         public static final class Terminology{
             public static final String MAX = "Max";
             public static final String MIN = "Min";
@@ -88,6 +97,14 @@ public class KeyManager {
             public static final String RPS = "rps";
             public static final String SECONDS = "s";
             public static final String METERS = "m";
+            public static final String MINUTES = "m";
+            public static final String HUB = "hub";
+            public static final String HAS = "has";
+            public static final String IS = "is";
+            public static final String IN = "in";
+            public static final String AT = "at";
+            public static final String ON = "on";
+            public static final String ARE = "are";
         }
     }
 
