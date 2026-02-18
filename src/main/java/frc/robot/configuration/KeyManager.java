@@ -11,6 +11,7 @@ public class KeyManager {
     public static final String QUESTNAV_KEY = "Quest";
     public static final String TURRET_KEY = "Turret";
     public static final String ARM_KEY = "Arm";
+    public static final String INDEX_KEY = "Indexer";
 
     public static final class StatusCodes{
 

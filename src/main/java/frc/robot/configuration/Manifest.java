@@ -19,6 +19,7 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
+import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
@@ -48,6 +49,7 @@ public class Manifest {
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
     public static final boolean HAS_LIMELIGHT = true;
+    public static final boolean HAS_INDEXER = true;
     public static final boolean HAS_QUESTNAV = false;
 
     public static class ControlsBuilder {
@@ -125,6 +127,7 @@ public class Manifest {
             return new Arm(injectIO());
         }
     }
+
 
     public static class TurretBuilder {
         private static TurretIO injectIO() {
