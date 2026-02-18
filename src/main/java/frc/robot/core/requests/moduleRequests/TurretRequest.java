@@ -3,12 +3,12 @@ package frc.robot.core.requests.moduleRequests;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.configuration.KeyManager.StatusCodes;
+import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
 import mars.source.diagnostics.ActionStatus;
 import mars.source.requests.Request;
-
 
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
@@ -16,7 +16,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
             actor.stop();
-            data.targetAngle = data.angle; //Evita NPE y hace que el target fantasma se quede donde está
+            data.targetAngle = data.angle;
             return ActionStatus.of(TurretCode.IDLE, "Idle");
         }
     }
@@ -68,7 +68,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
     public static class LockOnTarget implements TurretRequest {
         private Translation2d targetLocation;
-        private double fuelVelocityMPS = 10.0;
+        private double fuelVelocityMPS = 18.0; // Velocidad promedio de la nota (ajustar en pruebas)
         private double toleranceDegrees = 1.0;
 
         public LockOnTarget(Translation2d targetLocation) {
@@ -80,38 +80,58 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             return this;
         }
 
+        /**
+         * Ajusta la velocidad de salida de la nota (Game Piece).
+         * @param mps Metros por segundo (Meters Per Second).
+         * Importante para el cálculo de tiempo de vuelo (Time of Flight).
+         */
         public LockOnTarget withFuelVelocity(double mps) {
             this.fuelVelocityMPS = mps;
             return this;
         }
 
-        public LockOnTarget withTolerance(double tolerance) {
-            this.toleranceDegrees = tolerance;
+        /**
+         * Define qué tan preciso debe ser el apuntado para considerar que estamos "Listos".
+         * @param degrees Grados de error permitidos (Ej: 1.0 o 0.5).
+         */
+        public LockOnTarget withTolerance(double degrees) {
+            this.toleranceDegrees = degrees;
             return this;
         }
 
+        // ... otros builders (tolerance, velocity) ...
+
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
+            
+            Translation2d offsetRotated = TurretConstants.TURRET_OFFSET.rotateBy(data.robotPose.getRotation());
+            
+            // B. Sumamos: Posición Robot + Offset Rotado = Posición Torreta
+            Translation2d turretPose = data.robotPose.getTranslation().plus(offsetRotated);
 
-            //Matemática Balística (Shoot-on-the-Move)
+            // Vector de velocidad del robot (convertido a Field Centric)
             Translation2d robotVelVector = new Translation2d(
                 data.robotSpeed.vxMetersPerSecond,
                 data.robotSpeed.vyMetersPerSecond
             ).rotateBy(data.robotPose.getRotation()); 
 
-            Translation2d robotToTarget = targetLocation.minus(data.robotPose.getTranslation());
-            double timeOfFlight = robotToTarget.getNorm() / fuelVelocityMPS;
+            // Distancia desde la TORRETA al objetivo
+            double distance = targetLocation.getDistance(turretPose);
+            double timeOfFlight = distance / fuelVelocityMPS;
             
+            // "Objetivo Virtual": Compensamos la velocidad que el robot le imprime a la nota
+            // Si el robot se mueve a la derecha, apuntamos a la izquierda para cancelar.
             Translation2d virtualTarget = targetLocation.minus(robotVelVector.times(timeOfFlight));
-            Rotation2d fieldAngle = virtualTarget.minus(data.robotPose.getTranslation()).getAngle();
-            
-            Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
 
-            //Informamos a la telemetría y mandamos al motor
+            // Ángulo desde la TORRETA hacia el objetivo virtual
+            Rotation2d angleFieldCentric = virtualTarget.minus(turretPose).getAngle();
+            
+            // Restamos la rotación del robot para obtener el ángulo local de la torreta
+            Rotation2d turretSetpoint = angleFieldCentric.minus(data.robotPose.getRotation());
+ 
             data.targetAngle = turretSetpoint;
             actor.setPosition(turretSetpoint);
 
-            //Verificamos si ya estamos apuntando al objetivo en movimiento
             double error = Math.abs(data.angle.minus(turretSetpoint).getDegrees());
             
             if (error < toleranceDegrees) {
@@ -121,4 +141,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             }
         }
     }
+    
+    
 }

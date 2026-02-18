@@ -35,11 +35,14 @@ public class OperatorBindings implements Binding{
         //var operatorSystem = operator.getSystemTriggers();
         var operatorBumpers = operator.getBumpers();
 
-        operatorButtons.right().whileTrue(turret.setControl(()-> TurretRequestFactory.lockToHub));
+        //operatorButtons.right().whileTrue(turret.setControl(()-> TurretRequestFactory.lockToHub));
         
+        operatorButtons.bottom().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(6)));
+        operatorButtons.right().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(-6)));
+
         //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.angle.withAngle(50). withTolerance(5)));
 
-        operatorButtons.bottom().whileTrue(flywheel.runRequest(()-> FlyWheelsRequestFactory.RPMRequest.toRPM(2000)));
+        //operatorButtons.right().whileTrue(flywheel.runRequest(()-> FlyWheelsRequestFactory.RPMRequest.toRPM(3600)));
 
         operatorBumpers.right().whileTrue(arm.setControl(()-> ArmRequestFactory.voltage.withVolts(-12)));
 

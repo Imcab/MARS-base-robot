@@ -7,13 +7,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.configuration.KeyManager;
+import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
 
 public class ArmIOSim implements ArmIO {
@@ -25,11 +21,6 @@ public class ArmIOSim implements ArmIO {
     private boolean isClosedLoop = false;
     private double currentTargetAngle = 0.0;
 
-    private final Mechanism2d mech; 
-    private final MechanismRoot2d root;
-
-    private final MechanismLigament2d arm; 
-    private final MechanismLigament2d armTarget;
   
     public ArmIOSim() {
 
@@ -53,23 +44,6 @@ public class ArmIOSim implements ArmIO {
             )
         );
 
-        this.mech = new Mechanism2d(1.0, 1.0);
-        this.root = mech.getRoot("Pivot", 0, 0.8);
-
-        this.arm = root.append(
-            new MechanismLigament2d(
-                "arm",
-                ArmConstants.kArmLengthMeters,
-                0, 6, new Color8Bit(Color.kYellow))
-        );
-        
-        this.armTarget = root.append(
-            new MechanismLigament2d(
-                "armTarget",
-                ArmConstants.kArmLengthMeters,
-                0, 3, new Color8Bit(Color.kRed))
-        );
-
     }
 
     @Override
@@ -91,14 +65,14 @@ public class ArmIOSim implements ArmIO {
 
         double simulatedDegrees = Units.radiansToDegrees(simArm.getAngleRads());
 
-        arm.setAngle(simulatedDegrees);
-        armTarget.setAngle(currentTargetAngle);
+        Constants.armVisual.setAngle(simulatedDegrees);
+        Constants.armTargetVisual.setAngle(currentTargetAngle);
         
         inputs.position = simulatedDegrees;
         inputs.rotation = Rotation2d.fromDegrees(simulatedDegrees);
         inputs.targetAngle = currentTargetAngle;
         
-        SmartDashboard.putData(KeyManager.ARM_KEY + "/Mech", mech);
+        SmartDashboard.putData(KeyManager.CommonTables.ROBOT_KEY + "/Mech", Constants.turretMechanism2d);
   
     }
 

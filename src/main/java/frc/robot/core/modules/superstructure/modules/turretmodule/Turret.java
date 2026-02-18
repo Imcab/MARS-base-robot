@@ -49,6 +49,10 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         data.robotSpeed = speedSupplier.get();
     }
 
+    public double getDegrees(){
+        return inputs.angle.getDegrees();
+    }
+
     public Rotation2d getRotation(){
         return inputs.angle;
     }

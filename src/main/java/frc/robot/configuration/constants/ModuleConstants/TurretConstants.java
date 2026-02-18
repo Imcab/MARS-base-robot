@@ -6,6 +6,7 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.units.measure.Distance;
@@ -44,8 +45,8 @@ public class TurretConstants {
     public static final double kMaxVolts = 12;
 
     //LÍMITE FÍSICO DE LA TORRETA, preguntar por si acaso (este valor me lo dió agus)
-    public static final double kLowerLimit = Units.degreesToRotations(-200);
-    public static final double kUpperLimit = Units.degreesToRotations(200);
+    public static final double kLowerLimit = Units.degreesToRotations(-90);
+    public static final double kUpperLimit = Units.degreesToRotations(90);
 
     //PEDIR
     public static final int kMotorId = 50;
@@ -53,11 +54,16 @@ public class TurretConstants {
     public static final boolean kMotorInverted = false;
     public static final boolean kEncoderInverted = false;
     
+    //--------------- NO CAMBIAR -------------------------------
+
     //Ubicación exacta del centro de la torreta respecto al robot:
     // X (Q metros): Significa que la torreta está Q cm hacia adelante del centro del robot.
     // Y (E metros): La torreta esta E metros en izquierda o derecha (0 centrada)
     // Z (W metros): El shooter está a W cm de altura del suelo.
-    public static final Translation3d kMounting = new Translation3d(0.10, 0, 0.5);
+    public static final Translation3d ROBOT_TO_TURRET = new Translation3d(0.15, 0.0, 0.45); 
+    public static final Translation2d TURRET_OFFSET = new Translation2d(0.15, 0);
+
+    //-------------------------------------------------------------
 
     //VARIABLES DE SIMULACION (No las tienen que sacar), NO PASA NADA SI SE CAMBIAN, DEJARLAS TAL CUAL
     public static final Distance kRadius = Meters.of(0.15);

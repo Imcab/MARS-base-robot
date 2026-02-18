@@ -16,6 +16,7 @@ import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
+import frc.robot.configuration.advantageScope.visuals.VisualizerNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
@@ -41,6 +42,7 @@ public class RobotContainer implements IRobotContainer{
   public final Arm arm;
   public final Turret turret;
   public final FlyWheel flywheel;
+  public final VisualizerNode virtualRobot;
 
   public RobotContainer() {
 
@@ -64,6 +66,9 @@ public class RobotContainer implements IRobotContainer{
 
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
+    this.virtualRobot = new VisualizerNode(()-> drivetrain.getStateCopy().Pose, ()-> turret.getDegrees(), ()-> arm.getState().position);
+    
+
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
     DriverBindings.parameterized(drivetrain, driver).bind();
@@ -83,6 +88,8 @@ public class RobotContainer implements IRobotContainer{
         questnav.periodic();
         
       }
+
+      virtualRobot.periodic();
   }
 
   @Override

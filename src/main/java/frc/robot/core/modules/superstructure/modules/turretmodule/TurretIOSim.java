@@ -73,7 +73,7 @@ public class TurretIOSim implements TurretIO {
         // El Subsistema leerá esto creyendo que viene de los encoders reales
         inputs.angle = Rotation2d.fromRadians(simMotor.getAngleRads());
         inputs.targetAngle = this.currentTargetAngle;
-        inputs.velocityRPS = Units.radiansToRotations(simMotor.getVelocityRadPerSec());
+        inputs.velocityRPS = Units.radiansPerSecondToRotationsPerMinute(simMotor.getVelocityRadPerSec()) / 60;
         inputs.appliedVolts = appliedVolts;
     }
 
@@ -88,7 +88,7 @@ public class TurretIOSim implements TurretIO {
         isClosedLoop = true;
         this.currentTargetAngle = angle;
         // Le damos la meta a nuestro MAXMotion falso
-        simController.setGoal(angle.getRotations()); 
+        simController.setGoal(angle.getRadians()); 
     }
 
     @Override

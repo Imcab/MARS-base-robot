@@ -6,13 +6,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
-import frc.robot.configuration.KeyManager; // Asumiendo que tienes esto como en el brazo
+import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
 
 public class FlyWheelIOSim implements FlyWheelIO {
@@ -28,11 +22,6 @@ public class FlyWheelIOSim implements FlyWheelIO {
     private double currentTargetRPM = 0.0;
     private final DCMotor gearbox;
 
-    // Elementos visuales para SmartDashboard/Alloy
-    private final Mechanism2d mech; 
-    private final MechanismRoot2d root;
-    private final MechanismLigament2d flywheelVisual; 
-
     public FlyWheelIOSim() {
         this.gearbox = DCMotor.getNEO(1);
         double gearing = 1.5;
@@ -47,21 +36,6 @@ public class FlyWheelIOSim implements FlyWheelIO {
         // Inicializamos el Feedforward (kS, kV, kA). 
         // Estos valores tendrás que afinarlos después.
         this.feedforward = new SimpleMotorFeedforward(0.1, 0.003, 0.0);
-
-        // Configuración del visualizador Mechanism2d
-        this.mech = new Mechanism2d(2.0, 2.0);
-        this.root = mech.getRoot("FlywheelCenter", 1.0, 1.0);
-        
-        // Creamos una "línea" que haremos girar para simular la rueda
-        this.flywheelVisual = root.append(
-            new MechanismLigament2d(
-                "flywheelSpoke",
-                0.5, // Longitud de la línea (radio visual)
-                0,   // Ángulo inicial
-                10,  // Grosor de la línea
-                new Color8Bit(Color.kBlue)
-            )
-        );
     }
 
     @Override
@@ -97,10 +71,8 @@ public class FlyWheelIOSim implements FlyWheelIO {
         // 5. Animación del Mechanism2d
         // RPM a grados por ciclo de 20ms: (RPM * 360 grados / 60 seg) * 0.02 seg = RPM * 0.12
         double deltaDegrees = currentRPM * 0.12;
-        flywheelVisual.setAngle(flywheelVisual.getAngle() + deltaDegrees);
-        
-        // Publicar el Mechanism2d (Ajusta la ruta según tu KeyManager)
-        SmartDashboard.putData(KeyManager.FLYWHEEL_KEY + "/mech", mech);
+        Constants.flywheelVisual.setAngle(Constants.flywheelVisual.getAngle() + deltaDegrees);
+
     }
 
     @Override

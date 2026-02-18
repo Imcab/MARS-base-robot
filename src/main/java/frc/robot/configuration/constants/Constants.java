@@ -3,6 +3,12 @@ package frc.robot.configuration.constants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
 
 public class Constants {
 
@@ -17,6 +23,33 @@ public class Constants {
 
     public static final InterpolatingDoubleTreeMap elevacionMap = new InterpolatingDoubleTreeMap();
 
+    public static final Mechanism2d turretMechanism2d = new Mechanism2d(1, 1);
+
+    public static final MechanismRoot2d root = turretMechanism2d.getRoot("pivote", 0.65, 0.35);
+    
+    public static final MechanismLigament2d armVisual = root.append(
+            new MechanismLigament2d(
+                "arm",
+                ArmConstants.kArmLengthMeters,
+                0, 6, new Color8Bit(Color.kYellow))
+    );
+
+    public static final MechanismLigament2d armTargetVisual = root.append(
+            new MechanismLigament2d(
+                "armTarget",
+                ArmConstants.kArmLengthMeters,
+                0, 3, new Color8Bit(Color.kRed))
+        );
+
+
+    public static final MechanismLigament2d flywheelVisual = armVisual.append(new MechanismLigament2d(
+                "flywheelSpoke",
+                0.1, // Longitud de la línea (radio visual)
+                0,   // Ángulo inicial
+                3,  // Grosor de la línea
+                new Color8Bit(Color.kBlue)
+    ));
+
     static {
             // elevacionMap.put(Distancia en metros, Ángulo del Angulador en grados);
             elevacionMap.put(1.0, 55.0); // Cerca del Hub, apunta alto
@@ -27,4 +60,6 @@ public class Constants {
             // Nota: Estos números son inventados.
 
     }
+
+    
 }
