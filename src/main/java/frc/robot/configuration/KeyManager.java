@@ -11,6 +11,7 @@ public class KeyManager {
     public static final String QUESTNAV_KEY = "Quest";
     public static final String TURRET_KEY = "Turret";
     public static final String ARM_KEY = "Arm";
+    public static final String FLYWHEEL_KEY = "Flywheel";
 
     public static final class StatusCodes{
 
@@ -105,6 +106,7 @@ public class KeyManager {
             public static final String AT = "at";
             public static final String ON = "on";
             public static final String ARE = "are";
+            public static final String VOLTS = "Volts";
         }
     }
 

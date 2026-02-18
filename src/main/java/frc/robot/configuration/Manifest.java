@@ -19,6 +19,9 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
@@ -49,6 +52,7 @@ public class Manifest {
     public static final boolean HAS_ARM = true;
     public static final boolean HAS_LIMELIGHT = true;
     public static final boolean HAS_QUESTNAV = false;
+    public static final boolean HAS_FLYWHEEL = true;
 
     public static class ControlsBuilder {
         
@@ -106,6 +110,24 @@ public class Manifest {
             drivetrain.registerTelemetry(telemetry::telemeterize);
 
             return drivetrain;
+        }
+    }
+
+    public static class FlywheelBuilder{
+        private static FlyWheelIO injectIO(){
+            switch (CURRENT_MODE) {
+                case REAL:
+                    return null;
+                case SIM:
+                default:
+                    return new FlyWheelIOSim();
+            }
+        }
+
+        public static FlyWheel buildModule(){
+            if(!HAS_FLYWHEEL) return null;
+
+            return new FlyWheel(injectIO());
         }
     }
 
