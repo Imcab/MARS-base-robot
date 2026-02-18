@@ -25,5 +25,6 @@ public class Constants {
             elevacionMap.put(4.0, 36.0);
             elevacionMap.put(5.0, 31.0); // Lejos del Hub, apunta más plano (depende de tu shooter)
             // Nota: Estos números son inventados.
+
     }
 }

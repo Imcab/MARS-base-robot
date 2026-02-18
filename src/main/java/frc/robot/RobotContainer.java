@@ -13,12 +13,14 @@ import frc.robot.configuration.Manifest.ArmBuilder;
 import frc.robot.configuration.Manifest.AutoBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
+import frc.robot.configuration.Manifest.FlywheelBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
@@ -38,6 +40,7 @@ public class RobotContainer implements IRobotContainer{
   public final QuestNavNode questnav;
   public final Arm arm;
   public final Turret turret;
+  public final FlyWheel flywheel;
 
   public RobotContainer() {
 
@@ -57,13 +60,15 @@ public class RobotContainer implements IRobotContainer{
     this.turret = TurretBuilder.buildModule(drivetrain);
     this.arm = ArmBuilder.buildModule();
 
+    this.flywheel = FlywheelBuilder.buildModule();
+
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.parameterized(operator, turret, arm).bind();
+    OperatorBindings.parameterized(operator, turret, arm, flywheel).bind();
 
   }
 
