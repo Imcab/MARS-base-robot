@@ -23,52 +23,56 @@ public class TurretIOSparkMax implements TurretIO {
         m_motor = new SparkMax(TurretConstants.kMotorId, MotorType.kBrushless);
         m_encoder = m_motor.getAbsoluteEncoder();
         
+        motorConfig();
+    }
+
+    public void motorConfig(){
+
         var config = new SparkMaxConfig();
         
         var profiles = config.closedLoop;
 
         m_motor.setCANTimeout(250);
 
-            try{
+        try{
 
-                profiles.pid(
-                    TurretConstants.kP,
-                    TurretConstants.kI,
-                    TurretConstants.kD).
-                    outputRange(TurretConstants.kMinOutput, TurretConstants.kMaxOutput);
+            profiles.pid(
+                TurretConstants.kP,
+                TurretConstants.kI,
+                TurretConstants.kD).
+                outputRange(TurretConstants.kMinOutput, TurretConstants.kMaxOutput);
 
-                profiles.feedForward.kS(TurretConstants.kS).kV(TurretConstants.kV).kA(TurretConstants.kA);
+            profiles.feedForward.kS(TurretConstants.kS).kV(TurretConstants.kV).kA(TurretConstants.kA);
 
-                profiles.maxMotion.cruiseVelocity(TurretConstants.kCruiseVelocity).maxAcceleration(TurretConstants.kMaxAcc);
+            profiles.maxMotion.cruiseVelocity(TurretConstants.kCruiseVelocity).maxAcceleration(TurretConstants.kMaxAcc);
 
-                config.
-                    idleMode(IdleMode.kBrake).
-                    inverted(TurretConstants.kMotorInverted).
-                    smartCurrentLimit(TurretConstants.kCurrentLimit).
-                    voltageCompensation(TurretConstants.kMaxVolts);
+            config.
+                idleMode(IdleMode.kBrake).
+                inverted(TurretConstants.kMotorInverted).
+                smartCurrentLimit(TurretConstants.kCurrentLimit).
+                voltageCompensation(TurretConstants.kMaxVolts);
                 
-                config.softLimit.
-                    forwardSoftLimit(TurretConstants.kUpperLimit).
-                    forwardSoftLimitEnabled(true).
-                    reverseSoftLimit(TurretConstants.kLowerLimit).
-                    reverseSoftLimitEnabled(true);
+            config.softLimit.
+                forwardSoftLimit(TurretConstants.kUpperLimit).
+                forwardSoftLimitEnabled(true).
+                reverseSoftLimit(TurretConstants.kLowerLimit).
+                reverseSoftLimitEnabled(true);
 
-                config.absoluteEncoder.
-                    inverted(TurretConstants.kEncoderInverted).
-                    positionConversionFactor(TurretConstants.kPositionFactor).
-                    velocityConversionFactor(TurretConstants.kVelocityFactor);
+            config.absoluteEncoder.
+                inverted(TurretConstants.kEncoderInverted).
+                positionConversionFactor(TurretConstants.kPositionFactor).
+                velocityConversionFactor(TurretConstants.kVelocityFactor);
         
-                //Si usar encoder relativo configurarlo y poner esto
-                //getMotor().getEncoder().setPosition(0);
+            //Si usar encoder relativo configurarlo y poner esto
+            //getMotor().getEncoder().setPosition(0);
 
-                m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+            m_motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-            }
+        }
             
             finally{
                 m_motor.setCANTimeout(0);
             }
-
     }
 
     @Override
