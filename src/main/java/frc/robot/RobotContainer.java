@@ -15,6 +15,8 @@ import frc.robot.configuration.Manifest.AutoBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelBuilder;
+import frc.robot.configuration.Manifest.IndexerBuilder;
+import frc.robot.configuration.Manifest.IntakeBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
@@ -25,6 +27,8 @@ import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
+import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
+import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
@@ -45,6 +49,8 @@ public class RobotContainer implements IRobotContainer{
   public final Arm arm;
   public final Turret turret;
   public final FlyWheel flywheel;
+  public final Intake intake;
+  public final Indexer index;
   public final VisualizerNode virtualRobot;
   public final TrajectoryNode trajetorySim;
 
@@ -65,6 +71,8 @@ public class RobotContainer implements IRobotContainer{
 
     this.turret = TurretBuilder.buildModule(drivetrain);
     this.arm = ArmBuilder.buildModule();
+    this.intake = IntakeBuilder.buildModule();
+    this.index = IndexerBuilder.buildModule();
 
     this.flywheel = FlywheelBuilder.buildModule();
 
@@ -87,7 +95,7 @@ public class RobotContainer implements IRobotContainer{
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.parameterized(operator, turret, arm, flywheel).bind();
+    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index).bind();
 
   }
 

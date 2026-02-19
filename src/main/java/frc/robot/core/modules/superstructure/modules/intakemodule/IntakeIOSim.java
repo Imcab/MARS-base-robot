@@ -45,7 +45,7 @@ public class IntakeIOSim implements IntakeIO{
         );
 
         simController = new ProfiledPIDController(
-            0.5, 0.0, 0.0, // kP, kI, kD (ajusta el kP para que responda bien)
+            0.2, 0.0, 0.0, // kP, kI, kD (ajusta el kP para que responda bien)
             new TrapezoidProfile.Constraints(
                 180.0, // Velocidad máxima: 180 grados por segundo
                 360.0  //Aceleración máxima: 360 grados por segundo^2
