@@ -37,5 +37,4 @@ public interface TurretIO extends IO<TurretInputs>{
     public void setPosition(Rotation2d angle);
     public void stop();
 
-   
 }

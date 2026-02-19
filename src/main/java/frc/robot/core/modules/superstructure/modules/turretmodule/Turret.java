@@ -6,6 +6,7 @@ import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,10 +44,18 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         return runRequest(request);
     }
 
+    public double distanceTo(Translation2d point){
+        return poseSupplier.get().getTranslation().getDistance(point);
+    }
+
     @Override
     public void absolutePeriodic(TurretInputs data) {
         data.robotPose = poseSupplier.get();
         data.robotSpeed = speedSupplier.get();
+    }
+
+    public double getDegrees(){
+        return inputs.angle.getDegrees();
     }
 
     public Rotation2d getRotation(){

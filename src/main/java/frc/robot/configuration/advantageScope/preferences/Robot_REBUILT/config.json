@@ -1,0 +1,60 @@
+{
+  "name": "Robot2026",
+  "model": "model.glb",
+  "sourceUrl": "https://cad.onshape.com/documents/27f9c14af3372a3a4ba96c10/w/cb2436d7a27cfe02253afc82/e/2591e3faf950f62084e67c4f",
+  "rotations": [
+    {
+      "axis": "x",
+      "degrees": 90
+    },
+    {
+      "axis": "z",
+      "degrees": -90
+    }
+  ],
+  "position": [
+    0,
+    0,
+    0
+  ],
+  "cameras": [],
+  "components": [
+    {
+        "zeroedRotations": [
+          {
+            "axis": "x",
+            "degrees": 90
+          },
+          {
+            "axis": "z",
+            "degrees": -90
+          }
+        ],
+        "zeroedPosition": [
+          0.0,
+          0,
+          0.45
+        ]
+    },
+
+    {
+      "zeroedRotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        },
+  
+        {
+          "axis": "z",
+          "degrees": -90
+        }
+      ],
+      "zeroedPosition": [
+        0.0,
+        0,
+        0.0
+      ]
+  }
+ 
+  ]
+}

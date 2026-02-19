@@ -1,13 +1,9 @@
 package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
-import frc.robot.core.requests.moduleRequests.ArmRequest.moveVoltage;
-import frc.robot.diagnostics.ArmCode;
 import frc.robot.diagnostics.IndexerCode;
 import mars.source.diagnostics.ActionStatus;
 import frc.robot.configuration.KeyManager.StatusCodes;
-import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
-import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 
 import mars.source.requests.Request;

@@ -19,9 +19,9 @@ import mars.source.models.SubsystemBuilder;
 import mars.source.models.Telemetry;
 import mars.source.models.singlemodule.ModularSubsystem;
 
-public class indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
+public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
 
-    public indexer(IndexerIO io){
+    public Indexer(IndexerIO io){
 
         super(SubsystemBuilder.<IndexerInputs, IndexerIO>setup()
             .key(KeyManager.INDEX_KEY)
@@ -43,8 +43,8 @@ public class indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
 
         @Override
         public void telemeterize(IndexerInputs data, ActionStatus lastStatus) {
-            NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY, data.velocityIndex);
-            NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY, data.velocityRoll);
+            NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY + "Index", data.velocityIndex);
+            NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY + "Roll", data.velocityRoll);
             NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
             if(lastStatus != null && lastStatus.code != null){

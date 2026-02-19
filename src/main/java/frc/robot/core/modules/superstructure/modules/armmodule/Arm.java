@@ -41,6 +41,10 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
         
     }
 
+    public ArmInputs getState(){
+        return inputs;
+    }
+
     public static class ArmTelemetry extends Telemetry<ArmIO.ArmInputs>{
 
         @Override
