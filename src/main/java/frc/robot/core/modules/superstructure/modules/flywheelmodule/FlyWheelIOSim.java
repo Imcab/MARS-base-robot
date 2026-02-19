@@ -68,11 +68,6 @@ public class FlyWheelIOSim implements FlyWheelIO {
         inputs.appliedVolts = appliedVolts;
         inputs.targetRPM = currentTargetRPM;
 
-        // 5. Animación del Mechanism2d
-        // RPM a grados por ciclo de 20ms: (RPM * 360 grados / 60 seg) * 0.02 seg = RPM * 0.12
-        double deltaDegrees = currentRPM * 0.12;
-        Constants.flywheelVisual.setAngle(Constants.flywheelVisual.getAngle() + deltaDegrees);
-
     }
 
     @Override

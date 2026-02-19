@@ -12,6 +12,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
+import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
@@ -19,7 +21,6 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
-import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
@@ -48,6 +49,7 @@ public class Manifest {
     public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
+    public static final boolean HAS_VISUALS = true;
     public static final boolean HAS_DRIVETRAIN = true;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
@@ -55,6 +57,25 @@ public class Manifest {
     public static final boolean HAS_INDEXER = true;
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_FLYWHEEL = true;
+    
+
+    public static class VisualizerBuilder {
+
+        public static VisualizerNode buildNode(
+                DoubleSupplier turretAngleSupplier, 
+                DoubleSupplier hoodAngleSupplier, 
+                Consumer<VisualizerMsg> topicPublisher) {
+            
+            if(!HAS_VISUALS) return null;
+
+            return new VisualizerNode(
+                "Visualizer", 
+                turretAngleSupplier, 
+                hoodAngleSupplier, 
+                topicPublisher
+            );
+        }
+    }
 
     public static class ControlsBuilder {
         

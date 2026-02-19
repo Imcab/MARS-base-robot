@@ -6,6 +6,7 @@ import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,6 +42,10 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
 
     public Command setControl(Supplier<TurretRequest> request){
         return runRequest(request);
+    }
+
+    public double distanceTo(Translation2d point){
+        return poseSupplier.get().getTranslation().getDistance(point);
     }
 
     @Override

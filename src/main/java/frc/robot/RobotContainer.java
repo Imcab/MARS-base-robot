@@ -16,7 +16,8 @@ import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
-import frc.robot.configuration.advantageScope.visuals.VisualizerNode;
+import frc.robot.configuration.Manifest.VisualizerBuilder;
+import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
@@ -66,9 +67,12 @@ public class RobotContainer implements IRobotContainer{
 
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
-    this.virtualRobot = new VisualizerNode(()-> drivetrain.getStateCopy().Pose, ()-> turret.getDegrees(), ()-> arm.getState().position);
+    this.virtualRobot = VisualizerBuilder.buildNode(
+      ()-> turret.getDegrees(),
+      ()-> arm.getState().position,
+      (msg) -> msg.telemeterize("Visualizer")
+    );
     
-
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
     DriverBindings.parameterized(drivetrain, driver).bind();
@@ -89,7 +93,10 @@ public class RobotContainer implements IRobotContainer{
         
       }
 
-      virtualRobot.periodic();
+      if(virtualRobot != null){
+        virtualRobot.periodic();
+      }
+
   }
 
   @Override

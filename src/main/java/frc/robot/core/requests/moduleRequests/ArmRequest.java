@@ -36,7 +36,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
 
         @Override
         public ActionStatus apply(ArmInputs parameters, ArmIO actor) {
-            Double anguloDeseado = Constants.elevacionMap.get(distanciaMetros.getAsDouble());
+            Double anguloDeseado = Constants.INTERPOLATION_MAP.get(distanciaMetros.getAsDouble());
 
             if (anguloDeseado == null) {
                  actor.applyOutput(0);

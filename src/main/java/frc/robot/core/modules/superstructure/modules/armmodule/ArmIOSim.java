@@ -7,9 +7,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
 
 public class ArmIOSim implements ArmIO {
@@ -65,15 +62,10 @@ public class ArmIOSim implements ArmIO {
 
         double simulatedDegrees = Units.radiansToDegrees(simArm.getAngleRads());
 
-        Constants.armVisual.setAngle(simulatedDegrees);
-        Constants.armTargetVisual.setAngle(currentTargetAngle);
-        
         inputs.position = simulatedDegrees;
         inputs.rotation = Rotation2d.fromDegrees(simulatedDegrees);
         inputs.targetAngle = currentTargetAngle;
         
-        SmartDashboard.putData(KeyManager.CommonTables.ROBOT_KEY + "/Mech", Constants.turretMechanism2d);
-  
     }
 
     @Override
