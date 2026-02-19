@@ -13,6 +13,7 @@ public class KeyManager {
     public static final String ARM_KEY = "Arm";
     public static final String INDEX_KEY = "Indexer";
     public static final String FLYWHEEL_KEY = "Flywheel";
+    public static final String INTAKE_KEY = "Intake";
 
     public static final class StatusCodes{
 
