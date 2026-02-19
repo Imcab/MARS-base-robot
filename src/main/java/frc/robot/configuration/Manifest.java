@@ -24,6 +24,11 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
+import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
+import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOSim;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
@@ -60,6 +65,7 @@ public class Manifest {
     public static final boolean HAS_INDEXER = true;
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_FLYWHEEL = true;
+    public static final boolean HAS_INTAKE = true;
     
 
     public static class VisualizerBuilder {
@@ -188,6 +194,23 @@ public class Manifest {
             if (!HAS_ARM) return null;
 
             return new Arm(injectIO());
+        }
+    }
+
+    public static class IntakeBuilder{
+        
+        private static IntakeIO injectIO() {
+            switch (CURRENT_MODE) {
+                case REAL: return new IntakeIOKraken();
+                case SIM:
+                default:   return new IntakeIOSim();
+            }
+        }
+
+        public static Intake buildModule() {
+            if (!HAS_ARM) return null;
+
+            return new Intake(injectIO());
         }
     }
 
