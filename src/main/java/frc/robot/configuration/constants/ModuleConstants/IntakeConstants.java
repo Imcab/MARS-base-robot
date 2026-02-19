@@ -24,8 +24,8 @@ public class IntakeConstants {
 
     public static final double kGearRatio = 20.0; 
 
-    public static final double kIntakeLengthMeters = 0.7; // 30 cm de largo
-    public static final double kIntakeMassKg = 7.0;       // 3 kg de peso
+    public static final double kIntakeLengthMeters = 0.4; // 30 cm de largo
+    public static final double kIntakeMassKg = 6.7;       // 3 kg de peso
 
     public static final double kMinAngleRads = Units.degreesToRadians(0);
     public static final double kMaxAngleRads = Units.degreesToRadians(210);

@@ -9,6 +9,9 @@ public class IndexerConstants {
         // Esto es por si el motor gira al revés, en ese caso cambiar a true
         public static final boolean ROLLERS_INVERTED = false;
         public static final boolean INDEX_INVERTED = false;
+
+        public static final double kGearing = 1;
+        public static final double kMOI = 0.002;
         
     
 }

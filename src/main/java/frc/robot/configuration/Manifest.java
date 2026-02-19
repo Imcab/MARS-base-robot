@@ -21,7 +21,10 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
+import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
+import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIOSim;
+import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerSparkMax;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken;
@@ -191,6 +194,23 @@ public class Manifest {
             if (!HAS_ARM) return null;
 
             return new Intake(injectIO());
+        }
+    }
+
+    public static class IndexerBuilder{
+        
+        private static IndexerIO injectIO() {
+            switch (CURRENT_MODE) {
+                case REAL: return new IndexerSparkMax();
+                case SIM:
+                default:   return new IndexerIOSim();
+            }
+        }
+
+        public static Indexer buildModule() {
+            if (!HAS_ARM) return null;
+
+            return new Indexer(injectIO());
         }
     }
 
