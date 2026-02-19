@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stzteam.forgemini.io.SmartChooser;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
 import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode.VisualizerMsg;
+import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
@@ -73,6 +76,23 @@ public class Manifest {
                 turretAngleSupplier, 
                 hoodAngleSupplier, 
                 topicPublisher
+            );
+        }
+    }
+
+    public static class TrajectoryBuilder {
+        public static TrajectoryNode buildNode(
+                Supplier<Pose2d> poseSupplier,
+                DoubleSupplier turretSupplier,
+                DoubleSupplier hoodSupplier,
+                Consumer<TrajectoryMsg> publisher) {
+
+            return new TrajectoryNode(
+                "TrajectoryViz", 
+                poseSupplier, 
+                turretSupplier, 
+                hoodSupplier, 
+                publisher
             );
         }
     }

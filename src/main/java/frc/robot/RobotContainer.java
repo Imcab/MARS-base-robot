@@ -9,6 +9,7 @@ import com.stzteam.forgemini.io.SmartChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.KeyManager;
+import frc.robot.configuration.Manifest;
 import frc.robot.configuration.Manifest.ArmBuilder;
 import frc.robot.configuration.Manifest.AutoBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
@@ -18,6 +19,7 @@ import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
 import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
+import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
@@ -44,6 +46,7 @@ public class RobotContainer implements IRobotContainer{
   public final Turret turret;
   public final FlyWheel flywheel;
   public final VisualizerNode virtualRobot;
+  public final TrajectoryNode trajetorySim;
 
   public RobotContainer() {
 
@@ -70,8 +73,15 @@ public class RobotContainer implements IRobotContainer{
     this.virtualRobot = VisualizerBuilder.buildNode(
       ()-> turret.getDegrees(),
       ()-> arm.getState().position,
-      (msg) -> msg.telemeterize("Visualizer")
+      (msg) -> msg.telemeterize("Visualizer/Components")
     );
+
+    this.trajetorySim = Manifest.TrajectoryBuilder.buildNode(
+    ()-> drivetrain.getState().Pose,     // Dónde está el robot
+    ()-> turret.getDegrees(), // A dónde mira la torreta
+    ()-> arm.getState().position,       // Qué ángulo tiene el hood
+    msg -> msg.telemeterize("Visualizer/Traj")
+  );
     
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
@@ -96,6 +106,8 @@ public class RobotContainer implements IRobotContainer{
       if(virtualRobot != null){
         virtualRobot.periodic();
       }
+
+      trajetorySim.periodic();
 
   }
 
