@@ -2,7 +2,7 @@ package frc.robot.core.modules.superstructure.composite;
 
 import mars.source.models.multimodules.CompositeData;
 
-public class SuperStructureData extends CompositeData<SuperStructureData>{
+public class SuperstructureData extends CompositeData<SuperstructureData>{
 
     public boolean isAimedAtHub = false;
     public boolean isFlywheelReady = false;

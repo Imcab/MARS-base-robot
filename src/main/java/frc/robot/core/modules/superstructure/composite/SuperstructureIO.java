@@ -9,7 +9,7 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import mars.source.models.multimodules.CompositeIO;
 
-public class SuperstructureIO extends CompositeIO<SuperStructureData> {
+public class SuperstructureIO extends CompositeIO<SuperstructureData> {
 
     public SuperstructureIO(Turret turret, Arm arm, Intake intake, Indexer index, FlyWheel flywheel) {
 
@@ -21,7 +21,7 @@ public class SuperstructureIO extends CompositeIO<SuperStructureData> {
     }
 
     @Override
-    public void updateInputs(SuperStructureData inputs) {
+    public void updateInputs(SuperstructureData inputs) {
 
         Turret t = getChild(KeyManager.TURRET_KEY);
         Arm a = getChild(KeyManager.ARM_KEY);

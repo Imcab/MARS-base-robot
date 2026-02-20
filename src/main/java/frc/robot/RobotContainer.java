@@ -124,8 +124,13 @@ public class RobotContainer implements IRobotContainer{
         virtualRobot.periodic();
       }
 
-      trajetorySim.periodic();
-      gamePieceViz.periodic();
+      if(trajetorySim != null){
+        trajetorySim.periodic();
+      }
+
+      if (gamePieceViz != null) {
+        gamePieceViz.periodic();
+      }
 
   }
 

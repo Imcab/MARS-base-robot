@@ -64,6 +64,8 @@ public class Manifest {
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
     public static final boolean HAS_VISUALS = true;
+    public static final boolean HAS_TRAJ_VISUAL = true;
+    public static final boolean HAS_FUEL_VISUAL = true;
     public static final boolean HAS_DRIVETRAIN = true;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
@@ -84,7 +86,7 @@ public class Manifest {
             if(!HAS_VISUALS) return null;
 
             return new VisualizerNode(
-                "Visualizer", 
+                KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY, 
                 turretAngleSupplier, 
                 hoodAngleSupplier, 
                 topicPublisher
@@ -98,8 +100,10 @@ public class Manifest {
                 BooleanSupplier trigger,
                 Consumer<GamePieceMsg> publisher) {
 
+            if(!HAS_FUEL_VISUAL) return null;
+            
             return new GamePieceNode(
-                "GamePieceViz", 
+                KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, 
                 trajectorySource, 
                 trigger,
                 publisher
@@ -113,9 +117,11 @@ public class Manifest {
                 DoubleSupplier turretSupplier,
                 DoubleSupplier hoodSupplier,
                 Consumer<TrajectoryMsg> publisher) {
+            
+            if(!HAS_TRAJ_VISUAL) return null;
 
             return new TrajectoryNode(
-                "TrajectoryViz", 
+                KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY, 
                 poseSupplier, 
                 turretSupplier, 
                 hoodSupplier, 
