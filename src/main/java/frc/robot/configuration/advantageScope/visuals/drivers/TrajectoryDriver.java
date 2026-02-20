@@ -24,7 +24,7 @@ public class TrajectoryDriver implements TrajectoryIO {
     private final double GRAVITY = 9.81;
     private final double TIME_STEP = 0.05; 
     
-    private final Translation3d SHOOTER_ORIGIN_OFFSET = new Translation3d(0.15, 0.0, 0.40); 
+    private final Translation3d SHOOTER_ORIGIN_OFFSET = new Translation3d(0.15, 0.0, 0.44); 
 
     public TrajectoryDriver(
         Supplier<Pose2d> robotPose, 
