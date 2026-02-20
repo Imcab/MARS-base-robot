@@ -1,5 +1,6 @@
 package frc.robot.configuration;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -13,10 +14,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
-import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode.VisualizerMsg;
-import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode;
-import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode.TrajectoryMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode.GamePieceMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode.TrajectoryMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
@@ -85,6 +88,21 @@ public class Manifest {
                 turretAngleSupplier, 
                 hoodAngleSupplier, 
                 topicPublisher
+            );
+        }
+    }
+
+    public static class GamePieceBuilder {
+        public static GamePieceNode buildNode(
+                Supplier<Pose3d[]> trajectorySource,
+                BooleanSupplier trigger,
+                Consumer<GamePieceMsg> publisher) {
+
+            return new GamePieceNode(
+                "GamePieceViz", 
+                trajectorySource, 
+                trigger,
+                publisher
             );
         }
     }

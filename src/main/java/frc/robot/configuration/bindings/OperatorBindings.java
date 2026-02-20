@@ -1,7 +1,5 @@
 package frc.robot.configuration.bindings;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.Indenter;
-
 import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.configuration.factories.FlyWheelsRequestFactory;
@@ -52,8 +50,6 @@ public class OperatorBindings implements Binding{
         operatorBumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(90).Tolerance(2)));
         operatorBumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
 
-
-        
         //operatorButtons.bottom().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(6)));
         //operatorButtons.right().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(-6)));
 
@@ -62,8 +58,6 @@ public class OperatorBindings implements Binding{
         operatorButtons.right().whileTrue(index.runRequest(()-> IndexerRequestFactory.voltage.withVolts(12)));
 
         //operatorBumpers.right().whileTrue(arm.setControl(()-> ArmRequestFactory.voltage.withVolts(-12)));
-
-    
 
     }
     

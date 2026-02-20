@@ -37,7 +37,6 @@ public class QuestNavDriver implements QuestNavIO{
                 data.timestamp = questFrame.dataTimestamp();
                 data.botPose = robotPose.toPose2d();
                 
-                
             }
         }
 

@@ -1,5 +1,6 @@
 package frc.robot.core.requests.moduleRequests;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
@@ -42,13 +43,13 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
             parameters.targetAngle = angle;
             actor.setPosition(angle);
 
-            double error = Math.abs(parameters.position - angle);
-            if (error <= tolerance) {
+            boolean isAtTarget = MathUtil.isNear(angle, parameters.position, tolerance);
+            
+            if (isAtTarget) {
                 return ActionStatus.of(IntakeCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
             } else {
                 return ActionStatus.of(IntakeCode.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));
             }
-
 
         }
 

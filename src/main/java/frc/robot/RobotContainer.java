@@ -17,11 +17,13 @@ import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelBuilder;
 import frc.robot.configuration.Manifest.IndexerBuilder;
 import frc.robot.configuration.Manifest.IntakeBuilder;
+import frc.robot.configuration.Manifest.TrajectoryBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
-import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
-import frc.robot.configuration.advantageScope.visualsNode.trajectory.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
@@ -53,6 +55,7 @@ public class RobotContainer implements IRobotContainer{
   public final Indexer index;
   public final VisualizerNode virtualRobot;
   public final TrajectoryNode trajetorySim;
+  public final GamePieceNode gamePieceViz;
 
   public RobotContainer() {
 
@@ -81,15 +84,21 @@ public class RobotContainer implements IRobotContainer{
     this.virtualRobot = VisualizerBuilder.buildNode(
       ()-> turret.getDegrees(),
       ()-> arm.getState().position,
-      (msg) -> msg.telemeterize("Visualizer/Components")
+      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
     );
 
-    this.trajetorySim = Manifest.TrajectoryBuilder.buildNode(
-    ()-> drivetrain.getState().Pose,     // Dónde está el robot
-    ()-> turret.getDegrees(), // A dónde mira la torreta
-    ()-> arm.getState().position,       // Qué ángulo tiene el hood
-    msg -> msg.telemeterize("Visualizer/Traj")
-  );
+    this.trajetorySim = TrajectoryBuilder.buildNode(
+      ()-> drivetrain.getState().Pose,
+      ()-> turret.getDegrees(),
+      ()-> arm.getState().position,
+      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
+    );
+
+    this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
+      trajetorySim::getTrajectory,
+      ()-> operator.getActionButtons().right().getAsBoolean(),
+      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
+    );
     
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
@@ -116,6 +125,7 @@ public class RobotContainer implements IRobotContainer{
       }
 
       trajetorySim.periodic();
+      gamePieceViz.periodic();
 
   }
 

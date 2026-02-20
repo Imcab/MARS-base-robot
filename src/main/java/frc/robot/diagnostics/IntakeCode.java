@@ -6,13 +6,13 @@ import mars.source.diagnostics.StatusCode;
 
 public enum IntakeCode implements StatusCode{
 
-    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)), //Respiración suave para reposo
-    ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)), //Listo para disparar
+    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+    ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
     
     MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
-    MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)), //Control por voltaje directo
+    MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)),
     
-    OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange)); //Distancia fuera de la tabla
+    OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange));
 
     private final Severity severity;
     private final DiagnosticPattern pattern;

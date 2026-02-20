@@ -93,10 +93,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             SmartDashboard.putData(KeyManager.FIELD_KEY, field);
     }
 
-    /**
-     * Consume datos de cualquier cámara o sensor de odometría (Limelight, QuestNav, etc.)
-     * sin saber de dónde vienen.
-     */
     public void consumeVisionData(VisionMsg visionData) {
         if (visionData.hasTarget && visionData.validPose) { 
             addVisionMeasurement(visionData.botPose, visionData.timestamp, visionData.stdDevs);

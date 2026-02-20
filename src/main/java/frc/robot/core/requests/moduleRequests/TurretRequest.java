@@ -12,7 +12,6 @@ import mars.source.requests.Request;
 
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
-    /** Mantiene la torreta en 0 voltios */
     public static class Idle implements TurretRequest {
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
@@ -22,7 +21,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Caracterización de SysId */
     public static class SysIdOpenLoop implements TurretRequest {
         private double m_volts = 0;
 
@@ -39,7 +37,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Movimiento a una posición fija */
     public static class Position implements TurretRequest {
         private Rotation2d m_targetAngle = new Rotation2d();
         private double toleranceDegrees = 1.0;
@@ -59,9 +56,13 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             data.targetAngle = m_targetAngle; 
             actor.setPosition(m_targetAngle);
 
-            double error = Math.abs(data.angle.minus(m_targetAngle).getDegrees());
+            boolean isLocked = MathUtil.isNear(
+                m_targetAngle.getDegrees(), 
+                data.angle.getDegrees(), 
+                toleranceDegrees
+            );
             
-            if (error < toleranceDegrees) {
+            if (isLocked) {
                 return ActionStatus.of(TurretCode.LOCKED, StatusCodes.TARGETREACHED_STATUS);
             } else {
                 return ActionStatus.of(TurretCode.TRACKING, StatusCodes.TARGET_STATUS + Math.round(m_targetAngle.getDegrees()) + "°");
@@ -69,7 +70,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Aim Assist automático compensando velocidad del robot */
     public static class LockOnTarget implements TurretRequest {
         private Translation2d targetLocation;
         private double fuelVelocityMPS = 18.0; 
@@ -122,9 +122,15 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             data.targetAngle = targetRot;
             actor.setPosition(targetRot);
 
-            double error = Math.abs(data.angle.minus(targetRot).getDegrees());
+            boolean isLocked = MathUtil.isNear(
+                targetRot.getDegrees(), 
+                data.angle.getDegrees(), 
+                toleranceDegrees,
+                -180.0,
+                180.0
+            );
             
-            if (error < toleranceDegrees) {
+            if (isLocked) {
                 return ActionStatus.of(TurretCode.LOCKED, StatusCodes.LOCK_STATUS);
             } else {
                 return ActionStatus.of(TurretCode.TRACKING, StatusCodes.MOVING_STATUS);

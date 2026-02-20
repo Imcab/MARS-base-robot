@@ -1,6 +1,7 @@
 package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.configuration.KeyManager.StatusCodes;
+import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
@@ -59,8 +60,9 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
             parameters.targetRPM = rpm;
             actor.setTargetRPM(rpm);
 
-            double error = Math.abs(parameters.velocityRPM - rpm);
-            if (error <= tolerance) {
+            boolean isAtTarget = MathUtil.isNear(rpm, parameters.velocityRPM, tolerance);
+            
+            if (isAtTarget) {
                 return ActionStatus.of(FlywheelsCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
             } else {
                 return ActionStatus.of(FlywheelsCode.MOVING_TO_RPM, StatusCodes.TARGET_STATUS + rpm + Terminology.RPM);
