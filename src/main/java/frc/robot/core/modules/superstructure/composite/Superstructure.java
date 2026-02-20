@@ -66,16 +66,16 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             Commands.parallel(
                 turret.setControl(() -> TurretRequestFactory.targetLock
                     .withTarget(()-> this.getVirtualTarget())
-                    .withTolerance(1.5)
+                    .withTolerance(Constants.TURRET_TOLERANCE)
                 ),
                 
                 arm.setControl(() -> ArmRequestFactory.interpolate
                     .withDistance(() -> this.getVirtualDistance())
-                    .withTolerance(1.5)
+                    .withTolerance(Constants.ARM_TOLERANCE)
                 ),
                 
                 flywheel.runRequest(() -> FlyWheelsRequestFactory.interpolateRPM.withDistance(() -> this.getVirtualDistance())
-                    .withTolerance(50.0)
+                    .withTolerance(Constants.FLYWHEEL_TOLERANCE)
                 )
             ).until(() -> inputs.readyToShoot),
 
