@@ -60,6 +60,7 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
         public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
             NetworkIO.set(KeyManager.ARM_KEY, CommonTables.DEGREES_KEY, data.position);
             NetworkIO.set(KeyManager.ARM_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
+            NetworkIO.set(KeyManager.ARM_KEY, CommonTables.SETPOINT_KEY, data.targetAngle);
 
             if(lastStatus != null && lastStatus.code != null){
                 NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());

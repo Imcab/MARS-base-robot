@@ -23,6 +23,9 @@ import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode.Visua
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
+import frc.robot.core.modules.superstructure.composite.Superstructure;
+import frc.robot.core.modules.superstructure.composite.SuperstructureData;
+import frc.robot.core.modules.superstructure.composite.SuperstructureIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
@@ -46,6 +49,7 @@ import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
 import frc.robot.core.modules.swerve.nodes.QuestNavNode;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
+import mars.source.models.SubsystemBuilder;
 import mars.source.operator.ControllerOI;
 import mars.source.operator.PS5OI;
 import mars.source.operator.XboxOI;
@@ -75,6 +79,23 @@ public class Manifest {
     public static final boolean HAS_FLYWHEEL = true;
     public static final boolean HAS_INTAKE = true;
     
+    public static class SuperstructureBuilder {
+        public static Superstructure buildModule(
+                Turret turret, 
+                Arm arm, 
+                Intake intake, 
+                Indexer indexer, 
+                FlyWheel flywheel) {
+            
+            SuperstructureIO io = new SuperstructureIO(turret, arm, intake, indexer, flywheel);
+
+            return new Superstructure(SubsystemBuilder.<SuperstructureData, SuperstructureIO>setup()
+                .key(KeyManager.SUPERSTRUCTURE_KEY)
+                .hardware(io, new SuperstructureData())
+
+            );
+        }
+    }
 
     public static class VisualizerBuilder {
 

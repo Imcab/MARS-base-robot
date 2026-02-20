@@ -1,5 +1,7 @@
 package frc.robot.core.requests.moduleRequests;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -71,21 +73,12 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
     }
 
     public static class LockOnTarget implements TurretRequest {
-        private Translation2d targetLocation;
-        private double fuelVelocityMPS = 18.0; 
+        
+        private Supplier<Translation2d> targetSupplier;
         private double toleranceDegrees = 1.5;
 
-        public LockOnTarget(Translation2d targetLocation) {
-            this.targetLocation = targetLocation;
-        }
-
-        public LockOnTarget withTarget(Translation2d targetLocation){
-            this.targetLocation = targetLocation;
-            return this;
-        }
-
-        public LockOnTarget withFuelVelocity(double mps) {
-            this.fuelVelocityMPS = mps;
+        public LockOnTarget withTarget(Supplier<Translation2d> targetSupplier){
+            this.targetSupplier = targetSupplier;
             return this;
         }
 
@@ -96,26 +89,16 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
+ 
+            Translation2d currentTarget = targetSupplier.get();
             Translation2d turretPose = data.robotPose.getTranslation();
 
-            // Vector de velocidad del robot en Field Centric
-            Translation2d robotVelVector = new Translation2d(
-                data.robotSpeed.vxMetersPerSecond,
-                data.robotSpeed.vyMetersPerSecond
-            ).rotateBy(data.robotPose.getRotation()); 
-
-            Translation2d robotToTarget = targetLocation.minus(turretPose);
-            double distance = robotToTarget.getNorm();
-            double timeOfFlight = distance / fuelVelocityMPS;
+            Translation2d robotToTarget = currentTarget.minus(turretPose);
             
-            // Compensación: Restamos el vector de movimiento proyectado
-            Translation2d virtualTarget = targetLocation.minus(robotVelVector.times(timeOfFlight));
-            Translation2d robotToVirtual = virtualTarget.minus(turretPose);
+            Rotation2d fieldAngle = robotToTarget.getAngle();
             
-            Rotation2d fieldAngle = robotToVirtual.getAngle();
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            // Normalización a rango humano y seguro
             double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -180, 180);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
@@ -137,4 +120,5 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             }
         }
     }
+    
 }

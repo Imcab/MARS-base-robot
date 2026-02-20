@@ -4,6 +4,7 @@ public class KeyManager {
 
     private KeyManager() {}
 
+    public static final String SUPERSTRUCTURE_KEY = "SuperStructure";
     public static final String AUTOCHOOSER_KEY = "AutoModes";
     public static final String SWERVE_KEY = "Swerve";
     public static final String FIELD_KEY = "Field";

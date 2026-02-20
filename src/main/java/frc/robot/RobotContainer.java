@@ -27,6 +27,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
+import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
@@ -56,6 +57,7 @@ public class RobotContainer implements IRobotContainer{
   public final VisualizerNode virtualRobot;
   public final TrajectoryNode trajetorySim;
   public final GamePieceNode gamePieceViz;
+  public final Superstructure superstructure;
 
   public RobotContainer() {
 
@@ -79,6 +81,10 @@ public class RobotContainer implements IRobotContainer{
 
     this.flywheel = FlywheelBuilder.buildModule();
 
+    this.superstructure = Manifest.SuperstructureBuilder.buildModule(
+        this.turret, this.arm, this.intake, this.index, this.flywheel
+    );
+
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
     this.virtualRobot = VisualizerBuilder.buildNode(
@@ -99,12 +105,12 @@ public class RobotContainer implements IRobotContainer{
       ()-> operator.getActionButtons().right().getAsBoolean(),
       msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
     );
-    
+
     AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index).bind();
+    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index, superstructure).bind();
 
   }
 
@@ -131,7 +137,6 @@ public class RobotContainer implements IRobotContainer{
       if (gamePieceViz != null) {
         gamePieceViz.periodic();
       }
-
   }
 
   @Override

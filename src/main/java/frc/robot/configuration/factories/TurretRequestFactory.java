@@ -12,10 +12,9 @@ import frc.robot.core.requests.moduleRequests.TurretRequest.SysIdOpenLoop;
 public class TurretRequestFactory {
     
     public static final TurretRequest.Idle idle = new Idle();
-    public static final TurretRequest.LockOnTarget targetLock = new LockOnTarget(Translation2d.kZero);
+    public static final TurretRequest.LockOnTarget targetLock = new LockOnTarget();
     public static final TurretRequest.Position toAngle = new Position();
     public static final TurretRequest.SysIdOpenLoop voltage = new SysIdOpenLoop();
     public static final TurretRequest.Position zeroTurret = toAngle.withTargetAngle(Rotation2d.kZero);
-    public static final TurretRequest.LockOnTarget lockToHub = targetLock.withTarget(Constants.HUB_LOCATION.toTranslation2d());
 
 }

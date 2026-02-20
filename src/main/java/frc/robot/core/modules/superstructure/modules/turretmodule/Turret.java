@@ -62,6 +62,14 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         return poseSupplier.get().getTranslation().getDistance(point);
     }
 
+    public Pose2d getRobotPose() {
+        return poseSupplier.get();
+    }
+
+    public ChassisSpeeds getRobotSpeeds() {
+        return speedSupplier.get();
+    }
+
     @Override
     public void absolutePeriodic(TurretInputs data) {
         data.robotPose = poseSupplier.get();
