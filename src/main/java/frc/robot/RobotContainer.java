@@ -19,6 +19,7 @@ import frc.robot.configuration.Manifest.IntakeBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
+import frc.robot.configuration.Manifest.WheelsBuilder;
 import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
@@ -28,6 +29,7 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.modules.superstructure.modules.wheelsmodule.Wheels;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
 import frc.robot.core.modules.swerve.nodes.QuestNavNode;
@@ -49,6 +51,7 @@ public class RobotContainer implements IRobotContainer{
   public final FlyWheel flywheel;
   public final Intake intake;
   public final Indexer index;
+  public final Wheels wheels;
   public final VisualizerNode virtualRobot;
 
   public RobotContainer() {
@@ -70,6 +73,7 @@ public class RobotContainer implements IRobotContainer{
     this.arm = ArmBuilder.buildModule();
     this.intake = IntakeBuilder.buildModule();
     this.index = IndexerBuilder.buildModule();
+    this.wheels = WheelsBuilder.buildModule();
 
     this.flywheel = FlywheelBuilder.buildModule();
 
@@ -85,7 +89,7 @@ public class RobotContainer implements IRobotContainer{
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index).bind();
+    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index, wheels).bind();
 
   }
 

@@ -35,6 +35,9 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSi
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
+import frc.robot.core.modules.superstructure.modules.wheelsmodule.Wheels;
+import frc.robot.core.modules.superstructure.modules.wheelsmodule.WheelsIO;
+import frc.robot.core.modules.superstructure.modules.wheelsmodule.WheelsIOSparkMax;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
@@ -66,6 +69,7 @@ public class Manifest {
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_FLYWHEEL = true;
     public static final boolean HAS_INTAKE = true;
+    public static final boolean HAS_WHEELS = true;
     
 
     public static class VisualizerBuilder {
@@ -160,6 +164,23 @@ public class Manifest {
             if(!HAS_FLYWHEEL) return null;
 
             return new FlyWheel(injectIO());
+        }
+    }
+
+    public static class WheelsBuilder{
+        
+        private static WheelsIO injectIO() {
+            switch (CURRENT_MODE) {
+                case REAL: return new WheelsIOSparkMax();
+                case SIM:
+                default:   return null;
+            }
+        }
+
+        public static Wheels buildModule() {
+            if (!HAS_ARM) return null;
+
+            return new Wheels(injectIO());
         }
     }
 

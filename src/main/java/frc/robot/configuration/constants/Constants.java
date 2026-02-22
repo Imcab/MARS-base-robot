@@ -37,5 +37,11 @@ public class Constants {
         INTERPOLATION_MAP.put(6.00, 40.0); 
     }
 
+    public static enum MODES{
+        AUTO_SHOOT,  //Esta funcion activa los motores del index, gira la torreta, angula el brazo. Y una vez que la torreta y brazo esten en posición, activa las fywheels para disparar como loco
+        
+
+    }
+
     
 }

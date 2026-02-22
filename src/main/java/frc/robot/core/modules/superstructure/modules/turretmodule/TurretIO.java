@@ -22,6 +22,7 @@ public interface TurretIO extends IO<TurretInputs>{
         @Override
         public TurretInputs snapshot(){
             TurretInputs clone = new TurretInputs();
+            
             clone.angle = this.angle;
             clone.targetAngle = this.targetAngle;
             clone.velocityRPS = this.velocityRPS;

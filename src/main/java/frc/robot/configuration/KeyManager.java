@@ -14,6 +14,7 @@ public class KeyManager {
     public static final String INDEX_KEY = "Indexer";
     public static final String FLYWHEEL_KEY = "Flywheel";
     public static final String INTAKE_KEY = "Intake";
+    public static final String WHEELS_KEY = "Wheels";
 
     public static final class StatusCodes{
 

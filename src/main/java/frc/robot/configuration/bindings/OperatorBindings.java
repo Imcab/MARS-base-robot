@@ -1,10 +1,7 @@
 package frc.robot.configuration.bindings;
 
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter.Indenter;
-
 import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.factories.ArmRequestFactory;
-import frc.robot.configuration.factories.FlyWheelsRequestFactory;
 import frc.robot.configuration.factories.IndexerRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.configuration.factories.TurretRequestFactory;
@@ -13,6 +10,7 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.modules.superstructure.modules.wheelsmodule.Wheels;
 import mars.source.models.containers.Binding;
 import mars.source.operator.ControllerOI;
 
@@ -24,18 +22,20 @@ public class OperatorBindings implements Binding{
     private final FlyWheel flywheel;
     private final Intake intake;
     private final Indexer index;
+    private final Wheels wheels;
  
-    private OperatorBindings(ControllerOI operator,Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index){
+    private OperatorBindings(ControllerOI operator,Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Wheels wheels){
         this.operator = operator;
         this.turret = turret;
         this.arm = arm;
         this.flywheel = flywheel;
         this.intake = intake;
         this.index = index;
+        this.wheels = wheels;
     }
 
-    public static OperatorBindings parameterized(ControllerOI operator, Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index){
-        return new OperatorBindings(operator, turret, arm, flywheel, intake, index);
+    public static OperatorBindings parameterized(ControllerOI operator, Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Wheels wheels){
+        return new OperatorBindings(operator, turret, arm, flywheel, intake, index, wheels);
     }
 
     @Override

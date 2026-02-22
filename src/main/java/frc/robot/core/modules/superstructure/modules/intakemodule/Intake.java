@@ -7,13 +7,8 @@ import com.stzteam.forgemini.io.NetworkIO;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
-import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
-import frc.robot.core.modules.superstructure.modules.armmodule.Arm.ArmTelemetry;
-import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
-import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
-import frc.robot.core.requests.moduleRequests.ArmRequest;
 import frc.robot.core.requests.moduleRequests.IntakeRequest;
 import mars.source.diagnostics.ActionStatus;
 import mars.source.models.SubsystemBuilder;
@@ -35,7 +30,7 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
         this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle));
     }
 
-     @Override
+    @Override
     public void absolutePeriodic(IntakeInputs inputs) {}
 
     public Command setControl(Supplier<IntakeRequest> request){
