@@ -101,7 +101,8 @@ public class Manifest {
 
         public static VisualizerNode buildNode(
                 DoubleSupplier turretAngleSupplier, 
-                DoubleSupplier hoodAngleSupplier, 
+                DoubleSupplier hoodAngleSupplier,
+                DoubleSupplier intakeAngleSupplier, 
                 Consumer<VisualizerMsg> topicPublisher) {
             
             if(!HAS_VISUALS) return null;
@@ -110,6 +111,7 @@ public class Manifest {
                 KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY, 
                 turretAngleSupplier, 
                 hoodAngleSupplier, 
+                intakeAngleSupplier,
                 topicPublisher
             );
         }
