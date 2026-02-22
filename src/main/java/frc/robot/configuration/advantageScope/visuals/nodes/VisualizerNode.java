@@ -16,12 +16,14 @@ public class VisualizerNode extends Node<VisualizerNode.VisualizerMsg> {
         
         public Pose3d turretPose = new Pose3d();
         public Pose3d hoodPose = new Pose3d();
+        public Pose3d intakePose = new Pose3d();
 
         @Override
         public void telemeterize(String tableName) {
   
             NetworkIO.set(tableName, "TurretComponent", turretPose);
             NetworkIO.set(tableName, "HoodComponent", hoodPose);
+            NetworkIO.set(tableName, "IntakeComponent", intakePose);
 
         }
     }
@@ -35,11 +37,12 @@ public class VisualizerNode extends Node<VisualizerNode.VisualizerMsg> {
     public VisualizerNode(String name, 
                           DoubleSupplier turretAngle, 
                           DoubleSupplier hoodAngle, 
+                          DoubleSupplier intakeAngle,
                           Consumer<VisualizerMsg> topicPublisher) {
         
         super(name, new VisualizerMsg(), topicPublisher);
         
-        this.hardwareDriver = new VisualizerDriver(turretAngle, hoodAngle);
+        this.hardwareDriver = new VisualizerDriver(turretAngle, hoodAngle, intakeAngle);
     }
 
     @Override

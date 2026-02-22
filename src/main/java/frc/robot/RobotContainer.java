@@ -94,6 +94,7 @@ public class RobotContainer implements IRobotContainer{
     this.virtualRobot = VisualizerBuilder.buildNode(
       ()-> turret.getDegrees(),
       ()-> arm.getState().position,
+      ()-> intake.getState().position,
       msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
     );
 
