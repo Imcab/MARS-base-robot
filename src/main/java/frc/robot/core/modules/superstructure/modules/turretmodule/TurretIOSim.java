@@ -33,9 +33,8 @@ public class TurretIOSim implements TurretIO {
             0.0
         );
 
-        // El controlador trabaja en ROTACIONES internamente
         simController = new ProfiledPIDController(
-            TurretConstants.kP + 10, // Cuidado con el +15, prueba primero con la constante real
+            TurretConstants.kP + 10,
             TurretConstants.kI, 
             TurretConstants.kD,
             new TrapezoidProfile.Constraints(2.0, 4.0) 
@@ -52,9 +51,8 @@ public class TurretIOSim implements TurretIO {
 
         appliedVolts = MathUtil.clamp(appliedVolts, -12.0, 12.0);
         simMotor.setInputVoltage(appliedVolts);
-        simMotor.update(0.02); // Ciclo estándar de 20ms
+        simMotor.update(0.02);
 
-        // Llenamos los inputs para el resto del código
         inputs.angle = Rotation2d.fromRadians(simMotor.getAngleRads());
         inputs.targetAngle = this.currentTargetAngle;
         inputs.velocityRPS = Units.radiansPerSecondToRotationsPerMinute(simMotor.getVelocityRadPerSec()) / 60;
@@ -71,7 +69,6 @@ public class TurretIOSim implements TurretIO {
     public void setPosition(Rotation2d angle) {
         isClosedLoop = true;
         this.currentTargetAngle = angle;
-        // Importante: El Goal debe estar en Rotaciones si el calculate usa rotaciones
         simController.setGoal(angle.getRotations()); 
     }
 

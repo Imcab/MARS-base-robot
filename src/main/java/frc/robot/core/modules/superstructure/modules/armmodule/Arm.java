@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
@@ -17,7 +18,6 @@ import mars.source.models.singlemodule.ModularSubsystem;
 
 
 public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
-
 
     public Arm(ArmIO io){
 
@@ -41,8 +41,17 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
         
     }
 
+    @Override
     public ArmInputs getState(){
         return inputs;
+    }
+
+    public boolean isAtTarget(double toleranceDegrees) {
+        return MathUtil.isNear(
+            inputs.targetAngle, 
+            inputs.position, 
+            toleranceDegrees
+        );
     }
 
     public static class ArmTelemetry extends Telemetry<ArmIO.ArmInputs>{
@@ -51,6 +60,7 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
         public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
             NetworkIO.set(KeyManager.ARM_KEY, CommonTables.DEGREES_KEY, data.position);
             NetworkIO.set(KeyManager.ARM_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
+            NetworkIO.set(KeyManager.ARM_KEY, CommonTables.SETPOINT_KEY, data.targetAngle);
 
             if(lastStatus != null && lastStatus.code != null){
                 NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());

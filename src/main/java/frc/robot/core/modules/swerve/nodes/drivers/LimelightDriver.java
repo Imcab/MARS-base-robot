@@ -43,17 +43,14 @@ public class LimelightDriver implements VisionIO{
         double xyStdDev;
 
         if (mt2.tagCount >= 2) {
-            //Usamos la constante de multi-tag
             xyStdDev = VisionConstants.MULTI_TAG_STD_DEV; 
         } else {
             double distance = mt2.avgTagDist;
             
-            //Usamos el límite de distancia de las constantes
             if (distance > VisionConstants.MAX_VALID_DISTANCE_METERS) {
                 return; 
             }
 
-            //Aplicamos la fórmula heurística con las constantes
             xyStdDev = VisionConstants.SINGLE_TAG_BASE_STD_DEV + 
                        (Math.pow(distance, 2) * VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER); 
         }

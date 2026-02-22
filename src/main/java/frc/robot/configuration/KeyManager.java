@@ -4,6 +4,7 @@ public class KeyManager {
 
     private KeyManager() {}
 
+    public static final String SUPERSTRUCTURE_KEY = "SuperStructure";
     public static final String AUTOCHOOSER_KEY = "AutoModes";
     public static final String SWERVE_KEY = "Swerve";
     public static final String FIELD_KEY = "Field";
@@ -15,6 +16,10 @@ public class KeyManager {
     public static final String FLYWHEEL_KEY = "Flywheel";
     public static final String INTAKE_KEY = "Intake";
     public static final String WHEELS_KEY = "Wheels";
+    public static final String VISUALIZER_KEY = "Visualizer";
+    public static final String TRAJECTORY_KEY = "Traj";
+    public static final String COMPONENTS_KEY = "Components";
+    public static final String GAMEPIECE_KEY = "GamePiece";
 
     public static final class StatusCodes{
 

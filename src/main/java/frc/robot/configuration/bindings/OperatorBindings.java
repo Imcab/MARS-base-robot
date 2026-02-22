@@ -5,6 +5,7 @@ import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.configuration.factories.IndexerRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.configuration.factories.TurretRequestFactory;
+import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
@@ -25,6 +26,9 @@ public class OperatorBindings implements Binding{
     private final Wheels wheels;
  
     private OperatorBindings(ControllerOI operator,Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Wheels wheels){
+    private final Superstructure superstructure;
+ 
+    private OperatorBindings(ControllerOI operator,Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Superstructure superstructure){
         this.operator = operator;
         this.turret = turret;
         this.arm = arm;
@@ -36,6 +40,11 @@ public class OperatorBindings implements Binding{
 
     public static OperatorBindings parameterized(ControllerOI operator, Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Wheels wheels){
         return new OperatorBindings(operator, turret, arm, flywheel, intake, index, wheels);
+        this.superstructure = superstructure;
+    }
+
+    public static OperatorBindings parameterized(ControllerOI operator, Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Superstructure superstructure){
+        return new OperatorBindings(operator, turret, arm, flywheel, intake, index, superstructure);
     }
 
     @Override
@@ -46,24 +55,21 @@ public class OperatorBindings implements Binding{
         //var operatorSystem = operator.getSystemTriggers();
         var operatorBumpers = operator.getBumpers();
 
-        operatorButtons.right().whileTrue(turret.setControl(()-> TurretRequestFactory.lockToHub.withTolerance(4)));
-        operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.interpolate.withTolerance(3).withDistance(()-> turret.distanceTo(Constants.HUB_LOCATION.toTranslation2d()))));
+
+        operatorButtons.right().whileTrue(superstructure.shootOnTheMove());
+        //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.interpolate.withTolerance(3).withDistance(()-> turret.distanceTo(Constants.HUB_LOCATION.toTranslation2d()))));
 
         operatorBumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(90).Tolerance(2)));
         operatorBumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
 
-
-        
         //operatorButtons.bottom().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(6)));
         //operatorButtons.right().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(-6)));
 
         //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.angle.withAngle(50). withTolerance(5)));
-
-        operatorButtons.right().whileTrue(index.runRequest(()-> IndexerRequestFactory.voltage.withVolts(12)));
+        
+        //operatorButtons.right().whileTrue(index.runRequest(()-> IndexerRequestFactory.voltage.withVolts(12)));
 
         //operatorBumpers.right().whileTrue(arm.setControl(()-> ArmRequestFactory.voltage.withVolts(-12)));
-
-    
 
     }
     

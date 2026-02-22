@@ -1,4 +1,4 @@
-package frc.robot.configuration.advantageScope.visualsNode;
+package frc.robot.configuration.advantageScope.visuals.nodes;
 
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
@@ -6,12 +6,11 @@ import java.util.function.DoubleSupplier;
 import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import frc.robot.configuration.advantageScope.visuals.drivers.VisualizerDriver;
 import mars.source.models.nodes.Node;
 import mars.source.models.nodes.NodeMessage;
 
 public class VisualizerNode extends Node<VisualizerNode.VisualizerMsg> {
-
-    public static final String VISUALIZER_TABLE = "Visualizer";
 
     public static class VisualizerMsg extends NodeMessage<VisualizerMsg> {
         

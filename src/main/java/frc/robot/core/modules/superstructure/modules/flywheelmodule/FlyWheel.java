@@ -2,6 +2,7 @@ package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 
 import com.stzteam.forgemini.io.NetworkIO;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
@@ -22,6 +23,19 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
             .telemetry(new FlyWheelTelemetry()));
 
         this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.Idle));
+    }
+
+    @Override
+    public FlyWheelInputs getState(){
+        return inputs;
+    }
+
+    public boolean isAtTarget(double toleranceRPM) {
+        return MathUtil.isNear(
+            inputs.targetRPM, 
+            inputs.velocityRPM, 
+            toleranceRPM
+        );
     }
 
     public static class FlyWheelTelemetry extends Telemetry<FlyWheelInputs>{

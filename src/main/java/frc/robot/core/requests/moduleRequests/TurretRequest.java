@@ -1,5 +1,7 @@
 package frc.robot.core.requests.moduleRequests;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -12,7 +14,6 @@ import mars.source.requests.Request;
 
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
-    /** Mantiene la torreta en 0 voltios */
     public static class Idle implements TurretRequest {
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
@@ -22,7 +23,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Caracterización de SysId */
     public static class SysIdOpenLoop implements TurretRequest {
         private double m_volts = 0;
 
@@ -39,7 +39,6 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Movimiento a una posición fija */
     public static class Position implements TurretRequest {
         private Rotation2d m_targetAngle = new Rotation2d();
         private double toleranceDegrees = 1.0;
@@ -59,9 +58,13 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             data.targetAngle = m_targetAngle; 
             actor.setPosition(m_targetAngle);
 
-            double error = Math.abs(data.angle.minus(m_targetAngle).getDegrees());
+            boolean isLocked = MathUtil.isNear(
+                m_targetAngle.getDegrees(), 
+                data.angle.getDegrees(), 
+                toleranceDegrees
+            );
             
-            if (error < toleranceDegrees) {
+            if (isLocked) {
                 return ActionStatus.of(TurretCode.LOCKED, StatusCodes.TARGETREACHED_STATUS);
             } else {
                 return ActionStatus.of(TurretCode.TRACKING, StatusCodes.TARGET_STATUS + Math.round(m_targetAngle.getDegrees()) + "°");
@@ -69,23 +72,13 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         }
     }
 
-    /** Aim Assist automático compensando velocidad del robot */
     public static class LockOnTarget implements TurretRequest {
-        private Translation2d targetLocation;
-        private double fuelVelocityMPS = 18.0; 
+        
+        private Supplier<Translation2d> targetSupplier;
         private double toleranceDegrees = 1.5;
 
-        public LockOnTarget(Translation2d targetLocation) {
-            this.targetLocation = targetLocation;
-        }
-
-        public LockOnTarget withTarget(Translation2d targetLocation){
-            this.targetLocation = targetLocation;
-            return this;
-        }
-
-        public LockOnTarget withFuelVelocity(double mps) {
-            this.fuelVelocityMPS = mps;
+        public LockOnTarget withTarget(Supplier<Translation2d> targetSupplier){
+            this.targetSupplier = targetSupplier;
             return this;
         }
 
@@ -96,39 +89,36 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
+ 
+            Translation2d currentTarget = targetSupplier.get();
             Translation2d turretPose = data.robotPose.getTranslation();
 
-            // Vector de velocidad del robot en Field Centric
-            Translation2d robotVelVector = new Translation2d(
-                data.robotSpeed.vxMetersPerSecond,
-                data.robotSpeed.vyMetersPerSecond
-            ).rotateBy(data.robotPose.getRotation()); 
-
-            Translation2d robotToTarget = targetLocation.minus(turretPose);
-            double distance = robotToTarget.getNorm();
-            double timeOfFlight = distance / fuelVelocityMPS;
+            Translation2d robotToTarget = currentTarget.minus(turretPose);
             
-            // Compensación: Restamos el vector de movimiento proyectado
-            Translation2d virtualTarget = targetLocation.minus(robotVelVector.times(timeOfFlight));
-            Translation2d robotToVirtual = virtualTarget.minus(turretPose);
+            Rotation2d fieldAngle = robotToTarget.getAngle();
             
-            Rotation2d fieldAngle = robotToVirtual.getAngle();
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            // Normalización a rango humano y seguro
             double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -180, 180);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
             data.targetAngle = targetRot;
             actor.setPosition(targetRot);
 
-            double error = Math.abs(data.angle.minus(targetRot).getDegrees());
+            boolean isLocked = MathUtil.isNear(
+                targetRot.getDegrees(), 
+                data.angle.getDegrees(), 
+                toleranceDegrees,
+                -180.0,
+                180.0
+            );
             
-            if (error < toleranceDegrees) {
+            if (isLocked) {
                 return ActionStatus.of(TurretCode.LOCKED, StatusCodes.LOCK_STATUS);
             } else {
                 return ActionStatus.of(TurretCode.TRACKING, StatusCodes.MOVING_STATUS);
             }
         }
     }
+    
 }

@@ -1,5 +1,6 @@
 package frc.robot.configuration;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -7,16 +8,24 @@ import java.util.function.Supplier;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stzteam.forgemini.io.SmartChooser;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode;
-import frc.robot.configuration.advantageScope.visualsNode.VisualizerNode.VisualizerMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode.GamePieceMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode.TrajectoryMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
+import frc.robot.core.modules.superstructure.composite.Superstructure;
+import frc.robot.core.modules.superstructure.composite.SuperstructureData;
+import frc.robot.core.modules.superstructure.composite.SuperstructureIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
@@ -43,6 +52,7 @@ import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
 import frc.robot.core.modules.swerve.nodes.QuestNavNode;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
+import mars.source.models.SubsystemBuilder;
 import mars.source.operator.ControllerOI;
 import mars.source.operator.PS5OI;
 import mars.source.operator.XboxOI;
@@ -61,6 +71,8 @@ public class Manifest {
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
     public static final boolean HAS_VISUALS = true;
+    public static final boolean HAS_TRAJ_VISUAL = true;
+    public static final boolean HAS_FUEL_VISUAL = true;
     public static final boolean HAS_DRIVETRAIN = true;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
@@ -71,6 +83,23 @@ public class Manifest {
     public static final boolean HAS_INTAKE = true;
     public static final boolean HAS_WHEELS = true;
     
+    public static class SuperstructureBuilder {
+        public static Superstructure buildModule(
+                Turret turret, 
+                Arm arm, 
+                Intake intake, 
+                Indexer indexer, 
+                FlyWheel flywheel) {
+            
+            SuperstructureIO io = new SuperstructureIO(turret, arm, intake, indexer, flywheel);
+
+            return new Superstructure(SubsystemBuilder.<SuperstructureData, SuperstructureIO>setup()
+                .key(KeyManager.SUPERSTRUCTURE_KEY)
+                .hardware(io, new SuperstructureData())
+
+            );
+        }
+    }
 
     public static class VisualizerBuilder {
 
@@ -82,10 +111,46 @@ public class Manifest {
             if(!HAS_VISUALS) return null;
 
             return new VisualizerNode(
-                "Visualizer", 
+                KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY, 
                 turretAngleSupplier, 
                 hoodAngleSupplier, 
                 topicPublisher
+            );
+        }
+    }
+
+    public static class GamePieceBuilder {
+        public static GamePieceNode buildNode(
+                Supplier<Pose3d[]> trajectorySource,
+                BooleanSupplier trigger,
+                Consumer<GamePieceMsg> publisher) {
+
+            if(!HAS_FUEL_VISUAL) return null;
+            
+            return new GamePieceNode(
+                KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, 
+                trajectorySource, 
+                trigger,
+                publisher
+            );
+        }
+    }
+
+    public static class TrajectoryBuilder {
+        public static TrajectoryNode buildNode(
+                Supplier<Pose2d> poseSupplier,
+                DoubleSupplier turretSupplier,
+                DoubleSupplier hoodSupplier,
+                Consumer<TrajectoryMsg> publisher) {
+            
+            if(!HAS_TRAJ_VISUAL) return null;
+
+            return new TrajectoryNode(
+                KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY, 
+                poseSupplier, 
+                turretSupplier, 
+                hoodSupplier, 
+                publisher
             );
         }
     }

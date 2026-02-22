@@ -7,14 +7,14 @@ import mars.source.diagnostics.StatusCode;
 
 public enum ArmCode implements StatusCode {
     
-    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)), //Respiración suave para reposo
-    ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)), //Listo para disparar
+    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+    ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
     
     MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
-    MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)), //Control por voltaje directo
+    MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)),
     
-    OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange)), //Distancia fuera de la tabla
-    GRAVITY_OVERLOAD(Severity.CRITICAL, DiagnosticPattern.strobe(Color.kRed)); //El motor no aguanta el peso
+    OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange)),
+    GRAVITY_OVERLOAD(Severity.CRITICAL, DiagnosticPattern.strobe(Color.kRed));
 
     private final Severity severity;
     private final DiagnosticPattern pattern;

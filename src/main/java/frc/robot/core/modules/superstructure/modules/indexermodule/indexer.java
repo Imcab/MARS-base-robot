@@ -38,7 +38,11 @@ public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
         return runRequest(request);
     }
 
-    
+    @Override
+    public IndexerInputs getState(){
+        return inputs;
+    }
+
     public static class IndexerTelemetry extends Telemetry<IndexerInputs>{
 
         @Override

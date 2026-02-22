@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
@@ -28,6 +29,19 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
 
         registerTelemetry(new IntakeTelemetry());
         this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle));
+    }
+
+    @Override
+    public IntakeInputs getState(){
+        return inputs;
+    }
+
+    public boolean isAtTarget(double toleranceDegrees) {
+        return MathUtil.isNear(
+            inputs.targetAngle, 
+            inputs.position, 
+            toleranceDegrees
+        );
     }
 
     @Override

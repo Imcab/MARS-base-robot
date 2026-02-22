@@ -2,6 +2,7 @@ package frc.robot.core.requests.moduleRequests;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
@@ -46,13 +47,18 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
             actor.setPosition(anguloDeseado.doubleValue());
             parameters.targetAngle = anguloDeseado.doubleValue();
 
-            //Lógica de llegada: ¿Ya estamos en el ángulo de la tabla?
-            double error = Math.abs(parameters.position - anguloDeseado.doubleValue());
-            if (error <= tolerance) {
+            boolean isLocked = MathUtil.isNear(
+                parameters.targetAngle, 
+                parameters.position,
+                tolerance
+            );
+            
+            if (isLocked) {
                 return ActionStatus.of(ArmCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
             } else {
-                return ActionStatus.of(ArmCode.MOVING_TO_ANGLE, StatusCodes.MOVING_STATUS);
+                return ActionStatus.of(ArmCode.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(parameters.targetAngle));
             }
+
         }
     }
 
@@ -79,9 +85,13 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
             parameters.targetAngle = angle;
             actor.setPosition(angle);
 
-            // Lógica de llegada: ¿Ya estamos en el ángulo fijo?
-            double error = Math.abs(parameters.position - angle);
-            if (error <= tolerance) {
+            boolean isLocked = MathUtil.isNear(
+                angle, 
+                parameters.position,
+                tolerance
+            );
+
+            if (isLocked) {
                 return ActionStatus.of(ArmCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
             } else {
                 return ActionStatus.of(ArmCode.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));

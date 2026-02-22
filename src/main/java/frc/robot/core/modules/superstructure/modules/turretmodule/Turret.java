@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -40,12 +41,33 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         setDefaultCommand(runRequest(()-> new TurretRequest.Idle()));
     }
 
+    public boolean isAtTarget(double toleranceDegrees) {
+        return MathUtil.isNear(
+            inputs.targetAngle.getDegrees(), 
+            inputs.angle.getDegrees(), 
+            toleranceDegrees
+        );
+    }
+
+    @Override
+    public TurretInputs getState(){
+        return inputs;
+    }
+
     public Command setControl(Supplier<TurretRequest> request){
         return runRequest(request);
     }
 
     public double distanceTo(Translation2d point){
         return poseSupplier.get().getTranslation().getDistance(point);
+    }
+
+    public Pose2d getRobotPose() {
+        return poseSupplier.get();
+    }
+
+    public ChassisSpeeds getRobotSpeeds() {
+        return speedSupplier.get();
     }
 
     @Override

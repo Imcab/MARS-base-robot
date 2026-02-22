@@ -69,6 +69,8 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
 
     }
 
+    public abstract D getState();
+
     /**
      * Lógica que se ejecuta siempre, independientemente de la Request activa.
      * Ideal para Soft Limits, reseteo de sensores y estados de emergencia.
