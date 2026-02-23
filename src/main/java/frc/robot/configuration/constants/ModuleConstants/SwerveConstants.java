@@ -18,8 +18,8 @@ public class SwerveConstants {
         new PIDConstants(5.0, 0.0, 0.0)  
     );
 
-    public static final double MaxSpeed = SwerveRequestFactory.MaxSpeed / 2;
-    public static final double MaxAngularRate = SwerveRequestFactory.MaxAngularRate/ 2;
+    public static final double MaxSpeed = SwerveRequestFactory.MaxSpeed ;
+    public static final double MaxAngularRate = SwerveRequestFactory.MaxAngularRate;
 
     public static final double crossMovementSpeed = 0.5;
     
