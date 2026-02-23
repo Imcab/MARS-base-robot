@@ -33,9 +33,9 @@ public class DriverBindings implements Binding{
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
                 SwerveRequestFactory.driveFieldCentric
-                    .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed)
-                    .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed)
-                    .withRotationalRate(-driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate)
+                    .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed) 
+                    .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed) 
+                    .withRotationalRate(-driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate) 
             )
         );
 

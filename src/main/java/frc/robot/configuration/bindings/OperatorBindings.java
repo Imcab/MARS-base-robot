@@ -45,20 +45,20 @@ public class OperatorBindings implements Binding{
         var operatorButtons = operator.getActionButtons();
         //var operatorDPad = operator.getDPadTriggers();
         //var operatorSystem = operator.getSystemTriggers();
-        var operatorBumpers = operator.getBumpers();
+        var operatorBumpers = operator.getBumpers();    
 
 
         operatorButtons.right().whileTrue(superstructure.shootOnTheMove());
         //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.interpolate.withTolerance(3).withDistance(()-> turret.distanceTo(Constants.HUB_LOCATION.toTranslation2d()))));
 
-        operatorBumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(90).Tolerance(2)));
+        operatorBumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(140).Tolerance(2)));
         operatorBumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
 
         //operatorButtons.bottom().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(6)));
         //operatorButtons.right().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(-6)));
 
         //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.angle.withAngle(50). withTolerance(5)));
-        
+
         //operatorButtons.right().whileTrue(index.runRequest(()-> IndexerRequestFactory.voltage.withVolts(12)));
 
         //operatorBumpers.right().whileTrue(arm.setControl(()-> ArmRequestFactory.voltage.withVolts(-12)));
