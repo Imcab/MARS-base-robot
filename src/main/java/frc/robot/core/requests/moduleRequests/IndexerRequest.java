@@ -21,7 +21,7 @@ public interface IndexerRequest extends Request<IndexerInputs, IndexerIO>{
 
     public static class moveVoltage implements IndexerRequest {
         
-        double volts;
+        private double volts;
 
         public moveVoltage withVolts(double target){
             this.volts = target;
