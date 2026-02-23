@@ -4,7 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
-
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.diagnostics.IntakeCode;
 import frc.robot.diagnostics.TurretCode;
 import mars.source.diagnostics.ActionStatus;
@@ -23,6 +23,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
     public static class setAngle implements IntakeRequest {
         private double angle;
         private double tolerance = 1.0; // Grados de tolerancia por defecto
+        private intakeMODE mode = intakeMODE.kUP;
 
         public setAngle(double initialAngle){
             this.angle = initialAngle;
@@ -30,6 +31,11 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
 
         public setAngle withAngle(double angle){
             this.angle = angle;
+            return this;
+        }
+
+        public setAngle mode(intakeMODE mode){
+            this.mode = mode;
             return this;
         }
 
@@ -41,7 +47,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
         @Override
         public ActionStatus apply(IntakeInputs parameters, IntakeIO actor) {
             parameters.targetAngle = angle;
-            actor.setPosition(angle);
+            actor.setPosition(angle, mode);
 
             boolean isAtTarget = MathUtil.isNear(angle, parameters.position, tolerance);
             

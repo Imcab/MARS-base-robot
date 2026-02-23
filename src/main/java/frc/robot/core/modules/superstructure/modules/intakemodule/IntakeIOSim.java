@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.configuration.KeyManager;
 
 import frc.robot.configuration.constants.ModuleConstants.IntakeConstants;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 
 public class IntakeIOSim implements IntakeIO{
     private final SingleJointedArmSim simIntake;
@@ -102,7 +103,7 @@ public class IntakeIOSim implements IntakeIO{
     }
 
     @Override
-    public void setPosition(double angle) {
+    public void setPosition(double angle, intakeMODE mode) {
         isClosedLoop = true;
         this.currentTargetAngle = angle;
     }
