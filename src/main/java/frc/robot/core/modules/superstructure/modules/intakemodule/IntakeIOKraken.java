@@ -52,15 +52,36 @@ public class IntakeIOKraken implements IntakeIO{
         slot0Configs.kP = IntakeConstants.kP; // A position error of 2.5 rotations results in 12 V output
         slot0Configs.kI = IntakeConstants.kI; // no output for integrated error
         slot0Configs.kD = IntakeConstants.kD; // A velocity error of 1 rps results in 0.1 V output
+
+        var slot1Configs = talonFXConfigs.Slot1;
+
+        slot1Configs.kS = IntakeConstants.kS; // Add 0.25 V output to overcome static friction
+        slot1Configs.kV = IntakeConstants.kV; // A velocity target of 1 rps results in 0.12 V output
+        slot1Configs.kA = IntakeConstants.kA; // An acceleration of 1 rps/s requires 0.01 V output
+        slot1Configs.kP = IntakeConstants.kP; // A position error of 2.5 rotations results in 12 V output
+        slot1Configs.kI = IntakeConstants.kI; // no output for integrated error
+        slot1Configs.kD = IntakeConstants.kD; // A velocity error of 1 rps results in 0.1 V output
     
         var motionMagicConfigs = talonFXConfigs.MotionMagic;
         motionMagicConfigs.MotionMagicCruiseVelocity = IntakeConstants.kCruiseVelocity; // Unlimited cruise velocity
         motionMagicConfigs.MotionMagicAcceleration = IntakeConstants.kMaxAcc;
     }
 
+    public enum intakeMODE{
+        kUP, kDOWN
+    }
+
     @Override
-    public void setPosition(double angle){
-        angulator.setControl(motionRequest.withPosition(Units.degreesToRotations(angle)).withSlot(0));
+    public void setPosition(double angle, intakeMODE mode){
+        switch (mode) {
+            case kUP:
+                angulator.setControl(motionRequest.withPosition(Units.degreesToRotations(angle)).withSlot(0));
+            break;
+
+            case kDOWN:
+                angulator.setControl(motionRequest.withPosition(Units.degreesToRotations(angle)).withSlot(1));
+            break;  
+        }
     }
 
     @Override
