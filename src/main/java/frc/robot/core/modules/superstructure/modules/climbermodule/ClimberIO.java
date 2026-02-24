@@ -1,13 +1,14 @@
 package frc.robot.core.modules.superstructure.modules.climbermodule;
 import mars.source.models.singlemodule.Data;
 import mars.source.models.singlemodule.IO;
+import mars.src.processor.Fallback;
 
+@Fallback
 public interface ClimberIO extends IO<ClimberIO.ClimberInputs>{
 
     public static class ClimberInputs extends Data<ClimberInputs>{
 
-        public double appliedVolts;
-    
+        public double appliedVolts = 0;
         
     }
 

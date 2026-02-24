@@ -2,16 +2,18 @@ package frc.robot.core.modules.superstructure.modules.indexermodule;
 
 import mars.source.models.singlemodule.Data;
 import mars.source.models.singlemodule.IO;
+import mars.src.processor.Fallback;
 
+@Fallback
 public interface IndexerIO extends IO<IndexerIO.IndexerInputs> {
 
     public static class IndexerInputs extends Data<IndexerInputs> {
 
-        public double appliedVoltsRoll;
-        public double velocityRoll;
+        public double appliedVoltsRoll= 0;
+        public double velocityRoll = 0;
 
-        public double appliedVoltsIndex;
-        public double velocityIndex;
+        public double appliedVoltsIndex = 0;
+        public double velocityIndex = 0;
         
     }
 

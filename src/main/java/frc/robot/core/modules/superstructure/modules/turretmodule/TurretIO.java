@@ -5,15 +5,17 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import mars.source.models.singlemodule.Data;
 import mars.source.models.singlemodule.IO;
+import mars.src.processor.Fallback;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 
+@Fallback
 public interface TurretIO extends IO<TurretInputs>{
 
     public static class TurretInputs extends Data<TurretInputs>{
   
-        public Rotation2d angle;
-        public Rotation2d targetAngle;
-        public double velocityRPS;
+        public Rotation2d angle = new Rotation2d();
+        public Rotation2d targetAngle = new Rotation2d();
+        public double velocityRPS = 0;
         public double appliedVolts = 0.0;
 
         public Pose2d robotPose = new Pose2d();

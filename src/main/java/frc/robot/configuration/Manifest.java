@@ -11,6 +11,7 @@ import com.stzteam.forgemini.io.SmartChooser;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -28,21 +29,26 @@ import frc.robot.core.modules.superstructure.composite.SuperstructureData;
 import frc.robot.core.modules.superstructure.composite.SuperstructureIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOFallback;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOSim;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
+import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIOFallback;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIOSim;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerSparkMax;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOFallback;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOSim;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOFallback;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
+import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOFallback;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.SwerveTelemetry;
@@ -224,7 +230,7 @@ public class Manifest {
         }
 
         public static FlyWheel buildModule(){
-            if(!HAS_FLYWHEEL) return null;
+            if(!HAS_FLYWHEEL) return new FlyWheel(new FlyWheelIOFallback());
 
             return new FlyWheel(injectIO());
         }
@@ -241,7 +247,7 @@ public class Manifest {
         }
 
         public static Arm buildModule() {
-            if (!HAS_ARM) return null;
+            if (!HAS_ARM) return new Arm(new ArmIOFallback());
 
             return new Arm(injectIO());
         }
@@ -258,7 +264,7 @@ public class Manifest {
         }
 
         public static Intake buildModule() {
-            if (!HAS_ARM) return null;
+            if (!HAS_INTAKE) return new Intake(new IntakeIOFallback());
 
             return new Intake(injectIO());
         }
@@ -275,7 +281,7 @@ public class Manifest {
         }
 
         public static Indexer buildModule() {
-            if (!HAS_ARM) return null;
+            if (!HAS_INDEXER) return new Indexer(new IndexerIOFallback());
 
             return new Indexer(injectIO());
         }
@@ -292,7 +298,7 @@ public class Manifest {
         }
 
         public static Turret buildModule(CommandSwerveDrivetrain drivetrain) {
-            if (!HAS_TURRET) return null;
+            if (!HAS_TURRET) return new Turret(new TurretIOFallback(), ()-> Pose2d.kZero, ()-> new ChassisSpeeds());
             
             return new Turret(
                 injectIO(), 

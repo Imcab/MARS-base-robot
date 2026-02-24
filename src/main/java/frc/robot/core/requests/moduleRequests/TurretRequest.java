@@ -107,7 +107,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
             boolean isLocked = MathUtil.isNear(
                 targetRot.getDegrees(), 
-                data.angle.getDegrees(), 
+                data.targetAngle.getDegrees(), 
                 toleranceDegrees,
                 -180.0,
                 180.0

@@ -38,7 +38,6 @@ public class SubsystemBuilder<D extends Data<D>, A extends IO<D>> {
         return this; 
     }
 
-    // --- Getters para el ModularSubsystem ---
     public String getKey() { return key; }
     public D getInputs() { return inputs; }
     public A getActor() { return actor; }

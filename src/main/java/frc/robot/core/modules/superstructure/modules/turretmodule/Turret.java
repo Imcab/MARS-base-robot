@@ -101,6 +101,7 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
             NetworkIO.set(table, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             NetworkIO.set(table, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
             
+
         }
         
     }
