@@ -1,68 +1,72 @@
 package frc.robot.configuration.bindings;
 
-import frc.robot.configuration.constants.Constants;
-import frc.robot.configuration.factories.ArmRequestFactory;
-import frc.robot.configuration.factories.FlyWheelsRequestFactory;
-import frc.robot.configuration.factories.IndexerRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
-import frc.robot.configuration.factories.TurretRequestFactory;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
-import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.configuration.advantageScope.visuals.VisualsFactory;
+import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import mars.source.models.containers.Binding;
-import mars.source.operator.ControllerOI;
 
-public class OperatorBindings implements Binding{
+import mars.source.operator.ControllerOI;
+import mars.source.services.nodes.Node;
+
+public class OperatorBindings implements Binding {
 
     private final ControllerOI operator;
-    private final Turret turret;
-    private final Arm arm;
-    private final FlyWheel flywheel;
-    private final Intake intake;
-    private final Indexer index;
     private final Superstructure superstructure;
- 
-    private OperatorBindings(ControllerOI operator,Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Superstructure superstructure){
+    
+    private Turret turret;
+    private Arm arm;
+    private Intake intake;
+    private CommandSwerveDrivetrain drivetrain;
+
+    private Node<GamePieceMsg> gamePieceViz;
+    private Node<TrajectoryMsg> trajectoryNode;
+
+    private OperatorBindings(ControllerOI operator, Superstructure superstructure) {
         this.operator = operator;
-        this.turret = turret;
-        this.arm = arm;
-        this.flywheel = flywheel;
-        this.intake = intake;
-        this.index = index;
         this.superstructure = superstructure;
     }
 
-    public static OperatorBindings parameterized(ControllerOI operator, Turret turret, Arm arm, FlyWheel flywheel, Intake intake, Indexer index, Superstructure superstructure){
-        return new OperatorBindings(operator, turret, arm, flywheel, intake, index, superstructure);
+    public static OperatorBindings create(ControllerOI operator, Superstructure ss) {
+        return new OperatorBindings(operator, ss);
+    }
+
+    public OperatorBindings withSubsystems(Turret t, Arm a, Intake i, CommandSwerveDrivetrain dt) {
+        this.turret = t;
+        this.arm = a;
+        this.intake = i;
+        this.drivetrain = dt;
+        return this;
+    }
+
+    public OperatorBindings withNodes(Node<GamePieceMsg> gp, Node<TrajectoryMsg> tr) {
+        this.gamePieceViz = gp;
+        this.trajectoryNode = tr;
+        return this;
     }
 
     @Override
     public void bind() {
+        var buttons = operator.getActionButtons();
+        var bumpers = operator.getBumpers();
 
-        var operatorButtons = operator.getActionButtons();
-        //var operatorDPad = operator.getDPadTriggers();
-        //var operatorSystem = operator.getSystemTriggers();
-        var operatorBumpers = operator.getBumpers();    
+        buttons.right().whileTrue(
+            superstructure.shootOnTheMove()
+                .alongWith(VisualsFactory.triggerShootVisuals(
+                    trajectoryNode, 
+                    gamePieceViz, 
+                    drivetrain, 
+                    turret
+                ))
+        );
 
-
-        operatorButtons.right().whileTrue(superstructure.shootOnTheMove());
-        //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.interpolate.withTolerance(3).withDistance(()-> turret.distanceTo(Constants.HUB_LOCATION.toTranslation2d()))));
-
-        operatorBumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(140).Tolerance(2)));
-        operatorBumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
-
-        //operatorButtons.bottom().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(6)));
-        //operatorButtons.right().whileTrue(turret.runRequest(()-> TurretRequestFactory.voltage.withVolts(-6)));
-
-        //operatorButtons.bottom().whileTrue(arm.setControl(()-> ArmRequestFactory.angle.withAngle(50). withTolerance(5)));
-
-        //operatorButtons.right().whileTrue(index.runRequest(()-> IndexerRequestFactory.voltage.withVolts(12)));
-
-        //operatorBumpers.right().whileTrue(arm.setControl(()-> ArmRequestFactory.voltage.withVolts(-12)));
-
+        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(140).Tolerance(2)));
+        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
+        
     }
-    
 }

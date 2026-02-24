@@ -1,4 +1,4 @@
-package mars.source.models.nodes;
+package mars.source.services.nodes;
 
 import java.util.function.Consumer;
 
@@ -14,9 +14,15 @@ public abstract class Node<M extends NodeMessage<M>> {
         this.topicPublisher = topicPublisher;
     }
 
-    public void periodic() {
+    public boolean isFallback() {
+        return false;
+    }
 
-        updateHardware(); 
+    public final void periodic() {
+
+        if (isFallback()) return; 
+
+        processInformation();
     
         messagePayload.telemeterize(nodeName);
 
@@ -25,5 +31,5 @@ public abstract class Node<M extends NodeMessage<M>> {
         }
     }
 
-    protected abstract void updateHardware();
+    protected abstract void processInformation();
 }

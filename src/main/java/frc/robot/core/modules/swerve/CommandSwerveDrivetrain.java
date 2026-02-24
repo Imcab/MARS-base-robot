@@ -31,11 +31,9 @@ import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.configuration.factories.SwerveRequestFactory;
+import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
 import frc.robot.helpers.PoseFinder;
 import frc.robot.helpers.SysIdRoutineManager;
-
-// IMPORTANTE: Importamos el mensaje de tu Nodo de Visión
-import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements

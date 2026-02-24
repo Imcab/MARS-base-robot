@@ -1,6 +1,5 @@
 package frc.robot.configuration;
 
-import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
@@ -15,12 +14,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode;
-import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode.GamePieceMsg;
-import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode;
-import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
-import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode.TrajectoryMsg;
-import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode.VisualizerMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
@@ -52,9 +47,9 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOFallba
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.SwerveTelemetry;
-import frc.robot.core.modules.swerve.nodes.LimelightNode;
-import frc.robot.core.modules.swerve.nodes.QuestNavNode;
-import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
+import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
+import frc.robot.core.modules.swerve.visionNode.limelight.LimelightNode;
+import frc.robot.core.modules.swerve.visionNode.questnav.QuestNavNode;
 import mars.source.builder.Builder;
 import mars.source.builder.Environment;
 import mars.source.builder.Injector;
@@ -63,6 +58,13 @@ import mars.source.models.SubsystemBuilder;
 import mars.source.operator.ControllerOI;
 import mars.source.operator.PS5OI;
 import mars.source.operator.XboxOI;
+import mars.source.services.nodes.FallbackNode;
+import mars.source.services.nodes.Node;
+
+import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 
 public class Manifest {
 
@@ -93,7 +95,7 @@ public class Manifest {
     public static final boolean HAS_INTAKE = true;
     
     public static class SuperstructureBuilder {
-        public static Superstructure buildModule(
+        public static Superstructure superBuild(
                 Turret turret, 
                 Arm arm, 
                 Intake intake, 
@@ -111,14 +113,15 @@ public class Manifest {
     }
 
     public static class VisualizerBuilder {
-
-        public static VisualizerNode buildNode(
+        public static Node<VisualizerMsg> buildNode(
                 DoubleSupplier turretAngleSupplier, 
                 DoubleSupplier hoodAngleSupplier,
                 DoubleSupplier intakeAngleSupplier, 
                 Consumer<VisualizerMsg> topicPublisher) {
             
-            if(!HAS_VISUALS) return null;
+            if(!HAS_VISUALS) {
+                return new FallbackNode<>();
+            }
 
             return new VisualizerNode(
                 KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY, 
@@ -130,37 +133,35 @@ public class Manifest {
         }
     }
 
-    public static class GamePieceBuilder {
-        public static GamePieceNode buildNode(
-                Supplier<Pose3d[]> trajectorySource,
-                BooleanSupplier trigger,
-                Consumer<GamePieceMsg> publisher) {
-
-            if(!HAS_FUEL_VISUAL) return null;
-            
-            return new GamePieceNode(
-                KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, 
-                trajectorySource, 
-                trigger,
-                publisher
-            );
-        }
-    }
-
     public static class TrajectoryBuilder {
-        public static TrajectoryNode buildNode(
+        public static Node<TrajectoryMsg> buildNode(
                 Supplier<Pose2d> poseSupplier,
                 DoubleSupplier turretSupplier,
-                DoubleSupplier hoodSupplier,
+                DoubleSupplier velocitySupplier,
                 Consumer<TrajectoryMsg> publisher) {
             
-            if(!HAS_TRAJ_VISUAL) return null;
+            if(!HAS_TRAJ_VISUAL) {
+                return new FallbackNode<>();
+            }
 
             return new TrajectoryNode(
                 KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY, 
                 poseSupplier, 
                 turretSupplier, 
-                hoodSupplier, 
+                velocitySupplier, 
+                publisher
+            );
+        }
+    }
+
+
+    public static class GamePieceBuilder {
+        public static Node<GamePieceMsg> buildNode(Consumer<GamePieceMsg> publisher) {
+
+            if(!HAS_FUEL_VISUAL) return new FallbackNode<>();
+            
+            return new GamePieceNode(
+                KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, 
                 publisher
             );
         }
@@ -182,21 +183,23 @@ public class Manifest {
 
     public static class AutoBuilder {
 
-        public static SmartChooser<Command> build(String chooser){
+        public static SmartChooser<Command> build(String chooser) {
             return new SmartChooser<>(chooser);
         }
-        
+   
         public static Command buildPath(
                 String pathName, 
                 CommandSwerveDrivetrain drivetrain, 
-                QuestNavNode questnav) {
+                Node<VisionMsg> questnav) {
             
             return new SequentialCommandGroup(
+
                 new PathPlannerAuto(pathName),
                 
                 Commands.runOnce(() -> {
-                    if (questnav != null) {
-                        questnav.resetQuestPose(new Pose3d(drivetrain.getState().Pose));
+
+                    if (questnav instanceof QuestNavNode qNode) {
+                        qNode.resetQuestPose(new Pose3d(drivetrain.getState().Pose));
                     }
                 })
             );
@@ -205,7 +208,6 @@ public class Manifest {
         public static Command buildPath(
                 String pathName, 
                 CommandSwerveDrivetrain drivetrain) {
-            
             return new PathPlannerAuto(pathName);
         }
     }
@@ -326,26 +328,37 @@ public class Manifest {
         }
     }
 
-    
-    public static class VisionBuilder{
-        
-        public static LimelightNode limelightNode(
+    public static class VisionBuilder {
+  
+        public static Node<VisionMsg> limelightNode(
                 Supplier<Rotation2d> yawSupplier, 
                 DoubleSupplier yawRateSupplier, 
                 Consumer<VisionMsg> topicPublisher) {
             
-            if (!HAS_LIMELIGHT) return null;
+            if (!HAS_LIMELIGHT) {
+                return new FallbackNode<VisionMsg>();
+            }
 
-            return new LimelightNode(KeyManager.LIMELIGHT_KEY, yawSupplier, yawRateSupplier, topicPublisher);
+            return new LimelightNode(
+                KeyManager.LIMELIGHT_KEY, 
+                yawSupplier, 
+                yawRateSupplier, 
+                topicPublisher
+            );
         }
 
-        public static QuestNavNode questNode(Consumer<VisionMsg> topicPublisher){
+        public static Node<VisionMsg> questNode(Consumer<VisionMsg> topicPublisher) {
 
-            if(!HAS_QUESTNAV) return null;
+            if (!HAS_QUESTNAV) {
+                return new FallbackNode<VisionMsg>();
+            }
 
-            return new QuestNavNode(KeyManager.QUESTNAV_KEY, VisionConstants.ROBOT_TO_QUEST, topicPublisher);
+            return new QuestNavNode(
+                KeyManager.QUESTNAV_KEY, 
+                VisionConstants.ROBOT_TO_QUEST, 
+                topicPublisher
+            );
         }
-
     }
 
 }
