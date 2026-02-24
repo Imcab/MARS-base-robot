@@ -55,6 +55,10 @@ import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.nodes.LimelightNode;
 import frc.robot.core.modules.swerve.nodes.QuestNavNode;
 import frc.robot.core.modules.swerve.nodes.VisionNode.VisionMsg;
+import mars.source.builder.Builder;
+import mars.source.builder.Environment;
+import mars.source.builder.Injector;
+import mars.source.builder.RunMode;
 import mars.source.models.SubsystemBuilder;
 import mars.source.operator.ControllerOI;
 import mars.source.operator.PS5OI;
@@ -62,13 +66,16 @@ import mars.source.operator.XboxOI;
 
 public class Manifest {
 
-    public enum Mode { REAL, SIM }
     public enum ControllerType { PS5, XBOX }
 
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final Mode CURRENT_MODE = Mode.SIM;
+    public static final RunMode CURRENT_MODE = RunMode.SIM;
+
+    static{
+        Environment.setMode(CURRENT_MODE);
+    }
 
     public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
@@ -218,96 +225,108 @@ public class Manifest {
         }
     }
 
-    public static class FlywheelBuilder{
-        private static FlyWheelIO injectIO(){
-            switch (CURRENT_MODE) {
-                case REAL:
-                    return null;
-                case SIM:
-                default:
-                    return new FlyWheelIOSim();
-            }
-        }
-
-        public static FlyWheel buildModule(){
-            if(!HAS_FLYWHEEL) return new FlyWheel(new FlyWheelIOFallback());
-
-            return new FlyWheel(injectIO());
-        }
-    }
-
-    public static class ArmBuilder{
+    public static class FlywheelBuilder implements Builder<FlyWheel>{
         
-        private static ArmIO injectIO() {
-            switch (CURRENT_MODE) {
-                case REAL: return new ArmIOKraken();
-                case SIM:
-                default:   return new ArmIOSim();
-            }
-        }
+        private FlywheelBuilder(){}
 
-        public static Arm buildModule() {
-            if (!HAS_ARM) return new Arm(new ArmIOFallback());
+        public static FlywheelBuilder create() { return new FlywheelBuilder();}
 
-            return new Arm(injectIO());
+        @Override
+        public FlyWheel buildModule(){
+            FlyWheelIO io = Injector.createIO(
+                HAS_FLYWHEEL,
+                FlyWheelIOFallback::new,
+                FlyWheelIOFallback::new,
+                FlyWheelIOSim::new);
+
+            return new FlyWheel(io);
         }
     }
 
-    public static class IntakeBuilder{
+    public static class ArmBuilder implements Builder<Arm> {
         
-        private static IntakeIO injectIO() {
-            switch (CURRENT_MODE) {
-                case REAL: return new IntakeIOKraken();
-                case SIM:
-                default:   return new IntakeIOSim();
-            }
-        }
+        private ArmBuilder() {}
+        public static ArmBuilder create() { return new ArmBuilder(); }
 
-        public static Intake buildModule() {
-            if (!HAS_INTAKE) return new Intake(new IntakeIOFallback());
-
-            return new Intake(injectIO());
-        }
-    }
-
-    public static class IndexerBuilder{
-        
-        private static IndexerIO injectIO() {
-            switch (CURRENT_MODE) {
-                case REAL: return new IndexerSparkMax();
-                case SIM:
-                default:   return new IndexerIOSim();
-            }
-        }
-
-        public static Indexer buildModule() {
-            if (!HAS_INDEXER) return new Indexer(new IndexerIOFallback());
-
-            return new Indexer(injectIO());
-        }
-    }
-
-
-    public static class TurretBuilder {
-        private static TurretIO injectIO() {
-            switch (CURRENT_MODE) {
-                // case REAL: return new TurretIOSparkMax();
-                case SIM:
-                default:   return new TurretIOSim();
-            }
-        }
-
-        public static Turret buildModule(CommandSwerveDrivetrain drivetrain) {
-            if (!HAS_TURRET) return new Turret(new TurretIOFallback(), ()-> Pose2d.kZero, ()-> new ChassisSpeeds());
-            
-            return new Turret(
-                injectIO(), 
-                () -> drivetrain.getState().Pose, 
-                drivetrain::getChassisSpeeds
+        @Override
+        public Arm buildModule() {
+            ArmIO io = Injector.createIO(
+                HAS_ARM, 
+                ArmIOFallback::new, 
+                ArmIOKraken::new, 
+                ArmIOSim::new
             );
+            return new Arm(io);
         }
     }
 
+    public static class IntakeBuilder implements Builder<Intake> {
+        
+        private IntakeBuilder() {}
+        public static IntakeBuilder create() { return new IntakeBuilder(); }
+
+        @Override
+        public Intake buildModule() {
+            IntakeIO io = Injector.createIO(
+                HAS_INTAKE, 
+                IntakeIOFallback::new, 
+                IntakeIOKraken::new, 
+                IntakeIOSim::new
+            );
+            return new Intake(io);
+        }
+    }
+
+    public static class IndexerBuilder implements Builder<Indexer> {
+        
+        private IndexerBuilder() {}
+        public static IndexerBuilder create() { return new IndexerBuilder(); }
+
+        @Override
+        public Indexer buildModule() {
+            IndexerIO io = Injector.createIO(
+                HAS_INDEXER, 
+                IndexerIOFallback::new, 
+                IndexerSparkMax::new, 
+                IndexerIOSim::new
+            );
+            return new Indexer(io);
+        }
+    }
+
+    public static class TurretBuilder implements Builder<Turret> {
+        
+        private CommandSwerveDrivetrain drivetrain;
+
+        private TurretBuilder() {}
+        public static TurretBuilder create() { return new TurretBuilder(); }
+
+        public TurretBuilder withDrivetrain(CommandSwerveDrivetrain dt) {
+            this.drivetrain = dt;
+            return this;
+        }
+
+        @Override
+        public Turret buildModule() {
+            if (HAS_TURRET && this.drivetrain == null) {
+                throw new IllegalStateException("Falta el Drivetrain en la Torreta. Usa .withDrivetrain()");
+            }
+
+            TurretIO io = Injector.createIO(
+                HAS_TURRET, 
+                TurretIOFallback::new, 
+                TurretIOSim::new,
+                TurretIOSim::new
+            );
+
+            Supplier<Pose2d> poseSupplier = (this.drivetrain != null) ? () -> this.drivetrain.getState().Pose : () -> Pose2d.kZero;
+            Supplier<ChassisSpeeds> speedsSupplier = (this.drivetrain != null) ? this.drivetrain::getChassisSpeeds : () -> new ChassisSpeeds();
+
+            return new Turret(io, poseSupplier, speedsSupplier);
+        }
+    }
+
+    
     public static class VisionBuilder{
         
         public static LimelightNode limelightNode(

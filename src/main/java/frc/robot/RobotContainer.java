@@ -84,12 +84,12 @@ public class RobotContainer implements IRobotContainer{
 
     this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
 
-    this.turret = TurretBuilder.buildModule(drivetrain);
-    this.arm = ArmBuilder.buildModule();
-    this.intake = IntakeBuilder.buildModule();
-    this.index = IndexerBuilder.buildModule();
+    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
+    this.arm = ArmBuilder.create().buildModule();
+    this.intake = IntakeBuilder.create().buildModule();
+    this.index = IndexerBuilder.create().buildModule();
 
-    this.flywheel = FlywheelBuilder.buildModule();
+    this.flywheel = FlywheelBuilder.create().buildModule();
 
     this.superstructure = Manifest.SuperstructureBuilder.buildModule(
         this.turret, this.arm, this.intake, this.index, this.flywheel

@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.configuration.Manifest;
 import frc.robot.core.modules.swerve.nodes.drivers.LimelightDriver;
 import frc.robot.core.modules.swerve.nodes.drivers.SimDriver;
+import mars.source.builder.RunMode;
 
 public class LimelightNode extends VisionNode {
 
@@ -19,7 +20,7 @@ public class LimelightNode extends VisionNode {
         
         super(
             name, 
-            Manifest.CURRENT_MODE == Manifest.Mode.REAL 
+            Manifest.CURRENT_MODE == RunMode.REAL
                 ? new LimelightDriver(name, yawSupplier, yawRateSupplier) 
                 : new SimDriver(), 
             topicPublisher

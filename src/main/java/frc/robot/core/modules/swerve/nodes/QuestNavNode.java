@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.configuration.Manifest;
 import frc.robot.core.modules.swerve.nodes.drivers.QuestNavDriver;
 import frc.robot.core.modules.swerve.nodes.drivers.SimDriver;
+import mars.source.builder.RunMode;
 
 public class QuestNavNode extends VisionNode{
 
@@ -19,7 +20,7 @@ public class QuestNavNode extends VisionNode{
         
         super(
             name, 
-            Manifest.CURRENT_MODE == Manifest.Mode.REAL 
+            Manifest.CURRENT_MODE == RunMode.REAL 
                 ? new QuestNavDriver(robotToQuest) 
                 : new SimDriver(), 
             topicPublisher
