@@ -9,7 +9,7 @@ public class IntakeConstants {
     public static final int Angulator_MOTOR_CAN_ID = 13;
     public static final int currentLimit = 80;
         
-    public static final InvertedValue invertedValue = InvertedValue.Clockwise_Positive;
+    public static final InvertedValue invertedValue = InvertedValue.CounterClockwise_Positive;
 
     public static final double kP = 0;
     public static final double kI = 0;
