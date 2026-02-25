@@ -11,13 +11,14 @@ import mars.source.models.multimodules.CompositeIO;
 
 public class SuperstructureIO extends CompositeIO<SuperstructureData> {
 
-    public SuperstructureIO(Turret turret, Arm arm, Intake intake, Indexer index, FlyWheel flywheel) {
+    public SuperstructureIO(Turret turret, Arm arm, Intake intake, Indexer index, FlyWheel flywheelShooter, FlyWheel flywheelsIntake) {
 
         registerChild(turret);
         registerChild(arm);
         registerChild(intake);
         registerChild(index);
-        registerChild(flywheel);
+        registerChild(flywheelShooter);
+        registerChild(flywheelsIntake);
     }
 
     @Override

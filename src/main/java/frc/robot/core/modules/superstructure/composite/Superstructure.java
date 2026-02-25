@@ -89,14 +89,14 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
         FlyWheel flywheel = getSubsystem(KeyManager.FLYWHEEL_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
-        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
+        //Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.parallel(
             turret.setControl(() -> TurretRequestFactory.idle),
             arm.setControl(() -> ArmRequestFactory.idle),
             flywheel.runRequest(() -> FlyWheelsRequestFactory.Idle),
-            index.setControl(() -> IndexerRequestFactory.idle),
-            intake.setControl(() -> IntakeRequestFactory.idle)
+            index.setControl(() -> IndexerRequestFactory.idle)
+            //intake.setControl(() -> IntakeRequestFactory.idle)
         );
 
     }

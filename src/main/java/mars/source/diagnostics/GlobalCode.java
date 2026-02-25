@@ -1,6 +1,7 @@
 package mars.source.diagnostics;
 
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public enum GlobalCode implements StatusCode {
     NOMINAL(Severity.OK, DiagnosticPattern.solid(Color.kGreen)),
@@ -14,6 +15,7 @@ public enum GlobalCode implements StatusCode {
     GlobalCode(Severity severity, DiagnosticPattern pattern) {
         this.severity = severity;
         this.pattern = pattern;
+
     }
 
     @Override public Severity getSeverity() { return severity; }

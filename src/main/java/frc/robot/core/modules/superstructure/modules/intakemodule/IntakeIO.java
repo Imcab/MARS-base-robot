@@ -11,12 +11,11 @@ public interface IntakeIO extends IO<IntakeIO.IntakeInputs>{
     public static class IntakeInputs extends Data<IntakeInputs>{
         public double position = 0;
         public double targetAngle = 0;
+        public double appliedVolts = 0;
     }
 
     public void setPosition(double Angle, intakeMODE mode);
     public void applyOutput(double volts);
     public void stopAll();
-
-
  
 }
