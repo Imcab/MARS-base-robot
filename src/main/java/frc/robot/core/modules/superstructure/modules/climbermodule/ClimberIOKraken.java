@@ -4,24 +4,23 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.configuration.constants.ModuleConstants.ClimberConstants;
-import frc.robot.configuration.constants.ModuleConstants.IntakeConstants;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 
 
 public class ClimberIOKraken implements ClimberIO{
 
     private final TalonFX climber;
-        private TalonFXConfigurator climberConfigurator;
-
+    private TalonFXConfigurator climberConfigurator;
 
 
     public ClimberIOKraken(){
 
-        climber = new TalonFX(ClimberConstants.Climber_MOTOR_CAN_ID, "Canivore");
+        climber = new TalonFX(ClimberConstants.Climber_MOTOR_CAN_ID, TunerConstants.kCANBus);
+        climberConfigurator = climber.getConfigurator();
 
         var motorConfigs = new MotorOutputConfigs();
 
@@ -37,12 +36,7 @@ public class ClimberIOKraken implements ClimberIO{
 
         climberConfigurator.refresh(motorConfigs);
         climberConfigurator.apply(motorConfigs);
-
-
     }
-
-
-  
 
     @Override
     public void setSpeed(double speed) {

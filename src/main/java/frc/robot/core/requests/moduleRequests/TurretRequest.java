@@ -1,14 +1,18 @@
 package frc.robot.core.requests.moduleRequests;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
+import frc.robot.helpers.AllianceUtil;
 import mars.source.diagnostics.ActionStatus;
 import mars.source.requests.Request;
 
@@ -90,7 +94,15 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         @Override
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
  
-            Translation2d currentTarget = targetSupplier.get();
+            Translation2d target = targetSupplier.get();
+            Optional<Alliance> alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              if(alliance.get() == Alliance.Red){
+                target = AllianceUtil.flip(targetSupplier.get());
+              }
+             }
+            
+            Translation2d currentTarget = target;
             Translation2d turretPose = data.robotPose.getTranslation();
 
             Translation2d robotToTarget = currentTarget.minus(turretPose);

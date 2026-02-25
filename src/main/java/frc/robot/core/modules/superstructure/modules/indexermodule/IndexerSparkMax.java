@@ -27,6 +27,7 @@ public class IndexerSparkMax implements IndexerIO{
         indexMotor = new SparkMax(IndexerConstants.INDEX_MOTOR_CAN_ID, MotorType.kBrushless);
         indexEncoder = indexMotor.getEncoder();
 
+        configureMotor();
 
     }
 
@@ -53,6 +54,7 @@ public class IndexerSparkMax implements IndexerIO{
 
     }
 
+    
  
     @Override
     public void updateInputs(IndexerInputs inputs) {

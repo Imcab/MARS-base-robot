@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.util.Units;
 
 import frc.robot.configuration.constants.ModuleConstants.IntakeConstants;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
 public class IntakeIOKraken implements IntakeIO{
 
@@ -20,7 +21,8 @@ public class IntakeIOKraken implements IntakeIO{
     private MotionMagicExpoVoltage motionRequest;
 
     public IntakeIOKraken(){
-        angulator = new TalonFX(IntakeConstants.Angulator_MOTOR_CAN_ID, "Canivore");
+        angulator = new TalonFX(IntakeConstants.Angulator_MOTOR_CAN_ID, TunerConstants.kCANBus);
+        angulatorConfigurator = angulator.getConfigurator();
 
         motionRequest = new MotionMagicExpoVoltage(0);
 

@@ -6,7 +6,7 @@ import edu.wpi.first.math.util.Units;
 
 public class IntakeConstants {
 
-    public static final int Angulator_MOTOR_CAN_ID = 0;
+    public static final int Angulator_MOTOR_CAN_ID = 13;
     public static final int currentLimit = 80;
         
     public static final InvertedValue invertedValue = InvertedValue.Clockwise_Positive;
@@ -28,7 +28,7 @@ public class IntakeConstants {
     public static final double kIntakeMassKg = 6.7;       // 3 kg de peso
 
     public static final double kMinAngleRads = Units.degreesToRadians(0);
-    public static final double kMaxAngleRads = Units.degreesToRadians(160); //210
+    public static final double kMaxAngleRads = Units.degreesToRadians(150);
     
 
     

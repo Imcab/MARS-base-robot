@@ -1,8 +1,7 @@
 package frc.robot.configuration.factories;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.configuration.constants.Constants;
+
 import frc.robot.core.requests.moduleRequests.TurretRequest;
 import frc.robot.core.requests.moduleRequests.TurretRequest.Idle;
 import frc.robot.core.requests.moduleRequests.TurretRequest.LockOnTarget;

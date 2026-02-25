@@ -11,17 +11,18 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
 public class ArmIOKraken implements ArmIO{
 
     private TalonFX turretAngulator;
-    private TalonFXConfigurator angulatorConfigurator;
+    private TalonFXConfigurator turretConfigurator;
 
     private MotionMagicExpoVoltage motionRequest;
 
     public ArmIOKraken(){
-        turretAngulator = new TalonFX(ArmConstants.kId, "Canivore");
-
+        turretAngulator = new TalonFX(ArmConstants.kId, TunerConstants.kCANBus);
+        turretConfigurator = turretAngulator.getConfigurator();
         motionRequest = new MotionMagicExpoVoltage(0);
 
         var motorConfigs = new MotorOutputConfigs();
@@ -35,8 +36,8 @@ public class ArmIOKraken implements ArmIO{
 
         turretAngulator.getConfigurator().apply(limitConfigs);
 
-        angulatorConfigurator.refresh(motorConfigs);
-        angulatorConfigurator.apply(motorConfigs);
+        turretConfigurator.refresh(motorConfigs);
+        turretConfigurator.apply(motorConfigs);
 
         configMotion();
     }
