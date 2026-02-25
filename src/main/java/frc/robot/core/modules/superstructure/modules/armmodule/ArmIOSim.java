@@ -29,15 +29,14 @@ public class ArmIOSim implements ArmIO {
             ArmConstants.kMinAngleRads,
             ArmConstants.kMaxAngleRads,
             true, 
-            Units.degreesToRadians(15) //Ángulo inicial (ej. descansa a 15 grados)
+            Units.degreesToRadians(15)
         );
 
-        //(MAXMotion virtual)
         simController = new ProfiledPIDController(
-            0.5, 0.0, 0.0, // kP, kI, kD (ajusta el kP para que responda bien)
+            0.5, 0.0, 0.0,
             new TrapezoidProfile.Constraints(
-                180.0, // Velocidad máxima: 180 grados por segundo
-                360.0  //Aceleración máxima: 360 grados por segundo^2
+                180.0,
+                360.0
             )
         );
 
@@ -45,19 +44,15 @@ public class ArmIOSim implements ArmIO {
 
     @Override
     public void updateInputs(ArmInputs inputs) {
-        //(Si estamos en modo setPosition)
+
         if (isClosedLoop) {
-            //El PID compara dónde estamos vs dónde queremos estar
             double currentDegrees = Units.radiansToDegrees(simArm.getAngleRads());
             appliedVolts = simController.calculate(currentDegrees, currentTargetAngle);
         }
 
-        //RESTRICCIONES FÍSICAS Y AVANCE DEL TIEMPO
-        //La batería del robot no da más de 12V
         appliedVolts = MathUtil.clamp(appliedVolts, -12.0, 12.0);
         simArm.setInputVoltage(appliedVolts);
         
-        //Avanzamos el simulador 20 milisegundos (el ciclo de WPILib)
         simArm.update(0.02);
 
         double simulatedDegrees = Units.radiansToDegrees(simArm.getAngleRads());
