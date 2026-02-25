@@ -29,12 +29,13 @@ public class DriverBindings implements Binding{
         var driverDPad = driver.getDPadTriggers();
         var driverSystem = driver.getSystemTriggers();
         var driverBumpers = driver.getBumpers();
+        var driverButtons = driver.getActionButtons();
 
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
                 SwerveRequestFactory.driveFieldCentric
-                    .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed) 
-                    .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed) 
+                    .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
+                    .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
                     .withRotationalRate(-driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate) 
             )
         );
@@ -44,10 +45,11 @@ public class DriverBindings implements Binding{
         driverDPad.left().whileTrue(CommandSwerveDrivetrain.moveYCommand(drivetrain, SwerveConstants.crossMovementSpeed));
         driverDPad.right().whileTrue(CommandSwerveDrivetrain.moveYCommand(drivetrain, -SwerveConstants.crossMovementSpeed));
 
-        driverSystem.start().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        driverButtons.top().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        driverBumpers.right().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake));
-        driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> 
+        driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake));
+
+        driverButtons.left().whileTrue(drivetrain.applyRequest(() -> 
             SwerveRequestFactory.point.withModuleDirection(
                 new Rotation2d(-driverLeftStick.y().getAsDouble(), -driverLeftStick.x().getAsDouble())
             )

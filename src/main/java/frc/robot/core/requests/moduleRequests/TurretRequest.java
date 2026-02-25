@@ -111,7 +111,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -180, 180);
+            double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -360, 360);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
             data.targetAngle = targetRot;
