@@ -5,9 +5,13 @@ import java.io.PrintStream;
 public class ConsoleFilter extends PrintStream {
     private final PrintStream originalStream;
     
-    private static final String[] SPAM_PHRASES = {                                                                                  
+    private static final String[] SPAM_PHRASES = { 
+        "Could not find specified directory",                                                                                 
         "NT: server: client connection timed out",
         "Default simulationPeriodic() method... Override me!",
+        "ctre.phoenix6.SignalLogger.setPath",
+        "New Auto.auto"
+
     };
 
     public ConsoleFilter(PrintStream originalStream) {
