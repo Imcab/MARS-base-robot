@@ -30,7 +30,7 @@ public class FlyWheelIOKraken implements FlyWheelIO {
 
         var limitConfigs = new CurrentLimitsConfigs();
         limitConfigs.StatorCurrentLimit = FlywheelConstants.IntakeWheelscurrentLimit;
-        limitConfigs.StatorCurrentLimitEnable = false; 
+        limitConfigs.StatorCurrentLimitEnable = true; 
 
         intakeFlyWheels.getConfigurator().apply(limitConfigs);
 

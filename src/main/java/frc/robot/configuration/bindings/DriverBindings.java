@@ -36,7 +36,7 @@ public class DriverBindings implements Binding{
                 SwerveRequestFactory.driveFieldCentric
                     .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
                     .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
-                    .withRotationalRate(-driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate) 
+                    .withRotationalRate(driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate) 
             )
         );
 
