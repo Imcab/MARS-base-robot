@@ -34,7 +34,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
             return this;
         }
 
-        public setAngle mode(intakeMODE mode){
+        public setAngle withMode(intakeMODE mode){
             this.mode = mode;
             return this;
         }

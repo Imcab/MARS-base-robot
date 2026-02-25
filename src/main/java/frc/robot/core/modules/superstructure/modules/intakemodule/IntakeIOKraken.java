@@ -20,7 +20,7 @@ public class IntakeIOKraken implements IntakeIO{
     private MotionMagicExpoVoltage motionRequest;
 
     public IntakeIOKraken(){
-        angulator = new TalonFX(IntakeConstants.Angulator_MOTOR_CAN_ID, "Canivore");
+        angulator = new TalonFX(IntakeConstants.Angulator_MOTOR_CAN_ID, "*");
 
         motionRequest = new MotionMagicExpoVoltage(0);
 

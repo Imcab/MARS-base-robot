@@ -40,11 +40,13 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOSim;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOFallback;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKraken;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOFallback;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
+import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSparkMax;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.SwerveTelemetry;
 import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
@@ -92,7 +94,8 @@ public class Manifest {
     public static final boolean HAS_INDEXER = true;
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_FLYWHEEL = true;
-    public static final boolean HAS_INTAKE = true;
+    public static final boolean HAS_INTAKE = false;
+    public static final boolean HAS_INTAKE_WHEELS = true;
     
     public static class SuperstructureBuilder {
         public static Superstructure superBuild(
@@ -245,6 +248,24 @@ public class Manifest {
         }
     }
 
+    public static class FlywheelIntakeBuilder implements Builder<FlyWheel>{
+        
+        private FlywheelIntakeBuilder(){}
+
+        public static FlywheelBuilder create() {return new FlywheelBuilder();}
+
+        @Override
+        public FlyWheel buildModule(){
+            FlyWheelIO io = Injector.createIO(
+                HAS_INTAKE_WHEELS,
+                FlyWheelIOFallback::new,
+                FlyWheelIOKraken::new,
+                FlyWheelIOSim::new);
+
+            return new FlyWheel(io);
+        }
+    }
+
     public static class ArmBuilder implements Builder<Arm> {
         
         private ArmBuilder() {}
@@ -317,7 +338,7 @@ public class Manifest {
             TurretIO io = Injector.createIO(
                 HAS_TURRET, 
                 TurretIOFallback::new, 
-                TurretIOSim::new,
+                TurretIOSparkMax::new,
                 TurretIOSim::new
             );
 

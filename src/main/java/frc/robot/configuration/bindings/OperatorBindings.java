@@ -4,6 +4,7 @@ import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.configuration.advantageScope.visuals.VisualsFactory;
@@ -65,8 +66,8 @@ public class OperatorBindings implements Binding {
                 ))
         );
 
-        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(140).Tolerance(2)));
-        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(0).Tolerance(2)));
+        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN)));
+        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(0).Tolerance(2).withMode(intakeMODE.kUP)));
         
     }
 }
