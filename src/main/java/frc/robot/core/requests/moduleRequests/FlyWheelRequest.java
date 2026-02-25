@@ -9,7 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
-import frc.robot.diagnostics.ArmCode;
+
 import frc.robot.diagnostics.FlywheelsCode;
 import mars.source.diagnostics.ActionStatus;
 import mars.source.requests.Request;
@@ -26,6 +26,21 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
         
     }
 
+    public static class moveSpeed implements FlyWheelRequest {
+        double speed;
+
+        public moveSpeed withSpeed(double target){
+            this.speed = target;
+            return this;
+        }
+        
+        @Override
+        public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
+            actor.setSpeed(speed);
+            return ActionStatus.of(FlywheelsCode.MANUAL_OVERRIDE, "Speed");
+        }
+    }
+
     public static class moveVoltage implements FlyWheelRequest {
         double volts;
 
@@ -37,7 +52,7 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
         @Override
         public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
             actor.applyOutput(volts);
-            return ActionStatus.of(ArmCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(volts));
+            return ActionStatus.of(FlywheelsCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(volts));
         }
     }
 

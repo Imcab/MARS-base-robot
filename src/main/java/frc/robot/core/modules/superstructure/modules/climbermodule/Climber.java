@@ -5,11 +5,11 @@ import java.util.function.Supplier;
 import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
+
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
-import frc.robot.configuration.constants.ModuleConstants.ClimberConstants;
+
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
 import frc.robot.configuration.factories.ClimberRequestFactory;
 
@@ -18,7 +18,6 @@ import mars.source.diagnostics.ActionStatus;
 import mars.source.models.SubsystemBuilder;
 import mars.source.models.Telemetry;
 import mars.source.models.singlemodule.ModularSubsystem;
-import mars.source.requests.Request;
 
 
 public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO>{

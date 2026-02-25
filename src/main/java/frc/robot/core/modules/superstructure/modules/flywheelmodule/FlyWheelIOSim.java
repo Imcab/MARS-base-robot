@@ -80,4 +80,9 @@ public class FlyWheelIOSim implements FlyWheelIO {
         isClosedLoop = true;
         this.currentTargetRPM = rpm;
     }
+
+    @Override
+    public void setSpeed(double speed){
+        isClosedLoop = false;
+    }
 }

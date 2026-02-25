@@ -20,7 +20,7 @@ public class ArmIOKraken implements ArmIO{
     private MotionMagicExpoVoltage motionRequest;
 
     public ArmIOKraken(){
-        turretAngulator = new TalonFX(ArmConstants.kId, "Canivore");
+        turretAngulator = new TalonFX(ArmConstants.kId, "*");
 
         motionRequest = new MotionMagicExpoVoltage(0);
 

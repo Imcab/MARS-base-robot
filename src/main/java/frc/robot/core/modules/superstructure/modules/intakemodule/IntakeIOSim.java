@@ -109,7 +109,9 @@ public class IntakeIOSim implements IntakeIO{
     }
 
     @Override
-    public void stopAll(){}
+    public void stopAll(){
+        this.appliedVolts = 0;
+    }
     
 
 
