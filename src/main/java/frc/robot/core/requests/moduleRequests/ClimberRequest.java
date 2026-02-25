@@ -2,7 +2,6 @@ package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
-import frc.robot.core.requests.moduleRequests.ClimberRequest.moveVoltage;
 import frc.robot.diagnostics.ClimberCode;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO;
 import mars.source.diagnostics.ActionStatus;

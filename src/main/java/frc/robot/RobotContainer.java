@@ -21,9 +21,9 @@ import frc.robot.configuration.Manifest.TrajectoryBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
 import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
-import frc.robot.configuration.advantageScope.visuals.nodes.GamePieceNode;
-import frc.robot.configuration.advantageScope.visuals.nodes.TrajectoryNode;
-import frc.robot.configuration.advantageScope.visuals.nodes.VisualizerNode;
+import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
+import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
@@ -34,10 +34,12 @@ import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.core.modules.swerve.nodes.LimelightNode;
-import frc.robot.core.modules.swerve.nodes.QuestNavNode;
+import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
+import mars.source.builder.Environment;
+import mars.source.builder.RunMode;
 import mars.source.models.containers.IRobotContainer;
 import mars.source.operator.ControllerOI;
+import mars.source.services.nodes.Node;
 
 public class RobotContainer implements IRobotContainer{
 
@@ -47,16 +49,20 @@ public class RobotContainer implements IRobotContainer{
   public final SmartChooser<Command> autoChooser;
 
   public final CommandSwerveDrivetrain drivetrain;
-  public final LimelightNode limelight;
-  public final QuestNavNode questnav;
+  
   public final Arm arm;
   public final Turret turret;
   public final FlyWheel flywheel;
   public final Intake intake;
   public final Indexer index;
-  public final VisualizerNode virtualRobot;
-  public final TrajectoryNode trajetorySim;
-  public final GamePieceNode gamePieceViz;
+
+  public final Node<VisionMsg> limelight;
+  public final Node<VisionMsg> questnav;
+
+  private final Node<VisualizerMsg> virtualRobot;
+  private final Node<TrajectoryMsg> trajetorySim;
+  private final Node<GamePieceMsg> gamePieceViz;
+
   public final Superstructure superstructure;
 
   public RobotContainer() {
@@ -65,10 +71,6 @@ public class RobotContainer implements IRobotContainer{
     //GG PAPA
     //GGGGGGGG
     //Banana Chong 2
-
-    
-
-
     //Banana Chong
 
     this.driver = ControlsBuilder.buildDriver();
@@ -84,70 +86,63 @@ public class RobotContainer implements IRobotContainer{
 
     this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
 
-    this.turret = TurretBuilder.buildModule(drivetrain);
-    this.arm = ArmBuilder.buildModule();
-    this.intake = IntakeBuilder.buildModule();
-    this.index = IndexerBuilder.buildModule();
+    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
+    this.arm = ArmBuilder.create().buildModule();
+    this.intake = IntakeBuilder.create().buildModule();
+    this.index = IndexerBuilder.create().buildModule();
 
-    this.flywheel = FlywheelBuilder.buildModule();
+    this.flywheel = FlywheelBuilder.create().buildModule();
 
-    this.superstructure = Manifest.SuperstructureBuilder.buildModule(
+    this.superstructure = Manifest.SuperstructureBuilder.superBuild(
         this.turret, this.arm, this.intake, this.index, this.flywheel
     );
 
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
     this.virtualRobot = VisualizerBuilder.buildNode(
-      ()-> turret.getDegrees(),
-      ()-> arm.getState().position,
-      ()-> intake.getState().position,
+      turret::getDegrees,
+      () -> arm.getState().position,
+      () -> intake.getState().position,
       msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
     );
 
     this.trajetorySim = TrajectoryBuilder.buildNode(
-      ()-> drivetrain.getState().Pose,
-      ()-> turret.getDegrees(),
-      ()-> arm.getState().position,
+      () -> drivetrain.getState().Pose,
+      turret::getDegrees,
+      () -> arm.getState().position,
       msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
     );
 
     this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
-      trajetorySim::getTrajectory,
-      ()-> operator.getActionButtons().right().getAsBoolean(),
-      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
+        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
     );
 
-    AutoBindings.parameterized(autoChooser, drivetrain, questnav).bind();
+    AutoBindings.create(autoChooser)
+    .withDrivetrain(drivetrain)
+    .withNodes(questnav)
+    .bind();
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.parameterized(operator, turret, arm, flywheel, intake, index, superstructure).bind();
+    OperatorBindings.create(operator, superstructure)
+    .withSubsystems(turret, arm, intake, drivetrain).
+    withNodes(gamePieceViz, trajetorySim)
+    .bind();
 
   }
 
   @Override
   public void updateNodes() {
 
-      if (limelight != null) {
+      if(Environment.getMode() == RunMode.REAL){
         limelight.periodic();
-      }
-
-      if (questnav != null){
         questnav.periodic();
-        
       }
-
-      if(virtualRobot != null){
-        virtualRobot.periodic();
-      }
-
-      if(trajetorySim != null){
-        trajetorySim.periodic();
-      }
-
-      if (gamePieceViz != null) {
-        gamePieceViz.periodic();
-      }
+      
+      virtualRobot.periodic();
+      trajetorySim.periodic();
+      gamePieceViz.periodic();
+      
   }
 
   @Override
