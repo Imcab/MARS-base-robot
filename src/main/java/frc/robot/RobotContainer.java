@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
 import com.stzteam.forgemini.io.SmartChooser;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,7 +15,8 @@ import frc.robot.configuration.Manifest.ArmBuilder;
 import frc.robot.configuration.Manifest.AutoBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
-import frc.robot.configuration.Manifest.FlywheelBuilder;
+import frc.robot.configuration.Manifest.FlywheelIntakeBuilder;
+import frc.robot.configuration.Manifest.FlywheelShooterBuilder;
 import frc.robot.configuration.Manifest.IndexerBuilder;
 import frc.robot.configuration.Manifest.IntakeBuilder;
 import frc.robot.configuration.Manifest.TrajectoryBuilder;
@@ -52,7 +54,8 @@ public class RobotContainer implements IRobotContainer{
   
   public final Arm arm;
   public final Turret turret;
-  public final FlyWheel flywheel;
+  public final FlyWheel flywheelShooter;
+  public final FlyWheel flywheelIntake;
   public final Intake intake;
   public final Indexer index;
 
@@ -74,6 +77,7 @@ public class RobotContainer implements IRobotContainer{
     //Banana Chong
 
     this.driver = ControlsBuilder.buildDriver();
+
     this.operator = ControlsBuilder.buildOperator();
 
     this.drivetrain = DrivetrainBuilder.buildModule();
@@ -90,11 +94,11 @@ public class RobotContainer implements IRobotContainer{
     this.arm = ArmBuilder.create().buildModule();
     this.intake = IntakeBuilder.create().buildModule();
     this.index = IndexerBuilder.create().buildModule();
-
-    this.flywheel = FlywheelBuilder.create().buildModule();
+    this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
+    this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
 
     this.superstructure = Manifest.SuperstructureBuilder.superBuild(
-        this.turret, this.arm, this.intake, this.index, this.flywheel
+        this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
     );
 
     this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
