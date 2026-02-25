@@ -70,13 +70,13 @@ public class OperatorBindings implements Binding {
                 ))
         );*/
 
-        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN)));
-        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(0).Tolerance(2).withMode(intakeMODE.kUP)));
+        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(-140).Tolerance(2).withMode(intakeMODE.kDOWN)));
+        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP)));
 
-        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(3)));
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(0.44)));
         buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(-3)));
 
-        buttons.right().whileTrue(flyWheelsIntake.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(-12)));
+        buttons.right().whileTrue(flyWheelsIntake.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(-11)));
         
     }
 }

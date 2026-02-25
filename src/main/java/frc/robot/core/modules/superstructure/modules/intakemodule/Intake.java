@@ -45,7 +45,8 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
     }
 
     @Override
-    public void absolutePeriodic(IntakeInputs inputs) {}
+    public void absolutePeriodic(IntakeInputs inputs) {
+    }
 
     public Command setControl(Supplier<IntakeRequest> request){
         return runRequest(request);
@@ -56,6 +57,7 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
         @Override
         public void telemeterize(IntakeInputs data, ActionStatus lastStatus) {
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.DEGREES_KEY, data.position);
+            NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TARGET_KEY, data.targetAngle);
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
             if(lastStatus != null && lastStatus.code != null){
