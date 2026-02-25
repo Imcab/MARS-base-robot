@@ -129,7 +129,7 @@ public class RobotContainer implements IRobotContainer{
     DriverBindings.parameterized(drivetrain, driver).bind();
 
     OperatorBindings.create(operator, superstructure)
-    .withSubsystems(turret, arm, intake, drivetrain).
+    .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake).
     withNodes(gamePieceViz, trajetorySim)
     .bind();
 
