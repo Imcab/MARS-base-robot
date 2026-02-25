@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
+import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
 public class FlyWheelIOKraken implements FlyWheelIO {
 
@@ -14,7 +15,8 @@ public class FlyWheelIOKraken implements FlyWheelIO {
     private TalonFXConfigurator FlyWheelsConfigurator;
 
     public FlyWheelIOKraken(){
-        intakeFlyWheels = new TalonFX(FlywheelConstants.IntakeWheels_ID,"*");
+        intakeFlyWheels = new TalonFX(FlywheelConstants.IntakeWheels_ID,TunerConstants.kCANBus);
+        FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
 
         configMotor();
     }

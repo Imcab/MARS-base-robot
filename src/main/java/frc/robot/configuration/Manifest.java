@@ -75,7 +75,7 @@ public class Manifest {
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final RunMode CURRENT_MODE = RunMode.SIM;
+    public static final RunMode CURRENT_MODE = RunMode.REAL;
 
     static{
         Environment.setMode(CURRENT_MODE);
@@ -84,17 +84,18 @@ public class Manifest {
     public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
     public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
-    public static final boolean HAS_VISUALS = true;
-    public static final boolean HAS_TRAJ_VISUAL = true;
-    public static final boolean HAS_FUEL_VISUAL = true;
     public static final boolean HAS_DRIVETRAIN = true;
-    public static final boolean HAS_TURRET = true;
-    public static final boolean HAS_ARM = true;
-    public static final boolean HAS_LIMELIGHT = true;
-    public static final boolean HAS_INDEXER = true;
+
+    public static final boolean HAS_VISUALS = false;
+    public static final boolean HAS_TRAJ_VISUAL = false;
+    public static final boolean HAS_FUEL_VISUAL = false;
+    public static final boolean HAS_TURRET = false;
+    public static final boolean HAS_ARM = false;
+    public static final boolean HAS_LIMELIGHT = false;
+    public static final boolean HAS_INDEXER = false;
     public static final boolean HAS_QUESTNAV = false;
-    public static final boolean HAS_FLYWHEEL = true;
-    public static final boolean HAS_INTAKE = false;
+    public static final boolean HAS_SHOOTER_WHEELS = false;
+    public static final boolean HAS_INTAKE = true;
     public static final boolean HAS_INTAKE_WHEELS = true;
     
     public static class SuperstructureBuilder {
@@ -103,9 +104,11 @@ public class Manifest {
                 Arm arm, 
                 Intake intake, 
                 Indexer indexer, 
-                FlyWheel flywheel) {
+                FlyWheel flywheelShooter,
+                FlyWheel flywheelIntake
+                ) {
             
-            SuperstructureIO io = new SuperstructureIO(turret, arm, intake, indexer, flywheel);
+            SuperstructureIO io = new SuperstructureIO(turret, arm, intake, indexer, flywheelShooter, flywheelIntake);
 
             return new Superstructure(SubsystemBuilder.<SuperstructureData, SuperstructureIO>setup()
                 .key(KeyManager.SUPERSTRUCTURE_KEY)
@@ -230,16 +233,16 @@ public class Manifest {
         }
     }
 
-    public static class FlywheelBuilder implements Builder<FlyWheel>{
+    public static class FlywheelShooterBuilder implements Builder<FlyWheel>{
         
-        private FlywheelBuilder(){}
+        private FlywheelShooterBuilder(){}
 
-        public static FlywheelBuilder create() { return new FlywheelBuilder();}
+        public static FlywheelShooterBuilder create() { return new FlywheelShooterBuilder();}
 
         @Override
         public FlyWheel buildModule(){
             FlyWheelIO io = Injector.createIO(
-                HAS_FLYWHEEL,
+                HAS_SHOOTER_WHEELS,
                 FlyWheelIOFallback::new,
                 FlyWheelIOFallback::new,
                 FlyWheelIOSim::new);
@@ -252,7 +255,7 @@ public class Manifest {
         
         private FlywheelIntakeBuilder(){}
 
-        public static FlywheelBuilder create() {return new FlywheelBuilder();}
+        public static FlywheelIntakeBuilder create() {return new FlywheelIntakeBuilder();}
 
         @Override
         public FlyWheel buildModule(){

@@ -68,6 +68,9 @@ public class OperatorBindings implements Binding {
 
         bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN)));
         bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(0).Tolerance(2).withMode(intakeMODE.kUP)));
+
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(10)));
+        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(-10)));
         
     }
 }
