@@ -42,14 +42,14 @@ public class IntakeIOSim implements IntakeIO{
             IntakeConstants.kMinAngleRads,
             IntakeConstants.kMaxAngleRads,
             true, 
-            Units.degreesToRadians(30) //Ángulo inicial (ej. descansa a 15 grados)
+            Units.degreesToRadians(30)
         );
 
         simController = new ProfiledPIDController(
-            0.2, 0.0, 0.0, // kP, kI, kD (ajusta el kP para que responda bien)
+            0.5, 0.0, 0.0,
             new TrapezoidProfile.Constraints(
-                180.0, // Velocidad máxima: 180 grados por segundo
-                360.0  //Aceleración máxima: 360 grados por segundo^2
+                180.0,
+                360.0
             )
         );
 
@@ -92,6 +92,7 @@ public class IntakeIOSim implements IntakeIO{
         
         inputs.position = simulatedDegrees;
         inputs.targetAngle = currentTargetAngle;
+        inputs.appliedVolts = appliedVolts;
         
         SmartDashboard.putData(KeyManager.INTAKE_KEY + "/Mech", mech);
     }
@@ -113,6 +114,4 @@ public class IntakeIOSim implements IntakeIO{
         this.appliedVolts = 0;
     }
     
-
-
 }

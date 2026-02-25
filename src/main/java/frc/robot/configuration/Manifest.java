@@ -334,8 +334,10 @@ public class Manifest {
 
         @Override
         public Turret buildModule() {
-            if (HAS_TURRET && this.drivetrain == null) {
-                throw new IllegalStateException("Falta el Drivetrain en la Torreta. Usa .withDrivetrain()");
+            if (HAS_TURRET) {
+                if (this.drivetrain == null) {
+                    throw new IllegalStateException("Falta el Drivetrain en la Torreta. Usa .withDrivetrain()");
+                }
             }
 
             TurretIO io = Injector.createIO(

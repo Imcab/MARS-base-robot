@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.helpers.ConsoleFilter;
 import mars.source.models.containers.IRobotContainer;
 
 public class Robot extends TimedRobot {
@@ -16,6 +18,11 @@ public class Robot extends TimedRobot {
 
   public Robot() {
     m_robotContainer = new RobotContainer();
+
+    System.setOut(new ConsoleFilter(System.out));
+    System.setErr(new ConsoleFilter(System.err));
+
+    DriverStation.silenceJoystickConnectionWarning(true);
   }
 
   @Override

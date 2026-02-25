@@ -44,7 +44,6 @@ public class TurretConstants {
     public static final int kCurrentLimit = 40;
     public static final double kMaxVolts = 12;
 
-    //LÍMITE FÍSICO DE LA TORRETA, preguntar por si acaso (este valor me lo dió agus)
     public static final double kLowerLimit = Units.degreesToRotations(-100);
     public static final double kUpperLimit = Units.degreesToRotations(100);
 

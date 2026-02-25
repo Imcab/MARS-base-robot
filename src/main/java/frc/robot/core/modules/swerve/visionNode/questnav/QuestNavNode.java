@@ -7,8 +7,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.configuration.Manifest;
 import frc.robot.core.modules.swerve.visionNode.VisionNode;
 import frc.robot.core.modules.swerve.visionNode.VisionSimDriver;
-import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionIO;
-import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
 import mars.source.builder.Injector;
 
 public class QuestNavNode extends VisionNode {
