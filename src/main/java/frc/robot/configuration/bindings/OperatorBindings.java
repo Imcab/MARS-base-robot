@@ -1,5 +1,6 @@
 package frc.robot.configuration.bindings;
 
+import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.factories.FlyWheelsRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
@@ -9,13 +10,12 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.configuration.advantageScope.visuals.VisualsFactory;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import mars.source.models.containers.Binding;
-
 import mars.source.operator.ControllerOI;
 import mars.source.services.nodes.Node;
+import mars.source.utils.TerminalBooter; // ✨ Importamos el motor de la terminal
 
 public class OperatorBindings implements Binding {
 
@@ -59,24 +59,37 @@ public class OperatorBindings implements Binding {
     public void bind() {
         var buttons = operator.getActionButtons();
         var bumpers = operator.getBumpers();
-        /* 
-        buttons.right().whileTrue(
-            superstructure.shootOnTheMove()
-                .alongWith(VisualsFactory.triggerShootVisuals(
-                    trajectoryNode, 
-                    gamePieceViz, 
-                    drivetrain, 
-                    turret
-                ))
-        );*/
 
-        bumpers.left().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(-140).Tolerance(2).withMode(intakeMODE.kDOWN)));
-        bumpers.right().whileTrue(intake.setControl(() -> IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP)));
-
-        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(0.44)));
-        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.voltage.withVolts(-3)));
-
-        buttons.right().whileTrue(flyWheelsIntake.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(-11)));
+        // ==========================================================
+        // 📥 CONFIGURACIÓN DE INTAKE
+        // ==========================================================
         
+        // Acciones con parámetros pre-configurados
+        var intakeDown = IntakeRequestFactory.angle.withAngle(-140).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
+        var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
+        var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
+
+        // Bindings de Controladores
+        bumpers.left().whileTrue(intake.setControl(() -> intakeDown));
+        bumpers.right().whileTrue(intake.setControl(() -> intakeUp));
+        buttons.top().whileTrue(intake.setControl(() -> intakeOuttake));
+        buttons.bottom().whileTrue(intake.setControl(() -> intakeIntake));
+
+        // ✨ REGISTRO EN LA TERMINAL (MARS GCS)
+        // Ahora puedes usar: mars request --run Intake:Down
+        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
+        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
+        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
+        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
+        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
+
+        var flyWheelsShoot = FlyWheelsRequestFactory.voltageRequest.withVolts(-11);
+
+        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> flyWheelsShoot));
+
+        // ✨ REGISTRO EN LA TERMINAL
+        TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Shoot", flyWheelsShoot);
+        TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Idle", FlyWheelsRequestFactory.Idle);
     }
 }
