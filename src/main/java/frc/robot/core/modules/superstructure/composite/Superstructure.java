@@ -18,7 +18,9 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import mars.source.models.SubsystemBuilder;
 import mars.source.models.multimodules.CompositeSubsystem;
 
@@ -80,8 +82,25 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             ).until(() -> inputs.readyToShoot),
 
             index.setControl(() -> IndexerRequestFactory.voltage.withVolts(12.0))
-                 .withTimeout(0.5)
         );
+    }
+
+    public Command EatAutoAngle(double angle, double tolerance, intakeMODE mode, double voltage){
+
+        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
+        FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_KEY);
+
+        return Commands.sequence(
+            intake.setControl(()-> IntakeRequestFactory.angle.withAngle(angle).Tolerance(tolerance).withMode(mode))
+            .until(()-> intake.isAtTarget(tolerance)),
+            intakeWheels.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(voltage))
+            );
+    }
+
+    public Command EatAutoWheels(double voltage){
+        FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_KEY);
+
+        return intakeWheels.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(voltage));
     }
     
     public Command stopAll() {
@@ -89,14 +108,14 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
         FlyWheel flywheel = getSubsystem(KeyManager.FLYWHEEL_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
-        //Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
+        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.parallel(
             turret.setControl(() -> TurretRequestFactory.idle),
             arm.setControl(() -> ArmRequestFactory.idle),
             flywheel.runRequest(() -> FlyWheelsRequestFactory.Idle),
-            index.setControl(() -> IndexerRequestFactory.idle)
-            //intake.setControl(() -> IntakeRequestFactory.idle)
+            index.setControl(() -> IndexerRequestFactory.idle),
+            intake.setControl(() -> IntakeRequestFactory.idle)
         );
 
     }

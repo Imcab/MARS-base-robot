@@ -17,14 +17,20 @@ public class ArmIOKraken implements ArmIO{
 
     private TalonFX turretAngulator;
     private TalonFXConfigurator turretConfigurator;
+    private TalonFXConfiguration talonFXConfigs;
 
     private MotionMagicExpoVoltage motionRequest;
 
     public ArmIOKraken(){
         turretAngulator = new TalonFX(ArmConstants.kId, TunerConstants.kCANBus);
         turretConfigurator = turretAngulator.getConfigurator();
+        talonFXConfigs = new TalonFXConfiguration();
         motionRequest = new MotionMagicExpoVoltage(0);
 
+        configMotion();
+    }
+
+    public void configMotion(){
         var motorConfigs = new MotorOutputConfigs();
 
         motorConfigs.Inverted = ArmConstants.invertedValue;
@@ -36,14 +42,9 @@ public class ArmIOKraken implements ArmIO{
 
         turretAngulator.getConfigurator().apply(limitConfigs);
 
-        turretConfigurator.refresh(motorConfigs);
-        turretConfigurator.apply(motorConfigs);
-
-        configMotion();
-    }
-
-    public void configMotion(){
-        var talonFXConfigs = new TalonFXConfiguration();
+        talonFXConfigs.Feedback.SensorToMechanismRatio = 0;
+        talonFXConfigs.Feedback.RotorToSensorRatio = 1;
+        
         var slot0Configs = talonFXConfigs.Slot0;
 
         slot0Configs.kS = ArmConstants.kS; // Add 0.25 V output to overcome static friction
@@ -57,6 +58,9 @@ public class ArmIOKraken implements ArmIO{
         motionMagicConfigs.MotionMagicCruiseVelocity = ArmConstants.kCruiseVelocity; // Unlimited cruise velocity
         motionMagicConfigs.MotionMagicAcceleration = ArmConstants.kMaxAcc;
 
+        turretConfigurator.refresh(motorConfigs);
+        turretConfigurator.apply(talonFXConfigs);
+        turretConfigurator.apply(motorConfigs);
         
     }
     
