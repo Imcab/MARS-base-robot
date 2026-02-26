@@ -3,8 +3,8 @@ package frc.robot.configuration.constants.ModuleConstants;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 public class FlywheelConstants {
-    public static final int ShooterWheels1_ID = 4;
-    public static final int ShooterWheels2_ID = 5;
+    public static final int ShooterWheels1_ID = 19;
+    public static final int ShooterWheels2_ID = 20;
 
     public static final int IntakeWheels_ID = 14;
 
