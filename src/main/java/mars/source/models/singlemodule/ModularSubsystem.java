@@ -33,7 +33,9 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
 
         this.defaulRequest = builder.getInitialRequest();
 
-        TerminalBooter.registerModuleMount(builder.getKey());
+        // ✨ LE PASAMOS EL ESTADO EXACTO AL BOOTER
+        TerminalBooter.registerModuleMount(builder.getKey(), this.isFallback);
+        TerminalBooter.registerSubsystem(this);
     }
 
     @Override
@@ -68,18 +70,17 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
 
     public void setRequest(Request<D, A> newRequest) {
         if (newRequest != null) {
-  
             if (this.currentRequest == null || !this.currentRequest.getClass().equals(newRequest.getClass())) {
                 
-                if (this.defaulRequest == null || !newRequest.getClass().equals(this.defaulRequest.getClass())) {
-                    
-                    mars.source.utils.TerminalBooter.logRequest(this.getName(), newRequest.getClass().getSimpleName());
+                String reqName = newRequest.getClass().getSimpleName();
+                
+                if (!reqName.toLowerCase().contains("idle")) {
+                    mars.source.utils.TerminalBooter.logRequest(this.getName(), reqName);
                     
                     String statusMsg = (lastStatus != null && lastStatus.message != null) ? lastStatus.message : "OK";
                     mars.source.utils.TerminalBooter.logState(this.getName(), statusMsg); 
                 }
             }
-            
             this.currentRequest = newRequest;
         }
     }
