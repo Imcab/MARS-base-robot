@@ -3,16 +3,17 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import com.ctre.phoenix6.CANBus;
-import com.stzteam.forgemini.io.SmartChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.Manifest;
 import frc.robot.configuration.Manifest.ArmBuilder;
-import frc.robot.configuration.Manifest.AutoBuilder;
+
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelIntakeBuilder;
@@ -26,7 +27,6 @@ import frc.robot.configuration.Manifest.VisualizerBuilder;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
-import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
@@ -34,6 +34,7 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
@@ -48,9 +49,10 @@ public class RobotContainer implements IRobotContainer{
   public final ControllerOI driver;
   public final ControllerOI operator;
 
-  //public final SmartChooser<Command> autoChooser;
-
   public final CommandSwerveDrivetrain drivetrain;
+
+  public SendableChooser<Command> chooser = new SendableChooser<>();
+  public PathPlannerAuto eatAuto;
   
   public final Arm arm;
   public final Turret turret;
@@ -101,8 +103,6 @@ public class RobotContainer implements IRobotContainer{
         this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
     );
 
-    //this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
-
     this.virtualRobot = VisualizerBuilder.buildNode(
       turret::getDegrees,
       () -> arm.getState().position,
@@ -121,10 +121,6 @@ public class RobotContainer implements IRobotContainer{
         msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
     );
 
-    /*AutoBindings.create(autoChooser)
-    .withDrivetrain(drivetrain)
-    .withNodes(questnav)
-    .bind();*/
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
@@ -132,6 +128,20 @@ public class RobotContainer implements IRobotContainer{
     .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake).
     withNodes(gamePieceViz, trajetorySim)
     .bind();
+
+    configureAutos();
+
+  }
+
+  public void configureAutos(){
+    eatAuto = new PathPlannerAuto("EatAuto1");
+
+    NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(140, 4, intakeMODE.kDOWN, -10));
+    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
+
+    chooser.setDefaultOption("EatAuto", eatAuto);
+
+    SmartDashboard.putData("AutoSelector", chooser);
 
   }
 
@@ -151,6 +161,6 @@ public class RobotContainer implements IRobotContainer{
 
   @Override
   public Command getAutonomousCommand() {
-    return null; //Commands.print("No autonomous command configured");
+    return chooser.getSelected(); //Commands.print("No autonomous command configured");
   }
 }
