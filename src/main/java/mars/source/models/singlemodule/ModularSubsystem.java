@@ -9,6 +9,7 @@ import mars.source.diagnostics.ActionStatus;
 import mars.source.models.SubsystemBuilder;
 import mars.source.models.Telemetry;
 import mars.source.requests.Request;
+import mars.source.utils.TerminalBooter;
 
 public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> extends IOSubsystem {
 
@@ -18,6 +19,7 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
     private Telemetry<D> telemetry;
     private ActionStatus lastStatus;
     public final boolean isFallback;
+    private final Request<D, A> defaulRequest;
 
     protected ModularSubsystem(SubsystemBuilder<D, A> builder) {
         super(builder.getKey());
@@ -28,6 +30,10 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
         this.lastStatus = ActionStatus.ok();
 
         this.isFallback = actor.isFallback();
+
+        this.defaulRequest = builder.getInitialRequest();
+
+        TerminalBooter.registerModuleMount(builder.getKey());
     }
 
     @Override
@@ -62,6 +68,18 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
 
     public void setRequest(Request<D, A> newRequest) {
         if (newRequest != null) {
+  
+            if (this.currentRequest == null || !this.currentRequest.getClass().equals(newRequest.getClass())) {
+                
+                if (this.defaulRequest == null || !newRequest.getClass().equals(this.defaulRequest.getClass())) {
+                    
+                    mars.source.utils.TerminalBooter.logRequest(this.getName(), newRequest.getClass().getSimpleName());
+                    
+                    String statusMsg = (lastStatus != null && lastStatus.message != null) ? lastStatus.message : "OK";
+                    mars.source.utils.TerminalBooter.logState(this.getName(), statusMsg); 
+                }
+            }
+            
             this.currentRequest = newRequest;
         }
     }

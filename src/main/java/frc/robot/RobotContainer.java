@@ -48,7 +48,7 @@ public class RobotContainer implements IRobotContainer{
   public final ControllerOI driver;
   public final ControllerOI operator;
 
-  public final SmartChooser<Command> autoChooser;
+  //public final SmartChooser<Command> autoChooser;
 
   public final CommandSwerveDrivetrain drivetrain;
   
@@ -101,7 +101,7 @@ public class RobotContainer implements IRobotContainer{
         this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
     );
 
-    this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
+    //this.autoChooser = AutoBuilder.build(KeyManager.AUTOCHOOSER_KEY);
 
     this.virtualRobot = VisualizerBuilder.buildNode(
       turret::getDegrees,
@@ -121,10 +121,10 @@ public class RobotContainer implements IRobotContainer{
         msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
     );
 
-    AutoBindings.create(autoChooser)
+    /*AutoBindings.create(autoChooser)
     .withDrivetrain(drivetrain)
     .withNodes(questnav)
-    .bind();
+    .bind();*/
     
     DriverBindings.parameterized(drivetrain, driver).bind();
 
@@ -151,6 +151,6 @@ public class RobotContainer implements IRobotContainer{
 
   @Override
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return null; //Commands.print("No autonomous command configured");
   }
 }
