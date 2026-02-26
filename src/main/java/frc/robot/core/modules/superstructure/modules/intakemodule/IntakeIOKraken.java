@@ -30,25 +30,20 @@ public class IntakeIOKraken implements IntakeIO{
 
         motionRequest = new MotionMagicExpoVoltage(0);
 
+        configMotion();
+    }
+
+    public void configMotion(){
         var motorConfigs = new MotorOutputConfigs();
 
         motorConfigs.Inverted = InvertedValue.CounterClockwise_Positive;
         motorConfigs.NeutralMode =  NeutralModeValue.Brake;
 
-
         var limitConfigs = new CurrentLimitsConfigs();
         limitConfigs.StatorCurrentLimit = IntakeConstants.currentLimit;
         limitConfigs.StatorCurrentLimitEnable = true;
 
-        angulator.getConfigurator().apply(limitConfigs);
 
-        
-        angulatorConfigurator.apply(motorConfigs);
-
-        configMotion();
-    }
-
-    public void configMotion(){
         config.Feedback.SensorToMechanismRatio = 36.0;
         config.Feedback.RotorToSensorRatio = 1;
 
@@ -80,6 +75,9 @@ public class IntakeIOKraken implements IntakeIO{
         motionMagicConfigs.MotionMagicExpo_kA = 0;
 
         angulatorConfigurator.apply(config);
+        angulatorConfigurator.apply(limitConfigs);
+        angulatorConfigurator.apply(motorConfigs);
+
     }
 
     public enum intakeMODE{
