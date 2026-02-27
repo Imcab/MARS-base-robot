@@ -40,11 +40,6 @@ public class DriverBindings implements Binding{
             )
         );
 
-        driverDPad.up().whileTrue(CommandSwerveDrivetrain.moveXCommand(drivetrain, SwerveConstants.crossMovementSpeed));
-        driverDPad.down().whileTrue(CommandSwerveDrivetrain.moveXCommand(drivetrain, -SwerveConstants.crossMovementSpeed));
-        driverDPad.left().whileTrue(CommandSwerveDrivetrain.moveYCommand(drivetrain, SwerveConstants.crossMovementSpeed));
-        driverDPad.right().whileTrue(CommandSwerveDrivetrain.moveYCommand(drivetrain, -SwerveConstants.crossMovementSpeed));
-
         driverButtons.top().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
         driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake));

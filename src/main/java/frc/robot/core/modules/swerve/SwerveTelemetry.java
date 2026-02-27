@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
 
+
+
 public class SwerveTelemetry {
     private final double MaxSpeed;
 
