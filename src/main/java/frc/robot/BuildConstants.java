@@ -4,8 +4,8 @@ package frc.robot;
  * DO NOT EDIT
  */
 public final class BuildConstants {
-    public static final String GIT_COMMIT = "9edb856";
+    public static final String GIT_COMMIT = "f35d3c0";
     public static final String GIT_BRANCH = "STV-3";
-    public static final String GIT_DATE = "2026-02-26 19:28:29 -0600";
-    public static final String BUILD_DATE = "2026-02-26 19:32:03";
+    public static final String GIT_DATE = "2026-02-26 20:08:38 -0600";
+    public static final String BUILD_DATE = "2026-02-26 20:09:06";
 }

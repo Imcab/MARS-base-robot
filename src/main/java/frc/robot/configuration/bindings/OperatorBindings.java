@@ -65,7 +65,7 @@ public class OperatorBindings implements Binding {
         // ==========================================================
         
         // Acciones con parámetros pre-configurados
-        var intakeDown = IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeDown = IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
         var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
         var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
