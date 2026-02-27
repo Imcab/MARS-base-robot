@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
   
     TerminalBooter.printModuleSummary();
-/* 
+ 
     try {
 
       Runtime.getRuntime().exec(new String[]{
@@ -36,8 +36,8 @@ public class Robot extends TimedRobot {
             
       } catch (Exception e) {
             System.out.println("Error");
-      }*/
-    
+      }
+     
   }
 
   @Override
