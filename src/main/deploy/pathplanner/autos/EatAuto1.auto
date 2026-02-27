@@ -26,12 +26,6 @@
                 "data": {
                   "pathName": "EatRight"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Eat"
-                }
               }
             ]
           }
