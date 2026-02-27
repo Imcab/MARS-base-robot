@@ -20,7 +20,6 @@ import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import mars.source.models.SubsystemBuilder;
 import mars.source.models.multimodules.CompositeSubsystem;
 
