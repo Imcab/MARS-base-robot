@@ -16,6 +16,7 @@ public interface IntakeIO extends IO<IntakeIO.IntakeInputs>{
 
     public void setPosition(double Angle, intakeMODE mode);
     public void applyOutput(double volts);
+    public void resetPosition();
     public void stopAll();
  
 }
