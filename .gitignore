@@ -185,3 +185,7 @@ compile_commands.json
 
 # Eclipse generated file for annotation processors
 .factorypath
+
+!mars_terminal/Release/**/*.exe
+!mars_terminal/Release/**/*.dll
+!mars_terminal/Release/data/**

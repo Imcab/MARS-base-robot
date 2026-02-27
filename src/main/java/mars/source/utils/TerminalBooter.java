@@ -1,5 +1,6 @@
 package mars.source.utils;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import mars.source.requests.Request;
 
 public class TerminalBooter {
 
-    private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
     public static final String MARS_VERSION = "V1.5.6";
     
     private static int moduleCount = 0;
@@ -142,7 +142,7 @@ public class TerminalBooter {
     }
 
     private static void broadcast(String type, String tag, String message) {
-        String timestamp = LocalTime.now().format(TIME_FORMAT);
+        String timestamp = Instant.now().toString();
         String safeMessage = message.replace("\"", "\\\""); 
         logQueue.add(String.format("{\"time\":\"%s\", \"type\":\"%s\", \"tag\":\"%s\", \"msg\":\"%s\"}", timestamp, type, tag, safeMessage));
     }
