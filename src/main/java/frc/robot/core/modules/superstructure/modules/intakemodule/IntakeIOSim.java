@@ -104,6 +104,9 @@ public class IntakeIOSim implements IntakeIO{
     }
 
     @Override
+    public void resetPosition(){}
+
+    @Override
     public void setPosition(double angle, intakeMODE mode) {
         isClosedLoop = true;
         this.currentTargetAngle = angle;

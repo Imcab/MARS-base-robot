@@ -8,7 +8,9 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.Matrix;
@@ -117,12 +119,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private void configurePathPlanner() {
         try {
             RobotConfig config = RobotConfig.fromGUISettings();
+            
             AutoBuilder.configure(
                 () -> this.getState().Pose,      
                 this::resetPose,         
                 this::getChassisSpeeds, 
                 (speeds, feedforwards) -> this.setControl(SwerveRequestFactory.pathPlannerRequest.withSpeeds(speeds)), 
-                SwerveConstants.pathplannerPID,
+                new PPHolonomicDriveController(
+                    new PIDConstants(5.0,0, 0), 
+                    new PIDConstants(5.0, 0, 0)),
                 config,
                 () -> {
                     var alliance = DriverStation.getAlliance();

@@ -53,6 +53,8 @@ public class RobotContainer implements IRobotContainer{
 
   public SendableChooser<Command> chooser = new SendableChooser<>();
   public PathPlannerAuto eatAuto;
+  public PathPlannerAuto AutoCenter;
+  public PathPlannerAuto autoForeward;
   
   public final Arm arm;
   public final Turret turret;
@@ -69,6 +71,22 @@ public class RobotContainer implements IRobotContainer{
   private final Node<GamePieceMsg> gamePieceViz;
 
   public final Superstructure superstructure;
+
+  public void configureAutos(){
+    NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
+    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
+
+    eatAuto = new PathPlannerAuto("EatAuto1");
+    AutoCenter = new PathPlannerAuto("AutoCenter");
+    autoForeward = new PathPlannerAuto("New Auto");
+    
+    chooser.setDefaultOption("EatAuto", eatAuto);
+    chooser.addOption("AutoCenter", AutoCenter);
+    chooser.addOption("test1Forward", autoForeward);
+
+    SmartDashboard.putData("AutoSelector", chooser);
+
+  }
 
   public RobotContainer() {
 
@@ -130,18 +148,6 @@ public class RobotContainer implements IRobotContainer{
     .bind();
 
     configureAutos();
-
-  }
-
-  public void configureAutos(){
-    eatAuto = new PathPlannerAuto("EatAuto1");
-
-    NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(140, 4, intakeMODE.kDOWN, -10));
-    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
-
-    chooser.setDefaultOption("EatAuto", eatAuto);
-
-    SmartDashboard.putData("AutoSelector", chooser);
 
   }
 

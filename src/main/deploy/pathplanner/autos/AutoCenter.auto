@@ -5,16 +5,9 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "EatForward"
-                }
-              }
-            ]
+            "pathName": "BumpFront"
           }
         },
         {
@@ -24,16 +17,28 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "EatRight"
+                  "pathName": "RotateToFuel"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eat"
+                  "name": "Angle->Eat"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Eat"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Bump45"
           }
         }
       ]

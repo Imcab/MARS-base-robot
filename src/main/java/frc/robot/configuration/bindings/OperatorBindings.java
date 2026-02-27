@@ -65,14 +65,16 @@ public class OperatorBindings implements Binding {
         // ==========================================================
         
         // Acciones con parámetros pre-configurados
-        var intakeDown = IntakeRequestFactory.angle.withAngle(-140).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeDown = IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
         var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
         var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
 
         // Bindings de Controladores
-        bumpers.left().whileTrue(intake.setControl(() -> intakeDown));
-        bumpers.right().whileTrue(intake.setControl(() -> intakeUp));
+        bumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN)));
+        bumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP)));
+        
+        
         buttons.top().whileTrue(intake.setControl(() -> intakeOuttake));
         buttons.bottom().whileTrue(intake.setControl(() -> intakeIntake));
 

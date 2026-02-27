@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.4217261055634807,
-        "y": 6.642139800285308
+        "x": 5.794039989982939,
+        "y": 5.849393037720297
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4087482278283874,
-        "y": 6.27067165448809
+        "x": 6.057151725377031,
+        "y": 5.847019465559538
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.4217261055634807,
-        "y": 3.64037089871612
+        "x": 7.985349500713266,
+        "y": 7.483152639087019
       },
       "prevControl": {
-        "x": 2.409372277757928,
-        "y": 4.212687264235297
+        "x": 7.674466302865744,
+        "y": 7.4744960358645445
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.25,
+      "waypointRelativePos": 0.43710021321961556,
       "rotationDegrees": -90.0
     }
   ],
@@ -38,15 +38,15 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Eat",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
+      "name": "Angle->Eat",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": 0.040513166779206154,
       "command": null
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.6,
-    "maxAcceleration": 1.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -54,13 +54,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -91.63657704161679
+    "rotation": -89.56594936786058
   },
   "reversed": false,
-  "folder": "EatPaths",
+  "folder": "AutoCenter",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.00507550382737164
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
