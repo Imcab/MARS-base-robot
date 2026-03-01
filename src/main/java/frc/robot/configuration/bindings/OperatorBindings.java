@@ -59,38 +59,41 @@ public class OperatorBindings implements Binding {
     public void bind() {
         var buttons = operator.getActionButtons();
         var bumpers = operator.getBumpers();
-
-        // ==========================================================
-        // 📥 CONFIGURACIÓN DE INTAKE
-        // ==========================================================
+        var driverSystem = operator.getSystemTriggers();
         
-        // Acciones con parámetros pre-configurados
         var intakeDown = IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
         var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
         var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
+        var flyWheelsShoot = FlyWheelsRequestFactory.voltageRequest.withVolts(-11);
 
-        // Bindings de Controladores
-        bumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN)));
-        bumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP)));
-        
-        
-        buttons.top().whileTrue(intake.setControl(() -> intakeOuttake));
-        buttons.bottom().whileTrue(intake.setControl(() -> intakeIntake));
+        // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
-        // ✨ REGISTRO EN LA TERMINAL (MARS GCS)
-        // Ahora puedes usar: mars request --run Intake:Down
+        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle //Bajar el intake (a)
+        .withAngle(-130) 
+        .Tolerance(2)
+        .withMode(intakeMODE.kDOWN)));
+
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle //Bubir el intake (y)
+        .withAngle(-10)
+        .Tolerance(2)
+        .withMode(intakeMODE.kUP)));
+        
+        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelsRequestFactory.voltageRequest
+        .withVolts(-11))); //Ruedas intake (b)
+
+        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.reset)); //Resetea la posición del encoder a 0 (start)
+
+
+        // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
+
+
+        //  REGISTRO EN LA TERMINAL (MARS GCS)
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
-
-        var flyWheelsShoot = FlyWheelsRequestFactory.voltageRequest.withVolts(-11);
-
-        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> flyWheelsShoot));
-
-        // ✨ REGISTRO EN LA TERMINAL
         TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Shoot", flyWheelsShoot);
         TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Idle", FlyWheelsRequestFactory.Idle);
     }

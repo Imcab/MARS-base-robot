@@ -9,6 +9,7 @@ public enum TurretCode implements StatusCode {
     IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
     LOCKED(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
     
+    RESET(Severity.OK, DiagnosticPattern.solid(Color.kDarkSalmon)),
     TRACKING(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
     MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple));
 
