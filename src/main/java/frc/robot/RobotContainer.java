@@ -79,7 +79,7 @@ public class RobotContainer implements IRobotContainer{
     eatAuto = new PathPlannerAuto("EatAuto1");
     AutoCenter = new PathPlannerAuto("AutoCenter");
     autoForeward = new PathPlannerAuto("New Auto");
-    
+     
     chooser.setDefaultOption("EatAuto", eatAuto);
     chooser.addOption("AutoCenter", AutoCenter);
     chooser.addOption("test1Forward", autoForeward);

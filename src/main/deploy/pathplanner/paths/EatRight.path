@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 2.4217261055634807,
-        "y": 3.64037089871612
+        "y": 4.300242510699002
       },
       "prevControl": {
         "x": 2.409372277757928,
-        "y": 4.212687264235297
+        "y": 4.872558876218179
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,7 +39,7 @@
   "eventMarkers": [
     {
       "name": "Eat",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.0878442545109187,
       "endWaypointRelativePos": null,
       "command": null
     }
@@ -54,7 +54,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -91.63657704161679
+    "rotation": -90.0
   },
   "reversed": false,
   "folder": "EatPaths",

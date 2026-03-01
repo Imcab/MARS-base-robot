@@ -40,7 +40,8 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOSim;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOFallback;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKraken;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKrakenIntake;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKrakenShooter;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
@@ -75,7 +76,7 @@ public class Manifest {
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final RunMode CURRENT_MODE = RunMode.REAL  ;
+    public static final RunMode CURRENT_MODE = RunMode.REAL;
 
     static{
         Environment.setMode(CURRENT_MODE);
@@ -94,7 +95,7 @@ public class Manifest {
     public static final boolean HAS_LIMELIGHT = false;
     public static final boolean HAS_INDEXER = false;
     public static final boolean HAS_QUESTNAV = false;
-    public static final boolean HAS_SHOOTER_WHEELS = false;
+    public static final boolean HAS_SHOOTER_WHEELS = true;
     public static final boolean HAS_INTAKE = true;
     public static final boolean HAS_INTAKE_WHEELS = true;
     
@@ -244,7 +245,7 @@ public class Manifest {
             FlyWheelIO io = Injector.createIO(
                 HAS_SHOOTER_WHEELS,
                 FlyWheelIOFallback::new,
-                FlyWheelIOFallback::new,
+                FlyWheelIOKrakenShooter::new,
                 FlyWheelIOSim::new);
 
             return new FlyWheel(io);
@@ -262,7 +263,7 @@ public class Manifest {
             FlyWheelIO io = Injector.createIO(
                 HAS_INTAKE_WHEELS,
                 FlyWheelIOFallback::new,
-                FlyWheelIOKraken::new,
+                FlyWheelIOKrakenIntake::new,
                 FlyWheelIOSim::new);
 
             return new FlyWheel(io);

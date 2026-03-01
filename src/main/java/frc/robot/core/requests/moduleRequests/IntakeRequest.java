@@ -20,6 +20,14 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
         }
     }
 
+    public static class resetPosition implements IntakeRequest {
+        @Override
+        public ActionStatus apply(IntakeInputs data, IntakeIO actor) {
+            actor.resetPosition();
+            return ActionStatus.of(TurretCode.RESET, "Reseted");
+        }
+    }
+
     public static class setAngle implements IntakeRequest {
         private double angle;
         private double tolerance = 1.0; // Grados de tolerancia por defecto

@@ -3,15 +3,38 @@ package frc.robot.configuration.constants.ModuleConstants;
 import com.ctre.phoenix6.signals.InvertedValue;
 
 public class FlywheelConstants {
-    public static final int ShooterWheels1_ID = 19;
-    public static final int ShooterWheels2_ID = 20;
 
-    public static final int IntakeWheels_ID = 14;
+    public class ShooterWheelsConstants{
 
-    public static final double kGearing = 1;
-    public static final double kMOI = 0.002;
-    public static final double kRPMTolerance = 250;
+        public static final int shooterLeaderID = 19;
+        public static final int shooterFollowerID = 20;
 
-    public static InvertedValue IntakeWheelsInvertedValue = InvertedValue.CounterClockwise_Positive;
-    public static double IntakeWheelscurrentLimit = 40;
+        public static final double SupplyCurrentLimit = 60;
+        public static final boolean SupplyCurrentLimitEnable = true;
+
+        public static final double kRPMTolerance = 250;
+
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+
+        //----------------------------------------- FOR SIM //-----------------------------------------
+        public static final double kGearing = 1;
+        public static final double kMOI = 0.002;
+        //----------------------------------------- FOR SIM //-----------------------------------------
+
+    }
+
+    public class IntakeWheelsConstants{
+        public static final int IntakeWheels_ID = 14;
+
+
+        public static InvertedValue invertedValue = InvertedValue.CounterClockwise_Positive;
+        public static double StatorCurrentLimit = 40;
+        public static double SupplyCurrentLimit = 60;
+
+    }
+
 }

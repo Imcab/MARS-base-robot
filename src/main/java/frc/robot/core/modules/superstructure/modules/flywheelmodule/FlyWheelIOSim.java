@@ -7,6 +7,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
+import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants.ShooterWheelsConstants;
 
 public class FlyWheelIOSim implements FlyWheelIO {
 
@@ -24,7 +25,7 @@ public class FlyWheelIOSim implements FlyWheelIO {
     public FlyWheelIOSim() {
         this.gearbox = DCMotor.getNEO(1);
         double gearing = 1.5;
-        double moi = FlywheelConstants.kMOI;
+        double moi = ShooterWheelsConstants.kMOI;
 
         var plant = LinearSystemId.createFlywheelSystem(gearbox, moi, gearing);
         this.simWheel = new FlywheelSim(plant, gearbox, gearing);
