@@ -20,6 +20,7 @@ public class KeyManager {
     public static final String COMPONENTS_KEY = "Components";
     public static final String GAMEPIECE_KEY = "GamePiece";
     public static final String CLIMBER_KEY = "Climber";
+    
     public static final class StatusCodes{
 
         private StatusCodes() {}

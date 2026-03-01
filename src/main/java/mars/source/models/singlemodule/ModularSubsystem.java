@@ -103,4 +103,8 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
     public ActionStatus getLastStatus() {
         return lastStatus;
     }
+
+    public Request<D,A> getDefaultRequest(){
+        return defaulRequest;
+    }
 }
