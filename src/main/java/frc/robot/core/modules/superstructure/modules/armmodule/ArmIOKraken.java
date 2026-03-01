@@ -68,7 +68,7 @@ public class ArmIOKraken implements ArmIO{
     @Override
     public void updateInputs(ArmInputs inputs) {
 
-        var rotorPosSignal = turretAngulator.getRotorPosition();
+        var rotorPosSignal = turretAngulator.getPosition();
 
         var rotorPosRotations = rotorPosSignal.getValueAsDouble();
     

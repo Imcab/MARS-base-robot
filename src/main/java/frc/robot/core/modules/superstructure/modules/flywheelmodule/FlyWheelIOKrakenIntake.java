@@ -5,17 +5,16 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
-import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
+import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants.IntakeWheelsConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
-public class FlyWheelIOKraken implements FlyWheelIO {
+public class FlyWheelIOKrakenIntake implements FlyWheelIO {
 
     private final TalonFX intakeFlyWheels ;
     private TalonFXConfigurator FlyWheelsConfigurator;
 
-    public FlyWheelIOKraken(){
-        intakeFlyWheels = new TalonFX(FlywheelConstants.IntakeWheels_ID,TunerConstants.kCANBus);
+    public FlyWheelIOKrakenIntake(){
+        intakeFlyWheels = new TalonFX(IntakeWheelsConstants.IntakeWheels_ID,TunerConstants.kCANBus);
         FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
 
         configMotor();
@@ -24,13 +23,18 @@ public class FlyWheelIOKraken implements FlyWheelIO {
     public void configMotor(){
         var motorConfigs = new MotorOutputConfigs();
 
-        motorConfigs.Inverted = FlywheelConstants.IntakeWheelsInvertedValue;
+        motorConfigs.Inverted = IntakeWheelsConstants.invertedValue;
         motorConfigs.NeutralMode = NeutralModeValue.Brake;
 
 
         var limitConfigs = new CurrentLimitsConfigs();
-        limitConfigs.StatorCurrentLimit = FlywheelConstants.IntakeWheelscurrentLimit;
+
+        limitConfigs.StatorCurrentLimit = IntakeWheelsConstants.StatorCurrentLimit;
         limitConfigs.StatorCurrentLimitEnable = true; 
+
+        limitConfigs.SupplyCurrentLimit = IntakeWheelsConstants.SupplyCurrentLimit;
+        limitConfigs.SupplyCurrentLimitEnable = true;
+        
 
         intakeFlyWheels.getConfigurator().apply(limitConfigs);
 
