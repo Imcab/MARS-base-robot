@@ -1,13 +1,11 @@
 package frc.robot.configuration.factories;
 
-import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest.Idle;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest.InterpolateRPM;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest.SetRPM;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest.moveVoltage;
-import mars.source.utils.TerminalBooter;
 
 public class FlyWheelsRequestFactory {
     public static final FlyWheelRequest.Idle Idle = new Idle();

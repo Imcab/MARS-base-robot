@@ -33,7 +33,6 @@ public abstract class ModularSubsystem<D extends Data<D>, A extends IO<D>> exten
 
         this.defaulRequest = builder.getInitialRequest();
 
-        // ✨ LE PASAMOS EL ESTADO EXACTO AL BOOTER
         TerminalBooter.registerModuleMount(builder.getKey(), this.isFallback);
         TerminalBooter.registerSubsystem(this);
     }

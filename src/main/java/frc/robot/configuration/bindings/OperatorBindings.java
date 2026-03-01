@@ -15,7 +15,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.Trajector
 import mars.source.models.containers.Binding;
 import mars.source.operator.ControllerOI;
 import mars.source.services.nodes.Node;
-import mars.source.utils.TerminalBooter; // ✨ Importamos el motor de la terminal
+import mars.source.utils.TerminalBooter;
 
 public class OperatorBindings implements Binding {
 
@@ -60,17 +60,11 @@ public class OperatorBindings implements Binding {
         var buttons = operator.getActionButtons();
         var bumpers = operator.getBumpers();
 
-        // ==========================================================
-        // 📥 CONFIGURACIÓN DE INTAKE
-        // ==========================================================
-        
-        // Acciones con parámetros pre-configurados
-        var intakeDown = IntakeRequestFactory.angle.withAngle(140).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeDown = IntakeRequestFactory.angle.withAngle(130).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
         var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
         var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
 
-        // Bindings de Controladores
         bumpers.left().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN)));
         bumpers.right().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP)));
         
@@ -78,8 +72,6 @@ public class OperatorBindings implements Binding {
         buttons.top().whileTrue(intake.setControl(() -> intakeOuttake));
         buttons.bottom().whileTrue(intake.setControl(() -> intakeIntake));
 
-        // ✨ REGISTRO EN LA TERMINAL (MARS GCS)
-        // Ahora puedes usar: mars request --run Intake:Down
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
         TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
@@ -90,7 +82,6 @@ public class OperatorBindings implements Binding {
 
         buttons.right().whileTrue(flyWheelsIntake.setControl(() -> flyWheelsShoot));
 
-        // ✨ REGISTRO EN LA TERMINAL
         TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Shoot", flyWheelsShoot);
         TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_KEY, "Idle", FlyWheelsRequestFactory.Idle);
     }

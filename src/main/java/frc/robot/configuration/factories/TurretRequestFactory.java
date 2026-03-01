@@ -1,13 +1,11 @@
 package frc.robot.configuration.factories;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.configuration.KeyManager;
 import frc.robot.core.requests.moduleRequests.TurretRequest;
 import frc.robot.core.requests.moduleRequests.TurretRequest.Idle;
 import frc.robot.core.requests.moduleRequests.TurretRequest.LockOnTarget;
 import frc.robot.core.requests.moduleRequests.TurretRequest.Position;
 import frc.robot.core.requests.moduleRequests.TurretRequest.SysIdOpenLoop;
-import mars.source.utils.TerminalBooter;
 
 public class TurretRequestFactory {
     
