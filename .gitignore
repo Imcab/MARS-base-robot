@@ -189,3 +189,11 @@ compile_commands.json
 !mars_terminal/Release/**/*.exe
 !mars_terminal/Release/**/*.dll
 !mars_terminal/Release/data/**
+
+!mars-alloy/Release/**/*.exe
+!mars-alloy/Release/**/*.dll
+!mars-alloy/Release/data/**
+
+!mars-logtool/Release/**/*.exe
+!mars-logtool/Release/**/*.dll
+!mars-logtool/Release/data/**
