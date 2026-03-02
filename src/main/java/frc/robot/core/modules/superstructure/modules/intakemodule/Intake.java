@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
+import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
 import frc.robot.core.requests.moduleRequests.IntakeRequest;
@@ -30,7 +31,6 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
         registerTelemetry(new IntakeTelemetry());
         this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle));
 
-        setEntry("IO", io);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.DEGREES_KEY, data.position);
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TARGET_KEY, data.targetAngle);
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
-            NetworkIO.set(KeyManager.INTAKE_KEY, "Volts", data.appliedVolts);
+            NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
 
             if(lastStatus != null && lastStatus.code != null){
                 NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());

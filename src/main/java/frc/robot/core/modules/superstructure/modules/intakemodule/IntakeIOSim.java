@@ -75,8 +75,6 @@ public class IntakeIOSim implements IntakeIO{
     @Override
     public void updateInputs(IntakeInputs inputs){
 
-        inputs.io = "SIM";
-
         if (isClosedLoop) {
             double currentDegrees = Units.radiansToDegrees(simIntake.getAngleRads());
             appliedVolts = simController.calculate(currentDegrees, currentTargetAngle);

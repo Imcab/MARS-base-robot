@@ -35,8 +35,8 @@ public class Robot extends TimedRobot {
   
     TerminalBooter.printModuleSummary();
 
-    NetworkIO.set("Test2", "IO", Environment.getMode().name());
-    NetworkIO.set("Test2", "RIO", RobotBase.isSimulation());
+    NetworkIO.set("System", "IO", Environment.getMode().name());
+    NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());
          
   }
 

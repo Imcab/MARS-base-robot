@@ -7,6 +7,7 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.tests.ArmTest;
 import frc.tests.IntakeTest;
 import frc.tests.TurretTest;
 import mars.source.models.containers.Binding;
@@ -22,19 +23,21 @@ public class TestBindings implements Binding{
     private CommandSwerveDrivetrain drivetrain;
     private FlyWheel flyWheelsIntake;
 
-    private TestBindings(Intake intake, Turret turret){
+    private TestBindings(Intake intake, Turret turret, Arm arm){
         this.intake = intake;
         this.turret = turret;
+        this.arm = arm;
     }
 
-    public static TestBindings create(Intake intake, Turret turret){
-        return new TestBindings(intake, turret);
+    public static TestBindings create(Intake intake, Turret turret, Arm arm){
+        return new TestBindings(intake, turret, arm);
     }
 
     @Override
     public void bind() {
         tests.addOption("IntakeTest", new IntakeTest(intake));
         tests.addOption("TurretTest", new TurretTest(turret));
+        tests.addOption("ArmTest", new ArmTest(arm));
 
         SmartDashboard.putData("TestRoutines", tests);
     }

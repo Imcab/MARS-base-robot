@@ -25,55 +25,47 @@ public class TurretTest extends TestRoutine {
     public Command getRoutineCommand() {
         return Commands.sequence(
                 
-            Commands.runOnce(() -> t.setRequest(
-                TurretRequestFactory.toAngle
+            run(TurretRequestFactory.toAngle
                 .withTargetAngle(target1)
-                .withTolerance(Constants.TURRET_TOLERANCE)
-            ), t),
-
+                .withTolerance(Constants.TURRET_TOLERANCE), t),
+   
             waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
             assertLessThan(
                 () -> Math.abs(target1.minus(t.getState().angle).getRadians()), 
                 2.0, 
-                "High turret error en target 1"
+                "High turret error on target 1"
             ),
 
             delay(1.0),
 
-            Commands.runOnce(() -> t.setRequest(
-                TurretRequestFactory.toAngle
+            run(TurretRequestFactory.toAngle
                 .withTargetAngle(target2)
-                .withTolerance(Constants.TURRET_TOLERANCE)
-            ), t),
+                .withTolerance(Constants.TURRET_TOLERANCE), t),
 
             waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
             assertLessThan(
                 () -> Math.abs(target2.minus(t.getState().angle).getRadians()), 
                 2.0, 
-                "High turret error en target 2"
+                "High turret error on target 2"
             ),
 
             delay(1),
 
-            Commands.runOnce(() -> t.setRequest(
-                TurretRequestFactory.toAngle
-                .withTargetAngle(Rotation2d.kZero)
-                .withTolerance(Constants.TURRET_TOLERANCE)
-            ), t),
+            run(TurretRequestFactory.zeroTurret, t),
 
             waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
             assertLessThan(
                 () -> Math.abs(target2.minus(t.getState().angle).getRadians()), 
                 2.0, 
-                "High turret error en target 2"
+                "High turret error on zeroed"
             ),
 
             delay(0.5),
 
-            Commands.runOnce(() -> t.setRequest(TurretRequestFactory.idle), t)
+           run(TurretRequestFactory.idle, t)
 
         );
     }

@@ -114,9 +114,7 @@ public class IntakeIOKraken implements IntakeIO{
 
     @Override
     public void updateInputs(IntakeInputs inputs){
-
-        inputs.io = "Kraken";
-        
+ 
         var rotorPosSignal = angulator.getPosition();
         var rotorPosRotations = rotorPosSignal.getValueAsDouble();
 

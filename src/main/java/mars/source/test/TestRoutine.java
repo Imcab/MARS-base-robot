@@ -2,8 +2,13 @@ package mars.source.test;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
+
+import mars.source.models.singlemodule.ModularSubsystem;
+import mars.source.requests.Request;
 import mars.source.utils.TerminalBooter;
 
 public abstract class TestRoutine {
@@ -12,6 +17,20 @@ public abstract class TestRoutine {
 
     protected Command waitFor(BooleanSupplier condition, double timeoutSeconds) {
         return Commands.waitUntil(condition).withTimeout(timeoutSeconds);
+    }
+
+    protected DoubleSupplier calculateError(double target, double position){
+        return ()-> Math.abs(target - position);
+
+    }
+
+    protected Command run(Runnable action, Subsystem... requirements){
+        return Commands.runOnce(action, requirements);
+    }
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected Command run(Request request, ModularSubsystem requirements){
+        return Commands.runOnce(()->requirements.setRequest(request), requirements);
     }
 
     protected Command delay(double seconds) {
