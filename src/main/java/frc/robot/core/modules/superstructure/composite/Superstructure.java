@@ -113,8 +113,8 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return Commands.parallel(
             turret.setControl(() -> TurretRequestFactory.idle),
             arm.setControl(() -> ArmRequestFactory.idle),
-            flywheel.runRequest(() -> FlyWheelsRequestFactory.Idle),
-            flywheelout.runRequest(()-> FlyWheelsRequestFactory.Idle),
+            flywheel.runRequest(() -> FlyWheelsRequestFactory.idle),
+            flywheelout.runRequest(()-> FlyWheelsRequestFactory.idle),
             index.setControl(() -> IndexerRequestFactory.idle),
             intake.setControl(() -> IntakeRequestFactory.idle)
         );

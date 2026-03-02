@@ -5,8 +5,10 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
+import mars.source.test.MARSTest;
 import mars.source.test.TestRoutine;
 
+@MARSTest(name = "Intake Diagnostic Routine")
 public class IntakeTest extends TestRoutine {
 
     private final Intake intake;
@@ -49,6 +51,6 @@ public class IntakeTest extends TestRoutine {
 
             Commands.runOnce(() -> intake.setRequest(IntakeRequestFactory.idle), intake)
             
-        ).withName("Intake Diagnostic Routine");
+        );
     }
 }

@@ -94,82 +94,82 @@ public class RobotContainer implements IRobotContainer{
 
   public RobotContainer() {
 
-    //WHEELS AHHH
-    //GG PAPA
-    //GGGGGGGG
-    //Banana Chong 2
-    //Banana Chong
+  //WHEELS AHHH
+  //GG PAPA
+  //GGGGGGGG
+  //Banana Chong 2
+  //Banana Chong
 
-    this.driver = ControlsBuilder.buildDriver();
+  this.driver = ControlsBuilder.buildDriver();
 
-    this.operator = ControlsBuilder.buildOperator();
+  this.operator = ControlsBuilder.buildOperator();
 
-    this.drivetrain = DrivetrainBuilder.buildModule();
+  this.drivetrain = DrivetrainBuilder.buildModule();
 
-    this.limelight = VisionBuilder.limelightNode(
+  this.limelight = VisionBuilder.limelightNode(
             () -> drivetrain.getPigeon2().getRotation2d(),
             () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 
             drivetrain::consumeVisionData
-    );
+  );
 
-    this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
+  this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
 
-    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
-    this.arm = ArmBuilder.create().buildModule();
-    this.intake = IntakeBuilder.create().buildModule();
-    this.index = IndexerBuilder.create().buildModule();
-    this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
-    this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
+  this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
+  this.arm = ArmBuilder.create().buildModule();
+  this.intake = IntakeBuilder.create().buildModule();
+  this.index = IndexerBuilder.create().buildModule();
+  this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
+  this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
 
-    this.superstructure = Manifest.SuperstructureBuilder.superBuild(
-        this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
-    );
+  this.superstructure = Manifest.SuperstructureBuilder.superBuild(
+      this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
+  );
 
-    this.virtualRobot = VisualizerBuilder.buildNode(
-      turret::getDegrees,
-      () -> arm.getState().position,
-      () -> intake.getState().position,
-      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
-    );
+  this.virtualRobot = VisualizerBuilder.buildNode(
+    turret::getDegrees,
+    () -> arm.getState().position,
+    () -> intake.getState().position,
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
+  );
 
-    this.trajetorySim = TrajectoryBuilder.buildNode(
-      () -> drivetrain.getState().Pose,
-      turret::getDegrees,
-      () -> arm.getState().position,
-      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
-    );
+  this.trajetorySim = TrajectoryBuilder.buildNode(
+    () -> drivetrain.getState().Pose,
+    turret::getDegrees,
+    () -> arm.getState().position,
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
+  );
 
-    this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
-        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
-    );
+  this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
+  );
 
     
-    DriverBindings.parameterized(drivetrain, driver).bind();
+  DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.create(operator, superstructure)
-    .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake).
-    withNodes(gamePieceViz, trajetorySim)
-    .bind();
+  OperatorBindings.create(operator, superstructure)
+  .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake)
+  .withNodes(gamePieceViz, trajetorySim)
+  .bind();
 
-  tests = TestBindings.create(intake);
+  tests = TestBindings.create(intake, turret);
 
-    tests.bind();
+  tests.bind();
 
-    configureAutos();
+  configureAutos();
 
   }
 
   @Override
   public void updateNodes() {
 
-      if(Environment.getMode() == RunMode.REAL){
-        limelight.periodic();
-        questnav.periodic();
-      }
+    if(Environment.getMode() == RunMode.REAL){
+      limelight.periodic();
+      questnav.periodic();
+    }
       
-      virtualRobot.periodic();
-      trajetorySim.periodic();
-      gamePieceViz.periodic();
+    virtualRobot.periodic();
+    trajetorySim.periodic();
+    gamePieceViz.periodic();
       
   }
 

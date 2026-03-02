@@ -22,8 +22,7 @@ public abstract class TestRoutine {
         return Commands.runOnce(() -> {
             double value = valueSupplier.getAsDouble();
             if (value >= max) {
-                TerminalBooter.logError("Tests", "FAIL: " + message + " | Valor: " + value + " >= " + max);
-                // Opcional: throw new MARSAssertionError(...) si quieres detener el robot por completo
+                TerminalBooter.logError("Tests", "FAIL: " + message + " | Value: " + value + " >= " + max);
             } else {
                 TerminalBooter.logInfo("Tests", "PASS: Check < " + max);
             }
@@ -34,7 +33,7 @@ public abstract class TestRoutine {
         return Commands.runOnce(() -> {
             double value = valueSupplier.getAsDouble();
             if (value <= min) {
-                TerminalBooter.logError("Tests", "FAIL: " + message + " | Valor: " + value + " <= " + min);
+                TerminalBooter.logError("Tests", "FAIL: " + message + " | Value: " + value + " <= " + min);
             } else {
                 TerminalBooter.logInfo("Tests", "PASS: Check > " + min);
             }
@@ -46,7 +45,7 @@ public abstract class TestRoutine {
             if (!condition.getAsBoolean()) {
                 TerminalBooter.logError("Tests", "FAIL: " + message);
             } else {
-                TerminalBooter.logInfo("Tests", "PASS: Condición cumplida.");
+                TerminalBooter.logInfo("Tests", "PASS: Condition fullfiled");
             }
         });
     }

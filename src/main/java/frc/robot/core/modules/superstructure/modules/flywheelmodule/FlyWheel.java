@@ -6,7 +6,6 @@ import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.configuration.factories.FlyWheelsRequestFactory;
@@ -27,10 +26,10 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
         super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
             .key(key)
             .hardware(io, new FlyWheelInputs())
-            .request(FlyWheelsRequestFactory.Idle)
+            .request(FlyWheelsRequestFactory.idle)
             .telemetry(new FlyWheelTelemetry(key)));
 
-        this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.Idle));
+        this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.idle));
 
         FlyWheel.subKey = key;
     }

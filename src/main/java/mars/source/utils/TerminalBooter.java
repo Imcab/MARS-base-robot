@@ -16,7 +16,6 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.networktables.TimestampedBoolean;
 import edu.wpi.first.networktables.TimestampedString;
-import edu.wpi.first.wpilibj.RobotBase;
 import mars.source.builder.Environment;
 import mars.source.builder.RunMode;
 import mars.source.models.singlemodule.ModularSubsystem;

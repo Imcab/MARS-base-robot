@@ -15,5 +15,4 @@ public class TurretRequestFactory {
     public static final TurretRequest.SysIdOpenLoop voltage = new SysIdOpenLoop();
     public static final TurretRequest.Position zeroTurret = toAngle.withTargetAngle(Rotation2d.kZero);
 
-
 }

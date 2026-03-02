@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
-import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
@@ -90,9 +89,9 @@ public class Manifest {
     public static final boolean HAS_VISUALS = false;
     public static final boolean HAS_TRAJ_VISUAL = false;
     public static final boolean HAS_FUEL_VISUAL = false;
-    public static final boolean HAS_TURRET = false;
+    public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = false;
-    public static final boolean HAS_LIMELIGHT = false;
+    public static final boolean HAS_LIMELIGHT = false; //TODO: No cambiar a true, no hara nada pq no se implemento el nodo en el swerve
     public static final boolean HAS_INDEXER = false;
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_SHOOTER_WHEELS = true;
@@ -227,7 +226,7 @@ public class Manifest {
 
             CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-            SwerveTelemetry telemetry = new SwerveTelemetry(SwerveConstants.MaxSpeed);
+            SwerveTelemetry telemetry = new SwerveTelemetry();
             drivetrain.registerTelemetry(telemetry::telemeterize);
 
             return drivetrain;

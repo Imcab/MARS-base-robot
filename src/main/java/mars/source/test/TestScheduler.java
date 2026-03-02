@@ -8,20 +8,17 @@ public class TestScheduler {
     
     public static Command runTest(TestRoutine test) {
         
-        // 1. Escudo Anti-Null
         if (test == null) {
-            TerminalBooter.logError("Tests", "TestRoutine is null! Ignorando ejecución.");
-            return Commands.none(); // Devuelve un comando vacío e inofensivo
+            TerminalBooter.logError("Tests", "TestRoutine is null!");
+            return Commands.none();
         }
 
-        // 2. Extraer el nombre de tu anotación
         String testName = test.getClass().getSimpleName();
         if (test.getClass().isAnnotationPresent(MARSTest.class)) {
             testName = test.getClass().getAnnotation(MARSTest.class).name();
         }
         final String finalName = testName;
 
-        // 3. Tomar el comando nativo y "decorarlo" con la telemetría de MARS
         return test.getRoutineCommand()
             .beforeStarting(() -> {
                 System.out.println("Starting test: " + finalName);
@@ -29,14 +26,14 @@ public class TestScheduler {
             })
             .finallyDo((interrupted) -> {
                 if (interrupted) {
-                    // Si algo (o alguien) cancela el comando a la mitad
-                    TerminalBooter.logWarning("Tests", "ABORTADO: " + finalName);
+
+                    TerminalBooter.logWarning("Tests", "INTERRUPTED: " + finalName);
                 } else {
                     // Si el comando terminó toda su secuencia
-                    TerminalBooter.logInfo("Tests", "FINALIZADO: " + finalName);
+                    TerminalBooter.logInfo("Tests", "FINALIZED: " + finalName);
                 }
             })
-            .withName("MARS-Test-" + finalName) // Nombre para el panel de WPILib
-            .ignoringDisable(true); // Permite que corra en Test Mode o Disabled
+            .withName("MARS-Test-" + finalName)
+            .ignoringDisable(true);
     }
 }
