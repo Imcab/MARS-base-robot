@@ -17,7 +17,8 @@ import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.networktables.TimestampedBoolean;
 import edu.wpi.first.networktables.TimestampedString;
 import edu.wpi.first.wpilibj.RobotBase;
-
+import mars.source.builder.Environment;
+import mars.source.builder.RunMode;
 import mars.source.models.singlemodule.ModularSubsystem;
 import mars.source.requests.Request;
 
@@ -138,7 +139,7 @@ public class TerminalBooter {
     public static void bootSequence() {
         broadcast("BOOT", "Core", "MARS Framework Starting...");
         broadcast("VERSION", "MARS", "Currently running on: " + MARS_VERSION);
-        broadcast("INFO", "RobotMode", "Actuators on: " + (RobotBase.isReal() ? "RealIO" : "SimIO"));
+        broadcast("INFO", "RobotMode", "Actuators on: " + (Environment.getMode() == RunMode.REAL ? "RealIO" : "SimIO"));
 
         try {
             broadcast("GIT", "Branch", frc.robot.BuildConstants.GIT_BRANCH);
@@ -177,6 +178,7 @@ public class TerminalBooter {
 
     }
 
+    public static void logOK(String tag, String message){ broadcast("OK", tag, message);}
     public static void logInfo(String tag, String message) { broadcast("INFO", tag, message); }
     public static void logWarning(String tag, String message) { broadcast("WARN", tag, message); }
     public static void logError(String tag, String message) { broadcast("FATAL", tag, message); }

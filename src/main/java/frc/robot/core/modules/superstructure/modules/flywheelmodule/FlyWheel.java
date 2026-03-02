@@ -20,14 +20,19 @@ import mars.source.models.singlemodule.ModularSubsystem;
 
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 
-    public FlyWheel(FlyWheelIO io){
+
+    public static String subKey;
+
+    public FlyWheel(FlyWheelIO io, String key){
         super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
-            .key(KeyManager.FLYWHEEL_KEY)
+            .key(key)
             .hardware(io, new FlyWheelInputs())
             .request(FlyWheelsRequestFactory.Idle)
-            .telemetry(new FlyWheelTelemetry()));
+            .telemetry(new FlyWheelTelemetry(key)));
 
         this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.Idle));
+
+        FlyWheel.subKey = key;
     }
 
     @Override
@@ -49,17 +54,23 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 
     public static class FlyWheelTelemetry extends Telemetry<FlyWheelInputs>{
 
+        String key;
+
+        public FlyWheelTelemetry(String key){
+            this.key = key;
+        }
+
         @Override
         public void telemeterize(FlyWheelInputs data, ActionStatus lastStatus) {
 
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.VELOCITY_KEY + Terminology.RPM, data.velocityRPM);
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
+            NetworkIO.set(key, CommonTables.VELOCITY_KEY + Terminology.RPM, data.velocityRPM);
+            NetworkIO.set(key, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
+            NetworkIO.set(key, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
        
             if(lastStatus != null && lastStatus.code != null){
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+                NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
+                NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             }
             
         }

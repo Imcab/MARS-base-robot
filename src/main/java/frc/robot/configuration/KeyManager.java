@@ -13,7 +13,8 @@ public class KeyManager {
     public static final String TURRET_KEY = "Turret";
     public static final String ARM_KEY = "Arm";
     public static final String INDEX_KEY = "Indexer";
-    public static final String FLYWHEEL_KEY = "Flywheel";
+    public static final String FLYWHEEL_INTAKE_KEY = "FlywheelIntake";
+    public static final String FLYWHEEL_OUTAKE_KEY = "FlywheelOutake";
     public static final String INTAKE_KEY = "Intake";
     public static final String VISUALIZER_KEY = "Visualizer";
     public static final String TRAJECTORY_KEY = "Traj";

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import mars.source.models.containers.IRobotContainer;
+import mars.source.test.TestScheduler;
 import mars.source.utils.TerminalBooter;
 
 public class Robot extends TimedRobot {
@@ -78,10 +79,14 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+
+    CommandScheduler.getInstance().schedule(TestScheduler.runTest(m_robotContainer.getTestRoutine()));
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void testExit() {}

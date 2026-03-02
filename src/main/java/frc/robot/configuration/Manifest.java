@@ -76,7 +76,7 @@ public class Manifest {
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final RunMode CURRENT_MODE = RunMode.REAL;
+    public static final RunMode CURRENT_MODE = RunMode.SIM;
 
     static{
         Environment.setMode(CURRENT_MODE);
@@ -248,7 +248,7 @@ public class Manifest {
                 FlyWheelIOKrakenShooter::new,
                 FlyWheelIOSim::new);
 
-            return new FlyWheel(io);
+            return new FlyWheel(io, KeyManager.FLYWHEEL_OUTAKE_KEY);
         }
     }
 
@@ -266,7 +266,7 @@ public class Manifest {
                 FlyWheelIOKrakenIntake::new,
                 FlyWheelIOSim::new);
 
-            return new FlyWheel(io);
+            return new FlyWheel(io, KeyManager.FLYWHEEL_INTAKE_KEY);
         }
     }
 

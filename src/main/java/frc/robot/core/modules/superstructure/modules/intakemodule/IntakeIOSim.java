@@ -41,12 +41,12 @@ public class IntakeIOSim implements IntakeIO{
             IntakeConstants.kIntakeLengthMeters,
             IntakeConstants.kMinAngleRads,
             IntakeConstants.kMaxAngleRads,
-            true, 
-            Units.degreesToRadians(30)
+            false, 
+            Units.degreesToRadians(-30)
         );
 
         simController = new ProfiledPIDController(
-            0.5, 0.0, 0.0,
+            0.45, 0.0, 0.00,
             new TrapezoidProfile.Constraints(
                 180.0,
                 360.0
@@ -74,11 +74,13 @@ public class IntakeIOSim implements IntakeIO{
 
     @Override
     public void updateInputs(IntakeInputs inputs){
+
+        inputs.io = "SIM";
+
         if (isClosedLoop) {
             double currentDegrees = Units.radiansToDegrees(simIntake.getAngleRads());
             appliedVolts = simController.calculate(currentDegrees, currentTargetAngle);
         }
-
 
         appliedVolts = MathUtil.clamp(appliedVolts, -12.0, 12.0);
         simIntake.setInputVoltage(appliedVolts);

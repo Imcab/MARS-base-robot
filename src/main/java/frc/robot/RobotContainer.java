@@ -29,6 +29,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.Trajector
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
+import frc.robot.configuration.bindings.TestBindings;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
@@ -43,6 +44,7 @@ import mars.source.builder.RunMode;
 import mars.source.models.containers.IRobotContainer;
 import mars.source.operator.ControllerOI;
 import mars.source.services.nodes.Node;
+import mars.source.test.TestRoutine;
 
 public class RobotContainer implements IRobotContainer{
 
@@ -71,6 +73,8 @@ public class RobotContainer implements IRobotContainer{
   private final Node<GamePieceMsg> gamePieceViz;
 
   public final Superstructure superstructure;
+
+  public final TestBindings tests;
 
   public void configureAutos(){
     NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
@@ -147,6 +151,10 @@ public class RobotContainer implements IRobotContainer{
     withNodes(gamePieceViz, trajetorySim)
     .bind();
 
+  tests = TestBindings.create(intake);
+
+    tests.bind();
+
     configureAutos();
 
   }
@@ -168,5 +176,10 @@ public class RobotContainer implements IRobotContainer{
   @Override
   public Command getAutonomousCommand() {
     return chooser.getSelected(); //Commands.print("No autonomous command configured");
+  }
+
+  @Override
+  public TestRoutine getTestRoutine(){
+    return tests.getSelected();
   }
 }

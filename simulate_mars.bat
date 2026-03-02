@@ -10,7 +10,7 @@ start "" "mars_terminal\Release\mars_gcs.exe"
 
 echo.
 echo [2/2] Starting WPILib Simulation...
-call gradlew simulateJava
+call gradlew simulateJava --console=plain
 
 if %errorlevel% neq 0 (
     color 0C
@@ -22,4 +22,4 @@ if %errorlevel% neq 0 (
 
 echo.
 echo Simulation Closed.
-timeout /t 3 >nobreak
+timeout /t 3 /nobreak > nul

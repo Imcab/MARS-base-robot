@@ -21,5 +21,5 @@ echo [2/2] Launching MARS Framework...
 start "" "mars_terminal\Release\mars_gcs.exe"
 
 echo.
-echo Sequence Complete. Good luck, Captain!
-timeout /t 3 >nobreak
+echo Sequence Complete!
+timeout /t 3 /nobreak > nul
