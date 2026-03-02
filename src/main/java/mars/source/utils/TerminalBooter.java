@@ -1,8 +1,6 @@
 package mars.source.utils;
 
 import java.time.Instant;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -18,9 +16,8 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StringSubscriber;
 import edu.wpi.first.networktables.TimestampedBoolean;
 import edu.wpi.first.networktables.TimestampedString;
-import edu.wpi.first.wpilibj.RobotBase;
-
-// Importes para la magia de ejecución
+import mars.source.builder.Environment;
+import mars.source.builder.RunMode;
 import mars.source.models.singlemodule.ModularSubsystem;
 import mars.source.requests.Request;
 
@@ -32,7 +29,6 @@ public class TerminalBooter {
     private static final Map<String, Boolean> mountedModules = new LinkedHashMap<>(); 
     private static final Map<String, List<String>> moduleRequestsMap = new HashMap<>();
 
-    // ✨ LA BÓVEDA DE EJECUCIÓN: Aquí guardamos los objetos reales
     private static final Map<String, ModularSubsystem<?, ?>> activeSubsystems = new HashMap<>();
     private static final Map<String, Map<String, Request<?, ?>>> registeredRequests = new HashMap<>();
 
@@ -40,7 +36,6 @@ public class TerminalBooter {
     private static BooleanSubscriber syncSubscriber; 
     private static StringSubscriber requestQuerySubscriber;
     
-    // ✨ EL NUEVO OÍDO PARA EJECUTAR COMANDOS
     private static StringSubscriber runRequestSubscriber;
     
     private static final Queue<String> logQueue = new ConcurrentLinkedQueue<>();
@@ -53,14 +48,12 @@ public class TerminalBooter {
         syncSubscriber = marsTable.getBooleanTopic("Sync").subscribe(false);
         requestQuerySubscriber = marsTable.getStringTopic("GetRequests").subscribe("");
         
-        // ✨ Escuchamos el nuevo canal de ejecución
         runRequestSubscriber = marsTable.getStringTopic("RunRequest").subscribe("");
     }
 
     public static void updatePeriodic() {
         if (NetworkTableInstance.getDefault().getConnections().length == 0) return; 
 
-        // 1. SYNC
         TimestampedBoolean[] syncRequests = syncSubscriber.readQueue();
         if (syncRequests.length > 0) {
             broadcast("INFO", "SYS", "Sync request received. Re-broadcasting hardware tree...");
@@ -71,7 +64,6 @@ public class TerminalBooter {
             printModuleSummary();
         }
 
-        // 2. GET REQUESTS (mars request --get)
         TimestampedString[] queries = requestQuerySubscriber.readQueue();
         for (TimestampedString ts : queries) {
             String targetModule = ts.value;
@@ -86,17 +78,15 @@ public class TerminalBooter {
             }
         }
 
-        // ✨ 3. RUN REQUESTS (mars request --run)
         TimestampedString[] runCommands = runRequestSubscriber.readQueue();
         for (TimestampedString ts : runCommands) {
-            String payload = ts.value; // Llega como "Climber:moveVoltage"
+            String payload = ts.value;
             if (payload.contains(":")) {
                 String[] parts = payload.split(":");
                 executeRemoteRequest(parts[0].trim(), parts[1].trim());
             }
         }
 
-        // Desagüe de logs a 20ms
         tickCounter++;
         if (tickCounter >= 5) {
             if (!logQueue.isEmpty()) marsConsoleStream.set(logQueue.poll()); 
@@ -104,7 +94,6 @@ public class TerminalBooter {
         }
     }
 
-    // ✨ MOTOR DE INYECCIÓN DE REQUESTS (Ignora advertencias de tipos porque nosotros controlamos qué entra)
     @SuppressWarnings({"unchecked", "rawtypes"})
     private static void executeRemoteRequest(String module, String reqName) {
         String modKey = getModuleKeyIgnoreCase(module);
@@ -112,7 +101,6 @@ public class TerminalBooter {
         if (modKey != null && activeSubsystems.containsKey(modKey) && registeredRequests.containsKey(modKey)) {
             ModularSubsystem sub = activeSubsystems.get(modKey);
             
-            // Buscamos la request ignorando mayúsculas
             Request requestObj = null;
             String actualReqName = reqName;
             for (Map.Entry<String, Request<?, ?>> entry : registeredRequests.get(modKey).entrySet()) {
@@ -150,7 +138,7 @@ public class TerminalBooter {
     public static void bootSequence() {
         broadcast("BOOT", "Core", "MARS Framework Starting...");
         broadcast("VERSION", "MARS", "Currently running on: " + MARS_VERSION);
-        broadcast("INFO", "RobotMode", "Actuators on: " + (RobotBase.isReal() ? "RealIO" : "SimIO"));
+        broadcast("INFO", "RobotMode", "Actuators on: " + (Environment.getMode() == RunMode.REAL ? "RealIO" : "SimIO"));
 
         try {
             broadcast("GIT", "Branch", frc.robot.BuildConstants.GIT_BRANCH);
@@ -168,18 +156,15 @@ public class TerminalBooter {
         }
         broadcast("MOUNT", isFallback ? "Fallback" : "Hardware", moduleName);
     }
-
-    // ✨ REGISTRO DEL SUBSISTEMA (Llamado desde ModularSubsystem)
+    
     public static void registerSubsystem(ModularSubsystem<?, ?> subsystem) {
         activeSubsystems.put(subsystem.getName(), subsystem);
     }
 
-    // ✨ REGISTRO DE REQUESTS CON SUS OBJETOS REALES (Llamado desde el Factory)
     public static void registerRemoteRequest(String moduleName, String reqName, Request<?, ?> requestObj) {
-        // Guardamos el objeto real
+
         registeredRequests.computeIfAbsent(moduleName, k -> new HashMap<>()).put(reqName, requestObj);
         
-        // Mantenemos la lista de Strings para el comando --get
         moduleRequestsMap.computeIfAbsent(moduleName, k -> new ArrayList<>());
         if (!moduleRequestsMap.get(moduleName).contains(reqName)) {
             moduleRequestsMap.get(moduleName).add(reqName);
@@ -192,6 +177,7 @@ public class TerminalBooter {
 
     }
 
+    public static void logOK(String tag, String message){ broadcast("OK", tag, message);}
     public static void logInfo(String tag, String message) { broadcast("INFO", tag, message); }
     public static void logWarning(String tag, String message) { broadcast("WARN", tag, message); }
     public static void logError(String tag, String message) { broadcast("FATAL", tag, message); }

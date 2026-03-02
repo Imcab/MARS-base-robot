@@ -8,14 +8,12 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.stzteam.forgemini.io.NetworkIO;
-import com.stzteam.forgemini.io.Signal;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,6 +32,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.configuration.factories.SwerveRequestFactory;
 import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
@@ -104,8 +103,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         configurePathPlanner();
         SmartDashboard.putData("Field", field);
 
-        
-        NetworkIO.set("Chasis", "SysID", m_sysIdRoutineToApply.toString());
+        NetworkIO.set(KeyManager.SWERVE_KEY, "SysID", m_sysIdRoutineToApply.toString());
 
         this.finder = new PoseFinder(this, pathConstraints);
 
@@ -137,7 +135,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
         
-        NetworkIO.set("Chasis", "SysID", m_sysIdRoutineToApply.toString());
+        NetworkIO.set(KeyManager.SWERVE_KEY, "SysID", m_sysIdRoutineToApply.toString());
 
         configurePathPlanner();
 
@@ -177,7 +175,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         this.sysIdManager = new SysIdRoutineManager(this);
         this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
-        NetworkIO.set("Chasis", "SysID", m_sysIdRoutineToApply.toString());
+        NetworkIO.set(KeyManager.SWERVE_KEY, "SysID", m_sysIdRoutineToApply.toString());
 
         configurePathPlanner();
 
@@ -279,10 +277,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
   
         updateVision();
         field.setRobotPose(getState().Pose);
-        NetworkIO.set("Chasis", "Distancia", getDistanceToTag());
-        NetworkIO.set("Chasis", "Distancia2", getOdometryFrequency());
+        NetworkIO.set(KeyManager.SWERVE_KEY, "Distancia", getDistanceToTag());
+        NetworkIO.set(KeyManager.SWERVE_KEY, "Distancia2", getOdometryFrequency());
 
-        
     }
 
     public double getDistanceToTag() {
@@ -326,8 +323,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
         if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) return;
         
-        NetworkIO.set("Chasis", "Mt2", mt2.pose);
-
+        NetworkIO.set(KeyManager.SWERVE_KEY, "Mt2", mt2.pose);
 
         addVisionMeasurement(mt2.pose, mt2.timestampSeconds, VecBuilder.fill(.3,.3,9999999));
     }

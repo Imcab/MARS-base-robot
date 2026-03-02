@@ -1,12 +1,10 @@
 package frc.robot.configuration.factories;
 
-import frc.robot.configuration.KeyManager;
 import frc.robot.core.requests.moduleRequests.ArmRequest;
 import frc.robot.core.requests.moduleRequests.ArmRequest.Idle;
 import frc.robot.core.requests.moduleRequests.ArmRequest.InterpolateTarget;
 import frc.robot.core.requests.moduleRequests.ArmRequest.SetAngle;
 import frc.robot.core.requests.moduleRequests.ArmRequest.moveVoltage;
-import mars.source.utils.TerminalBooter;
 
 public class ArmRequestFactory {
     public static final ArmRequest.Idle idle = new Idle();
@@ -15,5 +13,4 @@ public class ArmRequestFactory {
     public static final ArmRequest.SetAngle home = angle;
     public static final ArmRequest.InterpolateTarget interpolate = new InterpolateTarget();
 
-   
 }

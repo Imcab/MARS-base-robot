@@ -10,7 +10,7 @@ import frc.robot.core.requests.moduleRequests.FlyWheelRequest.moveSpeed;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest.moveVoltage;
 
 public class FlyWheelsRequestFactory {
-    public static final FlyWheelRequest.Idle Idle = new Idle();
+    public static final FlyWheelRequest.Idle idle = new Idle();
     public static final FlyWheelRequest.SetRPM RPMRequest = new SetRPM(0).withTolerance(ShooterWheelsConstants.kRPMTolerance);
     public static final FlyWheelRequest.moveVoltage voltageRequest = new moveVoltage();
     public static final FlyWheelRequest.moveSpeed DutyCycle = new moveSpeed();

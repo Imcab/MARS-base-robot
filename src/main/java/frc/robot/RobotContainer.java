@@ -29,6 +29,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.Trajector
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
+import frc.robot.configuration.bindings.TestBindings;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
@@ -43,6 +44,7 @@ import mars.source.builder.RunMode;
 import mars.source.models.containers.IRobotContainer;
 import mars.source.operator.ControllerOI;
 import mars.source.services.nodes.Node;
+import mars.source.test.TestRoutine;
 
 public class RobotContainer implements IRobotContainer{
 
@@ -72,6 +74,8 @@ public class RobotContainer implements IRobotContainer{
 
   public final Superstructure superstructure;
 
+  public final TestBindings tests;
+
   public void configureAutos(){
     NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
     NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
@@ -90,83 +94,92 @@ public class RobotContainer implements IRobotContainer{
 
   public RobotContainer() {
 
-    //WHEELS AHHH
-    //GG PAPA
-    //GGGGGGGG
-    //Banana Chong 2
-    //Banana Chong
+  //WHEELS AHHH
+  //GG PAPA
+  //GGGGGGGG
+  //Banana Chong 2
+  //Banana Chong
 
-    this.driver = ControlsBuilder.buildDriver();
+  this.driver = ControlsBuilder.buildDriver();
 
-    this.operator = ControlsBuilder.buildOperator();
+  this.operator = ControlsBuilder.buildOperator();
 
-    this.drivetrain = DrivetrainBuilder.buildModule();
+  this.drivetrain = DrivetrainBuilder.buildModule();
 
-    this.limelight = VisionBuilder.limelightNode(
+  this.limelight = VisionBuilder.limelightNode(
             () -> drivetrain.getPigeon2().getRotation2d(),
             () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 
             drivetrain::consumeVisionData
-    );
+  );
 
-    this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
+  this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
 
-    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
-    this.arm = ArmBuilder.create().buildModule();
-    this.intake = IntakeBuilder.create().buildModule();
-    this.index = IndexerBuilder.create().buildModule();
-    this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
-    this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
+  this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
+  this.arm = ArmBuilder.create().buildModule();
+  this.intake = IntakeBuilder.create().buildModule();
+  this.index = IndexerBuilder.create().buildModule();
+  this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
+  this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
 
-    this.superstructure = Manifest.SuperstructureBuilder.superBuild(
-        this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
-    );
+  this.superstructure = Manifest.SuperstructureBuilder.superBuild(
+      this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
+  );
 
-    this.virtualRobot = VisualizerBuilder.buildNode(
-      turret::getDegrees,
-      () -> arm.getState().position,
-      () -> intake.getState().position,
-      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
-    );
+  this.virtualRobot = VisualizerBuilder.buildNode(
+    turret::getDegrees,
+    () -> arm.getState().position,
+    () -> intake.getState().position,
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
+  );
 
-    this.trajetorySim = TrajectoryBuilder.buildNode(
-      () -> drivetrain.getState().Pose,
-      turret::getDegrees,
-      () -> arm.getState().position,
-      msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
-    );
+  this.trajetorySim = TrajectoryBuilder.buildNode(
+    () -> drivetrain.getState().Pose,
+    turret::getDegrees,
+    () -> arm.getState().position,
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
+  );
 
-    this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
-        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
-    );
+  this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
+    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
+  );
 
     
-    DriverBindings.parameterized(drivetrain, driver).bind();
+  DriverBindings.parameterized(drivetrain, driver).bind();
 
-    OperatorBindings.create(operator, superstructure)
-    .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake).
-    withNodes(gamePieceViz, trajetorySim)
-    .bind();
+  OperatorBindings.create(operator, superstructure)
+  .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake)
+  .withNodes(gamePieceViz, trajetorySim)
+  .bind();
 
-    configureAutos();
+  tests = TestBindings.create(intake, turret, arm);
+
+  tests.bind();
+
+  configureAutos();
 
   }
 
   @Override
   public void updateNodes() {
 
-      if(Environment.getMode() == RunMode.REAL){
-        limelight.periodic();
-        questnav.periodic();
-      }
+    if(Environment.getMode() == RunMode.REAL){
+      limelight.periodic();
+      questnav.periodic();
+    }
       
-      virtualRobot.periodic();
-      trajetorySim.periodic();
-      gamePieceViz.periodic();
+    virtualRobot.periodic();
+    trajetorySim.periodic();
+    gamePieceViz.periodic();
       
   }
 
   @Override
   public Command getAutonomousCommand() {
     return chooser.getSelected(); //Commands.print("No autonomous command configured");
+  }
+
+  @Override
+  public TestRoutine getTestRoutine(){
+    return tests.getSelected();
   }
 }

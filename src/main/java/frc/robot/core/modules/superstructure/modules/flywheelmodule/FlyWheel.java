@@ -6,7 +6,6 @@ import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.KeyManager.CommonTables;
 import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.configuration.factories.FlyWheelsRequestFactory;
@@ -20,14 +19,19 @@ import mars.source.models.singlemodule.ModularSubsystem;
 
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 
-    public FlyWheel(FlyWheelIO io){
-        super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
-            .key(KeyManager.FLYWHEEL_KEY)
-            .hardware(io, new FlyWheelInputs())
-            .request(FlyWheelsRequestFactory.Idle)
-            .telemetry(new FlyWheelTelemetry()));
 
-        this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.Idle));
+    public static String subKey;
+
+    public FlyWheel(FlyWheelIO io, String key){
+        super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
+            .key(key)
+            .hardware(io, new FlyWheelInputs())
+            .request(FlyWheelsRequestFactory.idle)
+            .telemetry(new FlyWheelTelemetry(key)));
+
+        this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.idle));
+
+        FlyWheel.subKey = key;
     }
 
     @Override
@@ -49,17 +53,23 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 
     public static class FlyWheelTelemetry extends Telemetry<FlyWheelInputs>{
 
+        String key;
+
+        public FlyWheelTelemetry(String key){
+            this.key = key;
+        }
+
         @Override
         public void telemeterize(FlyWheelInputs data, ActionStatus lastStatus) {
 
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.VELOCITY_KEY + Terminology.RPM, data.velocityRPM);
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
-            NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
+            NetworkIO.set(key, CommonTables.VELOCITY_KEY + Terminology.RPM, data.velocityRPM);
+            NetworkIO.set(key, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
+            NetworkIO.set(key, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
        
             if(lastStatus != null && lastStatus.code != null){
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.FLYWHEEL_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+                NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
+                NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             }
             
         }

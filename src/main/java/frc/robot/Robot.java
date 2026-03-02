@@ -4,12 +4,17 @@
 
 package frc.robot;
 
+import com.stzteam.forgemini.io.NetworkIO;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.configuration.Manifest;
+import mars.source.builder.Environment;
 import mars.source.models.containers.IRobotContainer;
+import mars.source.test.TestScheduler;
 import mars.source.utils.TerminalBooter;
 
 public class Robot extends TimedRobot {
@@ -17,6 +22,8 @@ public class Robot extends TimedRobot {
   private final IRobotContainer m_robotContainer;
 
   public Robot() {
+
+    Environment.setMode(Manifest.CURRENT_MODE);
     
     TerminalBooter.initNetworkStream();
 
@@ -27,21 +34,15 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
   
     TerminalBooter.printModuleSummary();
- 
-    try {
 
-      Runtime.getRuntime().exec(new String[]{
-                "cmd", "/c", "start", "", "mars_terminal\\Release\\mars_gcs.exe"
-      });
-            
-      } catch (Exception e) {
-            System.out.println("Error");
-      }
-     
+    NetworkIO.set("System", "IO", Environment.getMode().name());
+    NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());
+         
   }
 
   @Override
   public void robotPeriodic() {
+
     CommandScheduler.getInstance().run();
     m_robotContainer.updateNodes();
 
@@ -88,10 +89,14 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     CommandScheduler.getInstance().cancelAll();
+
+    CommandScheduler.getInstance().schedule(TestScheduler.runTest(m_robotContainer.getTestRoutine()));
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   @Override
   public void testExit() {}
