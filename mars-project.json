@@ -1,10 +1,10 @@
 {
-    "projectName": "MARS_Template_Project",
-    "teamNumber": 0,
+    "projectName": "Monterrey2026",
+    "teamNumber": 3472,
     "frcYear": 2026,
     "marsVersion": "1.6.0",
-    "author": "STZ Robotics",
+    "author": "Buluk3472",
     "nodes": [
-        
+        "MarsLimelightFeature"
     ]
 }

@@ -4,11 +4,6 @@ import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.stzteam.features.limelight.LimelightConfig;
-import com.stzteam.features.limelight.LimelightNode;
-import com.stzteam.features.limelight.LimelightNode.LimelightMsg;
-import com.stzteam.forgemini.io.SmartChooser;
 import com.stzteam.mars.builder.Builder;
 import com.stzteam.mars.builder.Environment;
 import com.stzteam.mars.builder.Environment.RunMode;
@@ -21,16 +16,10 @@ import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
-import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.composite.SuperstructureData;
 import frc.robot.core.modules.superstructure.composite.SuperstructureIO;

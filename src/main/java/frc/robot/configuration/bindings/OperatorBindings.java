@@ -84,10 +84,8 @@ public class OperatorBindings implements Binding {
         buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelsRequestFactory.voltageRequest
         .withVolts(-11))); //Ruedas intake (b)
 
-        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.reset)); //Resetea la posición del encoder a 0 (start)
-
+        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.reset)); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
-
 
         //  REGISTRO EN LA TERMINAL (MARS GCS)
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
