@@ -14,9 +14,9 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 
-import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
 import frc.robot.core.requests.moduleRequests.IntakeRequest;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
 
 public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{

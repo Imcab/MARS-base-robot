@@ -6,8 +6,8 @@ import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.constants.Constants;
-import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
+import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 
 @MARSTest(name = "Arm PID Motion Test")
 public class ArmTest extends TestRoutine{
@@ -21,7 +21,7 @@ public class ArmTest extends TestRoutine{
     public Command getRoutineCommand() {
         return Commands.sequence(
 
-            run(ArmRequestFactory.angle.withAngle(10).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle.withAngle(10).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
@@ -33,7 +33,7 @@ public class ArmTest extends TestRoutine{
 
             delay(1),
 
-            run(ArmRequestFactory.angle.withAngle(35).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle.withAngle(35).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
@@ -45,12 +45,12 @@ public class ArmTest extends TestRoutine{
 
             delay(1),
 
-            run(ArmRequestFactory.angle.withAngle(0).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle.withAngle(0).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
             assertLessThan(
-                calculateError(35, a.getState().position), 
+                calculateError(0, a.getState().position), 
                 2, 
                 "Error es muy alto"
             ),

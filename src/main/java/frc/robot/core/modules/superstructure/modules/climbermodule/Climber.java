@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
-import frc.robot.configuration.factories.ClimberRequestFactory;
 
 import frc.robot.core.requests.moduleRequests.ClimberRequest;
+import frc.robot.core.requests.moduleRequests.ClimberRequestFactory;
 
 
 

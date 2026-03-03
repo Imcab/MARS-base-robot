@@ -1,4 +1,4 @@
-package frc.robot.configuration.factories;
+package frc.robot.core.modules.swerve;
 
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;

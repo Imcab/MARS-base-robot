@@ -12,11 +12,10 @@ import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 
-import frc.robot.configuration.factories.IndexerRequestFactory;
-
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
 
 import frc.robot.core.requests.moduleRequests.IndexerRequest;
+import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 
 public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
 

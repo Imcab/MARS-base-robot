@@ -6,8 +6,6 @@ import com.stzteam.mars.services.nodes.Node;
 import com.stzteam.mars.utils.TerminalGCS;
 
 import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.factories.FlyWheelsRequestFactory;
-import frc.robot.configuration.factories.IntakeRequestFactory;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
@@ -15,6 +13,8 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.Constants;
@@ -63,28 +63,28 @@ public class OperatorBindings implements Binding {
         var bumpers = operator.getBumpers();
         var driverSystem = operator.getSystemTriggers();
         
-        var intakeDown = IntakeRequestFactory.angle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
-        var intakeUp = IntakeRequestFactory.angle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
-        var intakeOuttake = IntakeRequestFactory.voltage.withVolts(0.44);
-        var intakeIntake = IntakeRequestFactory.voltage.withVolts(-3);
-        var flyWheelsShoot = FlyWheelsRequestFactory.voltageRequest.withVolts(-11);
+        var intakeDown = IntakeRequestFactory.setAngle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeUp = IntakeRequestFactory.setAngle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
+        var intakeOuttake = IntakeRequestFactory.moveVoltage.withVolts(0.44);
+        var intakeIntake = IntakeRequestFactory.moveVoltage.withVolts(-3);
+        var flyWheelsShoot = FlyWheelRequestFactory.moveVoltage.withVolts(-11);
 
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
-        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle //Bajar el intake (a)
+        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle //Bajar el intake (a)
         .withAngle(-130) 
         .Tolerance(Constants.INTAKE_TOLERANCE)
         .withMode(intakeMODE.kDOWN)));
 
-        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.angle //Bubir el intake (y)
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle //Bubir el intake (y)
         .withAngle(-10)
         .Tolerance(Constants.INTAKE_TOLERANCE)
         .withMode(intakeMODE.kUP)));
         
-        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelsRequestFactory.voltageRequest
+        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage
         .withVolts(-11))); //Ruedas intake (b)
 
-        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.reset)); //Resetea la posición del encoder a 0 (start)}
+        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle)); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
         //  REGISTRO EN LA TERMINAL (MARS GCS)
@@ -94,6 +94,8 @@ public class OperatorBindings implements Binding {
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
         TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Shoot", flyWheelsShoot);
-        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelsRequestFactory.idle);
+        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelRequestFactory.idle);
+
+        
     }
 }

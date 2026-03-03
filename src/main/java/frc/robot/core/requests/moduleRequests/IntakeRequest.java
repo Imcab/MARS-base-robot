@@ -7,11 +7,13 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.Intak
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.diagnostics.IntakeCode;
 import frc.robot.diagnostics.TurretCode;
+import mars.src.processor.RequestFactory;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
+@RequestFactory
 public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
 
     public static class Idle implements IntakeRequest {

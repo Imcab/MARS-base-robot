@@ -11,17 +11,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.Constants;
-import frc.robot.configuration.factories.ArmRequestFactory;
-import frc.robot.configuration.factories.FlyWheelsRequestFactory;
-import frc.robot.configuration.factories.IndexerRequestFactory;
-import frc.robot.configuration.factories.IntakeRequestFactory;
-import frc.robot.configuration.factories.TurretRequestFactory;
+
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
+import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 
 
 public class Superstructure extends CompositeSubsystem<SuperstructureData, SuperstructureIO> {
@@ -66,22 +67,22 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
         return Commands.sequence(
             Commands.parallel(
-                turret.setControl(() -> TurretRequestFactory.targetLock
+                turret.setControl(() -> TurretRequestFactory.lockOnTarget
                     .withTarget(()-> this.getVirtualTarget())
                     .withTolerance(Constants.TURRET_TOLERANCE)
                 ),
                 
-                arm.setControl(() -> ArmRequestFactory.interpolate
+                arm.setControl(() -> ArmRequestFactory.interpolateTarget
                     .withDistance(() -> this.getVirtualDistance())
                     .withTolerance(Constants.ARM_TOLERANCE)
                 ),
                 
-                flywheelShooter.runRequest(() -> FlyWheelsRequestFactory.interpolateRPM.withDistance(() -> this.getVirtualDistance())
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM.withDistance(() -> this.getVirtualDistance())
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE)
                 )
             ).until(() -> inputs.readyToShoot),
 
-            index.setControl(() -> IndexerRequestFactory.voltage.withVolts(12.0))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage.withVolts(12.0))
         );
     }
 
@@ -91,16 +92,17 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
 
         return Commands.sequence(
-            intake.setControl(()-> IntakeRequestFactory.angle.withAngle(angle).Tolerance(tolerance).withMode(mode))
+            intake.setControl(()-> IntakeRequestFactory.setAngle.withAngle(angle).Tolerance(tolerance).withMode(mode))
             .until(()-> intake.isAtTarget(tolerance)),
-            intakeWheels.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(voltage))
+            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage.withVolts(voltage))
             );
+
     }
 
     public Command EatAutoWheels(double voltage){
         FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
 
-        return intakeWheels.setControl(()-> FlyWheelsRequestFactory.voltageRequest.withVolts(voltage));
+        return intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage.withVolts(voltage));
     }
     
     public Command stopAll() {
@@ -114,8 +116,8 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return Commands.parallel(
             turret.setControl(() -> TurretRequestFactory.idle),
             arm.setControl(() -> ArmRequestFactory.idle),
-            flywheel.runRequest(() -> FlyWheelsRequestFactory.idle),
-            flywheelout.runRequest(()-> FlyWheelsRequestFactory.idle),
+            flywheel.runRequest(() -> FlyWheelRequestFactory.idle),
+            flywheelout.runRequest(()-> FlyWheelRequestFactory.idle),
             index.setControl(() -> IndexerRequestFactory.idle),
             intake.setControl(() -> IntakeRequestFactory.idle)
         );

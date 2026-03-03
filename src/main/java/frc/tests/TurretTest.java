@@ -7,8 +7,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.constants.Constants;
-import frc.robot.configuration.factories.TurretRequestFactory;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 
 
 @MARSTest(name = "Turret Angle Test")
@@ -27,7 +27,7 @@ public class TurretTest extends TestRoutine {
     public Command getRoutineCommand() {
         return Commands.sequence(
                 
-            run(TurretRequestFactory.toAngle
+            run(TurretRequestFactory.position
                 .withTargetAngle(target1)
                 .withTolerance(Constants.TURRET_TOLERANCE), t),
    
@@ -41,7 +41,7 @@ public class TurretTest extends TestRoutine {
 
             delay(1.0),
 
-            run(TurretRequestFactory.toAngle
+            run(TurretRequestFactory.position
                 .withTargetAngle(target2)
                 .withTolerance(Constants.TURRET_TOLERANCE), t),
 
@@ -55,7 +55,7 @@ public class TurretTest extends TestRoutine {
 
             delay(1),
 
-            run(TurretRequestFactory.zeroTurret, t),
+            run(TurretRequestFactory.position, t),
 
             waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 

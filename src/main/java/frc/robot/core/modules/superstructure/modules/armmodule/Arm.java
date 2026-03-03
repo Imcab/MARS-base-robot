@@ -12,11 +12,9 @@ import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.requests.moduleRequests.ArmRequest;
-
-
+import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 
 public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
 

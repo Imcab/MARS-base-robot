@@ -5,7 +5,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.math.util.Units;
-import frc.robot.configuration.factories.SwerveRequestFactory;
+import frc.robot.core.modules.swerve.SwerveRequestFactory;
 
 public class SwerveConstants {
 

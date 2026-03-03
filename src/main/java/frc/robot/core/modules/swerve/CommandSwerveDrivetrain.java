@@ -37,7 +37,6 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
-import frc.robot.configuration.factories.SwerveRequestFactory;
 import frc.robot.helpers.SysIdRoutineManager;
 
 /**

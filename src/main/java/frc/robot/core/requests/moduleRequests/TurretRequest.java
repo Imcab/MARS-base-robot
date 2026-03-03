@@ -13,11 +13,13 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
 import frc.robot.helpers.AllianceUtil;
+import mars.src.processor.RequestFactory;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
+@RequestFactory
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
     public static class Idle implements TurretRequest {

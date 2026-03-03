@@ -12,10 +12,11 @@ import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.configuration.factories.FlyWheelsRequestFactory;
+
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 
@@ -26,10 +27,10 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
         super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
             .key(key)
             .hardware(io, new FlyWheelInputs())
-            .request(FlyWheelsRequestFactory.idle)
+            .request(FlyWheelRequestFactory.idle)
             .telemetry(new FlyWheelTelemetry(key)));
 
-        this.setDefaultCommand(runRequest(()-> FlyWheelsRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> FlyWheelRequestFactory.idle));
 
         FlyWheel.subKey = key;
     }

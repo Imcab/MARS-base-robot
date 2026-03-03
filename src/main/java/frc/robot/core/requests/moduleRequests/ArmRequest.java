@@ -12,8 +12,9 @@ import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.diagnostics.ArmCode;
+import mars.src.processor.RequestFactory;
 
-
+@RequestFactory
 public interface ArmRequest extends Request<ArmInputs, ArmIO> {
 
     public static class Idle implements ArmRequest {

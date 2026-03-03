@@ -9,12 +9,14 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 import frc.robot.diagnostics.FlywheelsCode;
+import mars.src.processor.RequestFactory;
 
 import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
+@RequestFactory
 public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
 
     public static class Idle implements FlyWheelRequest{

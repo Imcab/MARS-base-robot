@@ -2,13 +2,14 @@ package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
 import frc.robot.diagnostics.IndexerCode;
-
+import mars.src.processor.RequestFactory;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
+@RequestFactory
 public interface IndexerRequest extends Request<IndexerInputs, IndexerIO>{
 
     public static class Idle implements IndexerRequest {
