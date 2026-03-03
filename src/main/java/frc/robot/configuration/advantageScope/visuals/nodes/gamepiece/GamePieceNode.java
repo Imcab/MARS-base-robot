@@ -3,11 +3,12 @@ package frc.robot.configuration.advantageScope.visuals.nodes.gamepiece;
 import java.util.function.Consumer;
 
 import com.stzteam.forgemini.io.NetworkIO;
+import com.stzteam.mars.services.Service;
+import com.stzteam.mars.services.nodes.Node;
+import com.stzteam.mars.services.nodes.NodeMessage;
 
 import edu.wpi.first.math.geometry.Pose3d;
-import mars.source.services.Service;
-import mars.source.services.nodes.Node;
-import mars.source.services.nodes.NodeMessage;
+
 
 public class GamePieceNode extends Node<GamePieceNode.GamePieceMsg> implements Service<GamePieceQuery, GamePieceReply> {
 

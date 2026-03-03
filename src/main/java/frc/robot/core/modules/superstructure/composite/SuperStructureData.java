@@ -1,6 +1,6 @@
 package frc.robot.core.modules.superstructure.composite;
 
-import mars.source.models.multimodules.CompositeData;
+import com.stzteam.mars.models.multimodules.CompositeData;
 
 public class SuperstructureData extends CompositeData<SuperstructureData>{
 

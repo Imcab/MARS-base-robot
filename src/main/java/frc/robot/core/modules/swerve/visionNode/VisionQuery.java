@@ -1,6 +1,6 @@
 package frc.robot.core.modules.swerve.visionNode;
 
-import mars.source.services.Query;
+import com.stzteam.mars.services.Query;
 
 public class VisionQuery implements Query {
 

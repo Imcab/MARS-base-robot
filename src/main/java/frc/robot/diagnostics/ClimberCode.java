@@ -1,8 +1,9 @@
 package frc.robot.diagnostics;
 
+import com.stzteam.mars.diagnostics.DiagnosticPattern;
+import com.stzteam.mars.diagnostics.StatusCode;
+
 import edu.wpi.first.wpilibj.util.Color;
-import mars.source.diagnostics.DiagnosticPattern;
-import mars.source.diagnostics.StatusCode;
 
 public enum ClimberCode implements StatusCode{
     

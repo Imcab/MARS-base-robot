@@ -1,7 +1,8 @@
 package frc.robot.configuration.advantageScope.visuals.nodes.gamepiece;
 
+import com.stzteam.mars.services.Query;
+
 import edu.wpi.first.math.geometry.Pose3d;
-import mars.source.services.Query;
 
 public class GamePieceQuery implements Query {
     public final Pose3d[] trajectory;

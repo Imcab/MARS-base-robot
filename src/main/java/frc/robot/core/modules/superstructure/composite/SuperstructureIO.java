@@ -1,11 +1,12 @@
 package frc.robot.core.modules.superstructure.composite;
 
+import com.stzteam.mars.models.multimodules.CompositeIO;
+
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import mars.source.models.multimodules.CompositeIO;
 
 public class SuperstructureIO extends CompositeIO<SuperstructureData> {
 

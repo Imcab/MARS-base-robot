@@ -7,8 +7,9 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.Intak
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.diagnostics.IntakeCode;
 import frc.robot.diagnostics.TurretCode;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.requests.Request;
+
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
 
 public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
 

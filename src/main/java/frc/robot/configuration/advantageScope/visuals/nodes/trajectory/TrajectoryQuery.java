@@ -1,7 +1,8 @@
 package frc.robot.configuration.advantageScope.visuals.nodes.trajectory;
 
+import com.stzteam.mars.services.Query;
+
 import edu.wpi.first.math.geometry.Pose2d;
-import mars.source.services.Query;
 
 public class TrajectoryQuery implements Query {
     public final Pose2d robotPose;

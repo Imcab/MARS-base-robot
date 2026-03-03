@@ -11,8 +11,9 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 import frc.robot.diagnostics.FlywheelsCode;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.requests.Request;
+
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
 
 public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
 

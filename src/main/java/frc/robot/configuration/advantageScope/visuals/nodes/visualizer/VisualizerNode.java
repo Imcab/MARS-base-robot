@@ -3,10 +3,10 @@ package frc.robot.configuration.advantageScope.visuals.nodes.visualizer;
 import java.util.function.Consumer;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.math.geometry.Pose3d;
-import mars.source.services.nodes.Node;
-import mars.source.services.nodes.NodeMessage;
+import com.stzteam.mars.services.nodes.Node;
+import com.stzteam.mars.services.nodes.NodeMessage;
 
+import edu.wpi.first.math.geometry.Pose3d;
 
 public class VisualizerNode extends Node<VisualizerNode.VisualizerMsg> {
 

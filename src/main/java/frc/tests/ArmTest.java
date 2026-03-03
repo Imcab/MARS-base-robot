@@ -1,12 +1,13 @@
 package frc.tests;
 
+import com.stzteam.mars.test.MARSTest;
+import com.stzteam.mars.test.TestRoutine;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.factories.ArmRequestFactory;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
-import mars.source.test.MARSTest;
-import mars.source.test.TestRoutine;
 
 @MARSTest(name = "Arm PID Motion Test")
 public class ArmTest extends TestRoutine{

@@ -1,5 +1,10 @@
 package frc.robot.configuration.bindings;
 
+import com.stzteam.mars.models.containers.Binding;
+import com.stzteam.mars.operator.ControllerOI;
+import com.stzteam.mars.services.nodes.Node;
+import com.stzteam.mars.utils.TerminalGCS;
+
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.factories.FlyWheelsRequestFactory;
 import frc.robot.configuration.factories.IntakeRequestFactory;
@@ -13,10 +18,6 @@ import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.Constants;
-import mars.source.models.containers.Binding;
-import mars.source.operator.ControllerOI;
-import mars.source.services.nodes.Node;
-import mars.source.utils.TerminalBooter;
 
 public class OperatorBindings implements Binding {
 
@@ -89,12 +90,12 @@ public class OperatorBindings implements Binding {
 
 
         //  REGISTRO EN LA TERMINAL (MARS GCS)
-        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
-        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
-        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
-        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
-        TerminalBooter.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
-        TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Shoot", flyWheelsShoot);
-        TerminalBooter.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelsRequestFactory.idle);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
+        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Shoot", flyWheelsShoot);
+        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelsRequestFactory.idle);
     }
 }

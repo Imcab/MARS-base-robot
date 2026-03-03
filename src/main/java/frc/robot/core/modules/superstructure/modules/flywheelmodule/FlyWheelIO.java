@@ -1,8 +1,10 @@
 package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 
-import mars.source.models.singlemodule.Data;
-import mars.source.models.singlemodule.IO;
 import mars.src.processor.Fallback;
+
+import com.stzteam.mars.models.singlemodule.Data;
+import com.stzteam.mars.models.singlemodule.IO;
+
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 @Fallback

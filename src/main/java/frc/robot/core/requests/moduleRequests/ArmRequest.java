@@ -2,14 +2,16 @@ package frc.robot.core.requests.moduleRequests;
 
 import java.util.function.DoubleSupplier;
 
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
+
 import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.diagnostics.ArmCode;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.requests.Request;
+
 
 public interface ArmRequest extends Request<ArmInputs, ArmIO> {
 

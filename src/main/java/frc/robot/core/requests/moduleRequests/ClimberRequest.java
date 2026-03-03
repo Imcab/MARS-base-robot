@@ -4,8 +4,9 @@ import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
 import frc.robot.diagnostics.ClimberCode;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.requests.Request;
+
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
 
 public interface ClimberRequest extends Request <ClimberInputs, ClimberIO> {
     

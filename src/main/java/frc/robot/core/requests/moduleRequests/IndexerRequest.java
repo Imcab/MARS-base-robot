@@ -2,12 +2,11 @@ package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
 import frc.robot.diagnostics.IndexerCode;
-import mars.source.diagnostics.ActionStatus;
 import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 
-import mars.source.requests.Request;
-
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
 
 public interface IndexerRequest extends Request<IndexerInputs, IndexerIO>{
 

@@ -5,12 +5,13 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
+import com.stzteam.mars.services.Service;
+import com.stzteam.mars.services.nodes.Node;
+import com.stzteam.mars.services.nodes.NodeMessage;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
-import mars.source.services.Service;
-import mars.source.services.nodes.Node;
-import mars.source.services.nodes.NodeMessage;
+
 
 public class TrajectoryNode extends Node<TrajectoryNode.TrajectoryMsg> implements Service<TrajectoryQuery, TrajectoryReply> {
 

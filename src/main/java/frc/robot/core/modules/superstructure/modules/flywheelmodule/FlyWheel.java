@@ -3,6 +3,10 @@ package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 import java.util.function.Supplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.models.SubsystemBuilder;
+import com.stzteam.mars.models.Telemetry;
+import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,10 +16,6 @@ import frc.robot.configuration.factories.FlyWheelsRequestFactory;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.models.SubsystemBuilder;
-import mars.source.models.Telemetry;
-import mars.source.models.singlemodule.ModularSubsystem;
 
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
 

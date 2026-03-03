@@ -13,8 +13,9 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
 import frc.robot.helpers.AllianceUtil;
-import mars.source.diagnostics.ActionStatus;
-import mars.source.requests.Request;
+
+import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.requests.Request;
 
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 

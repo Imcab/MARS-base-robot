@@ -1,5 +1,8 @@
 package frc.robot.configuration.bindings;
 
+import com.stzteam.mars.models.containers.Binding;
+import com.stzteam.mars.test.TestRoutine;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
@@ -10,8 +13,7 @@ import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.tests.ArmTest;
 import frc.tests.IntakeTest;
 import frc.tests.TurretTest;
-import mars.source.models.containers.Binding;
-import mars.source.test.TestRoutine;
+
 
 public class TestBindings implements Binding{
 
