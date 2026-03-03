@@ -35,7 +35,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.configuration.factories.SwerveRequestFactory;
-import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
 import frc.robot.helpers.LimelightHelpers;
 import frc.robot.helpers.PoseFinder;
 import frc.robot.helpers.SysIdRoutineManager;
@@ -354,12 +353,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 .withVelocityY(0)
                 .withRotationalRate(ySpeed)
     );
-    }
-
-    public void consumeVisionData(VisionMsg visionData) {
-        if (visionData.hasTarget && visionData.validPose) { 
-            addVisionMeasurement(visionData.botPose, visionData.timestamp, visionData.stdDevs);
-        }
     }
 
     /**

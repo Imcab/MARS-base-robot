@@ -5,10 +5,13 @@
 package frc.robot;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.stzteam.mars.builder.Environment;
-import com.stzteam.mars.builder.Environment.RunMode;
+import com.stzteam.features.limelight.LimelightConfig;
+import com.stzteam.features.limelight.LimelightDriver;
+import com.stzteam.features.limelight.LimelightNode;
+import com.stzteam.features.limelight.LimelightNode.LimelightMsg;
 import com.stzteam.mars.models.containers.IRobotContainer;
 import com.stzteam.mars.operator.ControllerOI;
+import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 import com.stzteam.mars.test.TestRoutine;
 
@@ -28,7 +31,6 @@ import frc.robot.configuration.Manifest.IndexerBuilder;
 import frc.robot.configuration.Manifest.IntakeBuilder;
 import frc.robot.configuration.Manifest.TrajectoryBuilder;
 import frc.robot.configuration.Manifest.TurretBuilder;
-import frc.robot.configuration.Manifest.VisionBuilder;
 import frc.robot.configuration.Manifest.VisualizerBuilder;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
@@ -36,6 +38,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.Visualize
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.configuration.bindings.TestBindings;
+import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
@@ -44,8 +47,6 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
-
 
 public class RobotContainer implements IRobotContainer{
 
@@ -66,13 +67,12 @@ public class RobotContainer implements IRobotContainer{
   public final Intake intake;
   public final Indexer index;
 
-  public final Node<VisionMsg> limelight;
-  public final Node<VisionMsg> questnav;
+  private final Node<LimelightMsg> limelightNode;
 
   private final Node<VisualizerMsg> virtualRobot;
   private final Node<TrajectoryMsg> trajetorySim;
   private final Node<GamePieceMsg> gamePieceViz;
-
+  
   public final Superstructure superstructure;
 
   public final TestBindings tests;
@@ -107,14 +107,6 @@ public class RobotContainer implements IRobotContainer{
 
   this.drivetrain = DrivetrainBuilder.buildModule();
 
-  this.limelight = VisionBuilder.limelightNode(
-            () -> drivetrain.getPigeon2().getRotation2d(),
-            () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble(), 
-            drivetrain::consumeVisionData
-  );
-
-  this.questnav = VisionBuilder.questNode(drivetrain::consumeVisionData);
-
   this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
   this.arm = ArmBuilder.create().buildModule();
   this.intake = IntakeBuilder.create().buildModule();
@@ -125,6 +117,26 @@ public class RobotContainer implements IRobotContainer{
   this.superstructure = Manifest.SuperstructureBuilder.superBuild(
       this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
   );
+
+  LimelightConfig config = new LimelightConfig().
+            withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS).
+            withMaxAngularVelocity(VisionConstants.MAX_ANGULAR_VELOCITY_DEG_PER_SEC).
+            withMultiTagStdDev(VisionConstants.MULTI_TAG_STD_DEV).
+            withRotationStdDev(VisionConstants.ROTATION_STD_DEV).
+            withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS).
+            withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV).
+            withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
+
+  this.limelightNode = !Manifest.HAS_LIMELIGHT ?
+    new FallbackNode<>() :
+    new LimelightNode(config, new LimelightDriver(
+      ()-> drivetrain.getPigeon2().getRotation2d(),
+      ()-> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()),
+    msg-> {
+      if (msg.validPose) {
+          drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
+      }
+    });
 
   this.virtualRobot = VisualizerBuilder.buildNode(
     turret::getDegrees,
@@ -143,7 +155,6 @@ public class RobotContainer implements IRobotContainer{
   this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
     msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
   );
-
     
   DriverBindings.parameterized(drivetrain, driver).bind();
 
@@ -163,10 +174,7 @@ public class RobotContainer implements IRobotContainer{
   @Override
   public void updateNodes() {
 
-    if(Environment.getMode() == RunMode.REAL){
-      limelight.periodic();
-      questnav.periodic();
-    }
+    limelightNode.periodic();
       
     virtualRobot.periodic();
     trajetorySim.periodic();
@@ -176,7 +184,7 @@ public class RobotContainer implements IRobotContainer{
 
   @Override
   public Command getAutonomousCommand() {
-    return chooser.getSelected(); //Commands.print("No autonomous command configured");
+    return chooser.getSelected();
   }
 
   @Override

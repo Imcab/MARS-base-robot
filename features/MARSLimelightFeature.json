@@ -1,0 +1,19 @@
+{
+  "featureId": "MARSLimelightFeature",
+  "name": "Limelight Vision Node Feature",
+  "version": "1.0.0",
+  "groupId": "com.stzteam.features.limelight",
+  "author": "STZ-Robotics",
+  "description": "A limelight node implementation for mars frameworks",
+  "marsCoreRequired": ">=1.6.0",
+  "mavenUrls": [
+    "https://imcab.github.io/MARS-LimelightFeature/maven/"
+  ],
+  "javaDependencies": [
+    {
+      "groupId": "com.stzteam.features.limelight",
+      "artifactId": "MARSLimelightFeature",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -5,6 +5,9 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.stzteam.features.limelight.LimelightConfig;
+import com.stzteam.features.limelight.LimelightNode;
+import com.stzteam.features.limelight.LimelightNode.LimelightMsg;
 import com.stzteam.forgemini.io.SmartChooser;
 import com.stzteam.mars.builder.Builder;
 import com.stzteam.mars.builder.Environment;
@@ -59,10 +62,6 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSim;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOSparkMax;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.robot.core.modules.swerve.SwerveTelemetry;
-import frc.robot.core.modules.swerve.visionNode.VisionNode.VisionMsg;
-import frc.robot.core.modules.swerve.visionNode.limelight.LimelightNode;
-import frc.robot.core.modules.swerve.visionNode.questnav.QuestNavNode;
-
 
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode;
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
@@ -98,7 +97,7 @@ public class Manifest {
     public static final boolean HAS_SHOOTER_WHEELS = true;
     public static final boolean HAS_INTAKE = true;
     public static final boolean HAS_INTAKE_WHEELS = true;
-    
+   
     public static class SuperstructureBuilder {
         public static Superstructure superBuild(
                 Turret turret, 
@@ -187,38 +186,6 @@ public class Manifest {
                    : new XboxOI(OPERATOR_PORT);
         }
     }
-
-    public static class AutoBuilder {
-
-        public static SmartChooser<Command> build(String chooser) {
-            return new SmartChooser<>(chooser);
-        }
-   
-        public static Command buildPath(
-                String pathName, 
-                CommandSwerveDrivetrain drivetrain, 
-                Node<VisionMsg> questnav) {
-            
-            return new SequentialCommandGroup(
-
-                new PathPlannerAuto(pathName),
-                
-                Commands.runOnce(() -> {
-
-                    if (questnav instanceof QuestNavNode qNode) {
-                        qNode.resetQuestPose(new Pose3d(drivetrain.getState().Pose));
-                    }
-                })
-            );
-        }
-
-        public static Command buildPath(
-                String pathName, 
-                CommandSwerveDrivetrain drivetrain) {
-            return new PathPlannerAuto(pathName);
-        }
-    }
-
 
     public static class DrivetrainBuilder {
         
@@ -352,39 +319,6 @@ public class Manifest {
             Supplier<ChassisSpeeds> speedsSupplier = (this.drivetrain != null) ? this.drivetrain::getChassisSpeeds : () -> new ChassisSpeeds();
 
             return new Turret(io, poseSupplier, speedsSupplier);
-        }
-    }
-
-    public static class VisionBuilder {
-  
-        public static Node<VisionMsg> limelightNode(
-                Supplier<Rotation2d> yawSupplier, 
-                DoubleSupplier yawRateSupplier, 
-                Consumer<VisionMsg> topicPublisher) {
-            
-            if (!HAS_LIMELIGHT) {
-                return new FallbackNode<VisionMsg>();
-            }
-
-            return new LimelightNode(
-                KeyManager.LIMELIGHT_KEY, 
-                yawSupplier, 
-                yawRateSupplier, 
-                topicPublisher
-            );
-        }
-
-        public static Node<VisionMsg> questNode(Consumer<VisionMsg> topicPublisher) {
-
-            if (!HAS_QUESTNAV) {
-                return new FallbackNode<VisionMsg>();
-            }
-
-            return new QuestNavNode(
-                KeyManager.QUESTNAV_KEY, 
-                VisionConstants.ROBOT_TO_QUEST, 
-                topicPublisher
-            );
         }
     }
 

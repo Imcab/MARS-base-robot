@@ -1,3 +1,6 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2026.1.1"
@@ -50,6 +53,30 @@ wpi.java.debugJni = false
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
+repositories {
+    mavenCentral()
+    
+    def featuresDir = file("$projectDir/features")
+    if (featuresDir.exists()) {
+        featuresDir.listFiles().each { f ->
+            if (f.name.endsWith(".json")) {
+                try {
+                    def featureJson = new JsonSlurper().parseText(f.text)
+                    if (featureJson && featureJson.mavenUrls) {
+                        featureJson.mavenUrls.each { repoUrl ->
+                            if (repoUrl != null && !repoUrl.toString().trim().isEmpty()) {
+                                maven { url = uri(repoUrl.toString().trim()) }
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    println "[MARS WARNING] Archivo de feature corrupto o vacío: ${f.name}"
+                }
+            }
+        }
+    }
+}
+
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
@@ -80,6 +107,18 @@ dependencies {
 
     implementation project(':mars-processor')
     annotationProcessor project(':mars-processor')
+
+    def featuresDir = file("$projectDir/features")
+    if (featuresDir.exists()) {
+        featuresDir.listFiles().each { f ->
+            if (f.name.endsWith(".json")) {
+                def featureJson = new JsonSlurper().parseText(f.text)
+                featureJson.javaDependencies?.each { dep ->
+                    implementation "${dep.groupId}:${dep.artifactId}:${dep.version}"
+                }
+            }
+        }
+    }
 }
 
 test {
@@ -148,4 +187,25 @@ public final class BuildConstants {
     }
 }
 
+task syncMarsVersion {
+    doLast {
+
+        def vendorDepFile = file('vendordeps/Mars.json')
+        def projectFile = file('mars-project.json')
+
+        if (vendorDepFile.exists() && projectFile.exists()) {
+            def vendorJson = new JsonSlurper().parseText(vendorDepFile.text)
+            def projectJson = new JsonSlurper().parseText(projectFile.text)
+
+            if (projectJson.marsVersion != vendorJson.version) {
+                projectJson.marsVersion = vendorJson.version
+                
+                projectFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(projectJson))
+                println "[STZ-Robotics] Getting mars version: ${vendorJson.version}"
+            }
+        }
+    }
+}
+
 compileJava.dependsOn generateBuildConstants
+compileJava.dependsOn syncMarsVersion
