@@ -1,5 +1,6 @@
 package frc.robot.core.modules.superstructure.modules.climbermodule;
 
+import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.models.singlemodule.Data;
 import com.stzteam.mars.models.singlemodule.IO;
 
@@ -14,9 +15,9 @@ public interface ClimberIO extends IO<ClimberIO.ClimberInputs>{
         
     }
 
-    public void applyOutput(double volts);
+    public void applyOutput(@Unit("Volts")double volts);
     
-    public void setSpeed(double speed);
+    public void setSpeed(@Unit("DutyCycle") double speed);
 
     
 

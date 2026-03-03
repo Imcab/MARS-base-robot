@@ -17,12 +17,14 @@ public interface IntakeIO extends IO<IntakeIO.IntakeInputs>{
         public double position = 0;
         @Unit("Degrees")
         public double targetAngle = 0;
+        
+        @Unit("Volts")
         public double appliedVolts = 0;
 
     }
 
     public void setPosition(@Unit("Degrees") double Angle, intakeMODE mode);
-    public void applyOutput(double volts);
+    public void applyOutput(@Unit("Volts") double volts);
     public void resetPosition();
     public void stopAll();
  

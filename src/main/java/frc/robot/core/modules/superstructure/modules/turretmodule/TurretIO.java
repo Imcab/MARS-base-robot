@@ -20,7 +20,10 @@ public interface TurretIO extends IO<TurretInputs>{
         public Rotation2d angle = new Rotation2d();
         @Unit("Rotations")
         public Rotation2d targetAngle = new Rotation2d();
+
+        @Unit("RPS")
         public double velocityRPS = 0;
+        @Unit("Volts")
         public double appliedVolts = 0.0;
 
         public Pose2d robotPose = new Pose2d();
@@ -40,8 +43,8 @@ public interface TurretIO extends IO<TurretInputs>{
         }
     }
 
-    public void setVoltage(double volts);
-    public void setPosition(Rotation2d angle);
+    public void setVoltage(@Unit("Volts") double volts);
+    public void setPosition(@Unit("Rotations") Rotation2d angle);
     public void stop();
 
 }
