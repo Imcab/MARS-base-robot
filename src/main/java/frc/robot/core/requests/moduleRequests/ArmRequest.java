@@ -3,6 +3,7 @@ package frc.robot.core.requests.moduleRequests;
 import java.util.function.DoubleSupplier;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
+import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 

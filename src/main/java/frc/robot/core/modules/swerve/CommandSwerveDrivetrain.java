@@ -62,10 +62,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     public final SysIdRoutineManager sysIdManager;
 
-    public final String limelightName = "limelight";
-
-
-
     /* The SysId routine to test */
     private SysIdRoutine m_sysIdRoutineToApply = null;
 
@@ -311,8 +307,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 }
 
     private void updateVision() {
-        LimelightHelpers.SetRobotOrientation(limelightName, this.getPigeon2().getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+        LimelightHelpers.SetRobotOrientation(KeyManager.LIMELIGHT_KEY, this.getPigeon2().getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(KeyManager.LIMELIGHT_KEY);
         
         if (mt2 == null || mt2.tagCount == 0) return;
 
@@ -324,7 +320,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
 
     public void aproachY() { 
-            double ty = LimelightHelpers.getTY(limelightName);
+            double ty = LimelightHelpers.getTY(KeyManager.LIMELIGHT_KEY);
             double xSpeed = -0.1 * ty;
 
         setControl(SwerveRequestFactory.simpleDriveRequest()
@@ -338,8 +334,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      * Se acerca al tag y se alinea usando RobotCentric.
      */
     public void aproachXY() { 
-            double ty = LimelightHelpers.getTY(limelightName);
-            double tx = LimelightHelpers.getTX(limelightName);
+            double ty = LimelightHelpers.getTY(KeyManager.LIMELIGHT_KEY);
+            double tx = LimelightHelpers.getTX(KeyManager.LIMELIGHT_KEY);
 
             double xSpeed = -0.1 * ty;
             double ySpeed = -0.05 * tx;

@@ -1,5 +1,7 @@
 package frc.robot.core.modules.superstructure.modules.armmodule;
 
+import com.stzteam.features.unitprocessor.Unit;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -70,7 +72,7 @@ public class ArmIOSim implements ArmIO {
     }
 
     @Override
-    public void setPosition(double angle) {
+    public void setPosition(@Unit("Degrees") double angle) {
         isClosedLoop = true;
         this.currentTargetAngle = angle;
     }

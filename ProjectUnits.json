@@ -1,0 +1,11 @@
+{
+  "ArmInputs.position": "Degrees",
+  "ArmInputs.targetAngle": "Degrees",
+  "ArmIOSim.setPosition(angle)": "Degrees",
+  "IntakeInputs.position": "Degrees",
+  "IntakeInputs.targetAngle": "Degrees",
+  "IntakeIO.setPosition(Angle)": "Degrees",
+  "Turret.distanceTo": "Meters",
+  "TurretInputs.angle": "Rotations",
+  "TurretInputs.targetAngle": "Rotations"
+}

@@ -1,5 +1,6 @@
 package frc.robot.core.modules.superstructure.modules.turretmodule;
 
+import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.models.singlemodule.Data;
 import com.stzteam.mars.models.singlemodule.IO;
 
@@ -15,7 +16,9 @@ public interface TurretIO extends IO<TurretInputs>{
 
     public static class TurretInputs extends Data<TurretInputs>{
   
+        @Unit("Rotations")
         public Rotation2d angle = new Rotation2d();
+        @Unit("Rotations")
         public Rotation2d targetAngle = new Rotation2d();
         public double velocityRPS = 0;
         public double appliedVolts = 0.0;

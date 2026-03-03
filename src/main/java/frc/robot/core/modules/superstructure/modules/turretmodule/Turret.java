@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
+import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.models.SubsystemBuilder;
@@ -60,6 +61,7 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         return runRequest(request);
     }
 
+    @Unit("Meters")
     public double distanceTo(Translation2d point){
         return poseSupplier.get().getTranslation().getDistance(point);
     }

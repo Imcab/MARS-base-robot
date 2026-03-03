@@ -79,6 +79,8 @@ repositories {
 
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
+// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+// Also defines JUnit 5.
 dependencies {
     annotationProcessor wpi.java.deps.wpilibAnnotations()
     implementation wpi.java.deps.wpilib()
@@ -114,7 +116,14 @@ dependencies {
             if (f.name.endsWith(".json")) {
                 def featureJson = new JsonSlurper().parseText(f.text)
                 featureJson.javaDependencies?.each { dep ->
-                    implementation "${dep.groupId}:${dep.artifactId}:${dep.version}"
+                    def depString = "${dep.groupId}:${dep.artifactId}:${dep.version}"
+             
+                    implementation depString
+                    
+                    if (dep.isProcessor == true) {
+                        annotationProcessor depString
+                        println "[MARS] Annotation Processor init: ${dep.artifactId}"
+                    }
                 }
             }
         }

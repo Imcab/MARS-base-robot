@@ -1,5 +1,6 @@
 package frc.robot.core.modules.superstructure.modules.armmodule;
 
+import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.models.singlemodule.Data;
 import com.stzteam.mars.models.singlemodule.IO;
 
@@ -12,8 +13,12 @@ public interface ArmIO extends IO<ArmIO.ArmInputs>{
 
     public static class ArmInputs extends Data<ArmInputs>{
 
+        @Unit("Degrees")
         public double position = 0;
+        
         public Rotation2d rotation = new Rotation2d();
+
+        @Unit("Degrees")
         public double targetAngle = 0;
 
     }
