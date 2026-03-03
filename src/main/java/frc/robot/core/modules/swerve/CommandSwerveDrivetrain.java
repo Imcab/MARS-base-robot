@@ -190,7 +190,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 () -> this.getState().Pose,      // 1. Supplier de Pose
                 this::resetPose,         // 2. Consumer para resetear pose
                 this::getChassisSpeeds, // 3. Supplier de Velocidades actuales
-                (speeds, feedforwards) -> this.setControl(SwerveRequestFactory.pathPlannerRequest.withSpeeds(speeds)), 
+                (speeds, feedforwards) -> this.setControl(SwerveRequestFactory.pathPlannerRequest().withSpeeds(speeds)), 
                 // -----------------------------
 
                 new PPHolonomicDriveController(
@@ -327,7 +327,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             double ty = LimelightHelpers.getTY(limelightName);
             double xSpeed = -0.1 * ty;
 
-        setControl(SwerveRequestFactory.simpleDriveRequest
+        setControl(SwerveRequestFactory.simpleDriveRequest()
                 .withVelocityX(xSpeed)
                 .withVelocityY(0)
                 .withRotationalRate(0)
@@ -344,7 +344,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             double xSpeed = -0.1 * ty;
             double ySpeed = -0.05 * tx;
 
-        setControl(SwerveRequestFactory.simpleDriveRequest
+        setControl(SwerveRequestFactory.simpleDriveRequest()
                 .withVelocityX(xSpeed)
                 .withVelocityY(0)
                 .withRotationalRate(ySpeed)
@@ -371,7 +371,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             : currentHeading;
 
         // Usamos el request de Aim de la Factory
-        setControl(SwerveRequestFactory.aimRequest
+        setControl(SwerveRequestFactory.aimRequest()
             .withVelocityX(xSpeed)
             .withVelocityY(ySpeed)
             .withTargetDirection(targetHeading)
@@ -379,11 +379,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     }
     
     public void moveX(double speed) { 
-        setControl(SwerveRequestFactory.simpleDriveRequest.withVelocityX(speed));
+        setControl(SwerveRequestFactory.simpleDriveRequest().withVelocityX(speed));
     }
 
     public void moveY(double speed) { 
-        setControl(SwerveRequestFactory.simpleDriveRequest.withVelocityY(speed));
+        setControl(SwerveRequestFactory.simpleDriveRequest().withVelocityY(speed));
     }
 
     public PoseFinder getPoseFinder(){

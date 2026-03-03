@@ -34,7 +34,7 @@ public class DriverBindings implements Binding{
 
         drivetrain.setDefaultCommand(
             drivetrain.applyRequest(() ->
-                SwerveRequestFactory.driveFieldCentric
+                SwerveRequestFactory.driveFieldCentric()
                     .withVelocityX(-driverLeftStick.y().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
                     .withVelocityY(-driverLeftStick.x().getAsDouble() * SwerveConstants.MaxSpeed * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0)) 
                     .withRotationalRate(-driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate) 
@@ -43,10 +43,10 @@ public class DriverBindings implements Binding{
 
         driverButtons.top().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-        driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake));
+        driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake()));
 
         driverButtons.left().whileTrue(drivetrain.applyRequest(() -> 
-            SwerveRequestFactory.point.withModuleDirection(
+            SwerveRequestFactory.point().withModuleDirection(
                 new Rotation2d(-driverLeftStick.y().getAsDouble(), -driverLeftStick.x().getAsDouble())
             )
         ));

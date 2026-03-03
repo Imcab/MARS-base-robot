@@ -27,7 +27,7 @@ public class TurretTest extends TestRoutine {
     public Command getRoutineCommand() {
         return Commands.sequence(
                 
-            run(TurretRequestFactory.position
+            run(TurretRequestFactory.position()
                 .withTargetAngle(target1)
                 .withTolerance(Constants.TURRET_TOLERANCE), t),
    
@@ -41,7 +41,7 @@ public class TurretTest extends TestRoutine {
 
             delay(1.0),
 
-            run(TurretRequestFactory.position
+            run(TurretRequestFactory.position()
                 .withTargetAngle(target2)
                 .withTolerance(Constants.TURRET_TOLERANCE), t),
 
@@ -55,7 +55,7 @@ public class TurretTest extends TestRoutine {
 
             delay(1),
 
-            run(TurretRequestFactory.position, t),
+            run(TurretRequestFactory.position().withTargetAngle(Rotation2d.kZero), t),
 
             waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
@@ -67,7 +67,7 @@ public class TurretTest extends TestRoutine {
 
             delay(0.5),
 
-           run(TurretRequestFactory.idle, t)
+           run(TurretRequestFactory.idle(), t)
 
         );
     }

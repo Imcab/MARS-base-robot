@@ -21,7 +21,7 @@ public class ArmTest extends TestRoutine{
     public Command getRoutineCommand() {
         return Commands.sequence(
 
-            run(ArmRequestFactory.setAngle.withAngle(10).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(10).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
@@ -33,7 +33,7 @@ public class ArmTest extends TestRoutine{
 
             delay(1),
 
-            run(ArmRequestFactory.setAngle.withAngle(35).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(35).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
@@ -45,7 +45,7 @@ public class ArmTest extends TestRoutine{
 
             delay(1),
 
-            run(ArmRequestFactory.setAngle.withAngle(0).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(0).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
@@ -57,7 +57,7 @@ public class ArmTest extends TestRoutine{
 
             delay(0.5),
 
-            run(ArmRequestFactory.idle, a)
+            run(ArmRequestFactory.idle(), a)
 
         );
 

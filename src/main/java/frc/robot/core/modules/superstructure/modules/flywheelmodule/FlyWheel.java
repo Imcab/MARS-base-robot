@@ -27,10 +27,10 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>{
         super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
             .key(key)
             .hardware(io, new FlyWheelInputs())
-            .request(FlyWheelRequestFactory.idle)
+            .request(FlyWheelRequestFactory.idle())
             .telemetry(new FlyWheelTelemetry(key)));
 
-        this.setDefaultCommand(runRequest(()-> FlyWheelRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> FlyWheelRequestFactory.idle()));
 
         FlyWheel.subKey = key;
     }

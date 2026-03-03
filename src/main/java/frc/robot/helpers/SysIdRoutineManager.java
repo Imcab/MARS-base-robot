@@ -29,7 +29,7 @@ public class SysIdRoutineManager {
                 state -> SignalLogger.writeString("SysIdTranslation_State", state.toString())
             ),
             new SysIdRoutine.Mechanism(
-                output -> sub.setControl(SwerveRequestFactory.m_translationCharacterization.withVolts(output)),
+                output -> sub.setControl(SwerveRequestFactory.translationCharacterization().withVolts(output)),
                 null,
                 sub
             )
@@ -44,7 +44,7 @@ public class SysIdRoutineManager {
                 state -> SignalLogger.writeString("SysIdSteer_State", state.toString())
             ),
             new SysIdRoutine.Mechanism(
-                volts -> sub.setControl(SwerveRequestFactory.m_steerCharacterization.withVolts(volts)),
+                volts -> sub.setControl(SwerveRequestFactory.steerCharacterization().withVolts(volts)),
                 null,
                 sub
             )
@@ -60,7 +60,7 @@ public class SysIdRoutineManager {
             ),
             new SysIdRoutine.Mechanism(
                 output -> {
-                    sub.setControl(SwerveRequestFactory.m_rotationCharacterization.withRotationalRate(output.in(Volts)));
+                    sub.setControl(SwerveRequestFactory.rotationCharacterization().withRotationalRate(output.in(Volts)));
                     SignalLogger.writeDouble("Rotational_Rate", output.in(Volts));
                 },
                 null,

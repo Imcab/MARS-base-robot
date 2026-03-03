@@ -67,22 +67,22 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
         return Commands.sequence(
             Commands.parallel(
-                turret.setControl(() -> TurretRequestFactory.lockOnTarget
+                turret.setControl(() -> TurretRequestFactory.lockOnTarget()
                     .withTarget(()-> this.getVirtualTarget())
                     .withTolerance(Constants.TURRET_TOLERANCE)
                 ),
                 
-                arm.setControl(() -> ArmRequestFactory.interpolateTarget
+                arm.setControl(() -> ArmRequestFactory.interpolateTarget()
                     .withDistance(() -> this.getVirtualDistance())
                     .withTolerance(Constants.ARM_TOLERANCE)
                 ),
                 
-                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM.withDistance(() -> this.getVirtualDistance())
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM().withDistance(() -> this.getVirtualDistance())
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE)
                 )
             ).until(() -> inputs.readyToShoot),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage.withVolts(12.0))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withVolts(12.0))
         );
     }
 
@@ -92,9 +92,9 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
 
         return Commands.sequence(
-            intake.setControl(()-> IntakeRequestFactory.setAngle.withAngle(angle).Tolerance(tolerance).withMode(mode))
+            intake.setControl(()-> IntakeRequestFactory.setAngle().withAngle(angle).Tolerance(tolerance).withMode(mode))
             .until(()-> intake.isAtTarget(tolerance)),
-            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage.withVolts(voltage))
+            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(voltage))
             );
 
     }
@@ -102,7 +102,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
     public Command EatAutoWheels(double voltage){
         FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
 
-        return intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage.withVolts(voltage));
+        return intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(voltage));
     }
     
     public Command stopAll() {
@@ -114,12 +114,12 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.parallel(
-            turret.setControl(() -> TurretRequestFactory.idle),
-            arm.setControl(() -> ArmRequestFactory.idle),
-            flywheel.runRequest(() -> FlyWheelRequestFactory.idle),
-            flywheelout.runRequest(()-> FlyWheelRequestFactory.idle),
-            index.setControl(() -> IndexerRequestFactory.idle),
-            intake.setControl(() -> IntakeRequestFactory.idle)
+            turret.setControl(() -> TurretRequestFactory.idle()),
+            arm.setControl(() -> ArmRequestFactory.idle()),
+            flywheel.runRequest(() -> FlyWheelRequestFactory.idle()),
+            flywheelout.runRequest(()-> FlyWheelRequestFactory.idle()),
+            index.setControl(() -> IndexerRequestFactory.idle()),
+            intake.setControl(() -> IntakeRequestFactory.idle())
         );
 
     }

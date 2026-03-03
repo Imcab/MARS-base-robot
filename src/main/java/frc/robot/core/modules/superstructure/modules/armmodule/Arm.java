@@ -23,12 +23,12 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO>{
         super(SubsystemBuilder.<ArmInputs, ArmIO>setup()
             .key(KeyManager.ARM_KEY)
             .hardware(io, new ArmInputs())
-            .request(ArmRequestFactory.idle)
+            .request(ArmRequestFactory.idle())
             .telemetry(new ArmTelemetry())
         );
 
         registerTelemetry(new ArmTelemetry());
-        this.setDefaultCommand(runRequest(()-> ArmRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> ArmRequestFactory.idle()));
     }
 
     public Command setControl(Supplier<ArmRequest> request){

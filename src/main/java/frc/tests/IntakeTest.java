@@ -23,7 +23,7 @@ public class IntakeTest extends TestRoutine {
     public Command getRoutineCommand() {
         return Commands.sequence(
             
-            run(IntakeRequestFactory.setAngle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN), intake),
+            run(IntakeRequestFactory.setAngle().withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN), intake),
 
             waitFor(() -> intake.isAtTarget(2), 2.0),
             
@@ -35,7 +35,7 @@ public class IntakeTest extends TestRoutine {
 
             delay(1),
 
-            run(IntakeRequestFactory.setAngle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP), intake),
+            run(IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP), intake),
 
             waitFor(() -> intake.isAtTarget(2), 2.0),
 
@@ -47,7 +47,7 @@ public class IntakeTest extends TestRoutine {
 
             delay(0.5),
 
-            run(IntakeRequestFactory.idle, intake)
+            run(IntakeRequestFactory.idle(), intake)
              
             
         );

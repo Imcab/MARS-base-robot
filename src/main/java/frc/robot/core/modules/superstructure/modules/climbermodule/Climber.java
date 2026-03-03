@@ -30,12 +30,12 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO>{
         super(SubsystemBuilder.<ClimberInputs, ClimberIO>setup()
             .key(KeyManager.CLIMBER_KEY)
             .hardware(io, new ClimberInputs())
-            .request(ClimberRequestFactory.idle)
+            .request(ClimberRequestFactory.idle())
             .telemetry(new ClimberTelemetry())
         );
 
         registerTelemetry(new ClimberTelemetry());
-        this.setDefaultCommand(runRequest(()-> ClimberRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> ClimberRequestFactory.idle()));
     }
 
     public Command setControl(Supplier<ClimberRequest> request){

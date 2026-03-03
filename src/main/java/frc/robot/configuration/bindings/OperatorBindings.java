@@ -63,28 +63,28 @@ public class OperatorBindings implements Binding {
         var bumpers = operator.getBumpers();
         var driverSystem = operator.getSystemTriggers();
         
-        var intakeDown = IntakeRequestFactory.setAngle.withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
-        var intakeUp = IntakeRequestFactory.setAngle.withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
-        var intakeOuttake = IntakeRequestFactory.moveVoltage.withVolts(0.44);
-        var intakeIntake = IntakeRequestFactory.moveVoltage.withVolts(-3);
-        var flyWheelsShoot = FlyWheelRequestFactory.moveVoltage.withVolts(-11);
+        var intakeDown = IntakeRequestFactory.setAngle().withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
+        var intakeUp = IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
+        var intakeOuttake = IntakeRequestFactory.moveVoltage().withVolts(0.44);
+        var intakeIntake = IntakeRequestFactory.moveVoltage().withVolts(-3);
+        var flyWheelsShoot = FlyWheelRequestFactory.moveVoltage().withVolts(-11);
 
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
-        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle //Bajar el intake (a)
+        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bajar el intake (a)
         .withAngle(-130) 
         .Tolerance(Constants.INTAKE_TOLERANCE)
         .withMode(intakeMODE.kDOWN)));
 
-        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle //Bubir el intake (y)
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bubir el intake (y)
         .withAngle(-10)
         .Tolerance(Constants.INTAKE_TOLERANCE)
         .withMode(intakeMODE.kUP)));
         
-        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage
+        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
         .withVolts(-11))); //Ruedas intake (b)
 
-        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle)); //Resetea la posición del encoder a 0 (start)}
+        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
         //  REGISTRO EN LA TERMINAL (MARS GCS)
@@ -92,9 +92,9 @@ public class OperatorBindings implements Binding {
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Intake", intakeIntake);
-        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle);
+        TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Idle", IntakeRequestFactory.idle());
         TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Shoot", flyWheelsShoot);
-        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelRequestFactory.idle);
+        TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelRequestFactory.idle());
 
         
     }

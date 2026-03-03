@@ -2,7 +2,6 @@ package mars.src.processor;
 
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
@@ -34,7 +33,6 @@ public class RequestFactoryProcessor extends AbstractProcessor {
 
     private void generateFactory(TypeElement outerElement) {
         String interfaceName = outerElement.getSimpleName().toString();
- 
         String packageName = processingEnv.getElementUtils().getPackageOf(outerElement).getQualifiedName().toString();
         String factoryClassName = interfaceName + "Factory";
 
@@ -46,14 +44,12 @@ public class RequestFactoryProcessor extends AbstractProcessor {
             if (enclosed.getKind() == ElementKind.CLASS) {
                 TypeElement innerClass = (TypeElement) enclosed;
                 String className = innerClass.getSimpleName().toString();
-                
-                String fieldName = Character.toLowerCase(className.charAt(0)) + className.substring(1);
+                String methodName = Character.toLowerCase(className.charAt(0)) + className.substring(1);
 
                 ExecutableElement constructor = getBestConstructor(innerClass);
                 String args = "";
                 
                 if (constructor != null) {
-
                     args = constructor.getParameters().stream()
                             .map(param -> getDefaultValueForType(param.asType()))
                             .collect(Collectors.joining(", "));
@@ -61,11 +57,15 @@ public class RequestFactoryProcessor extends AbstractProcessor {
 
                 ClassName innerClassName = ClassName.get(innerClass);
 
-                FieldSpec field = FieldSpec.builder(innerClassName, fieldName, Modifier.PUBLIC, Modifier.STATIC, Modifier.FINAL)
-                        .initializer("new $T($L)", innerClassName, args)
+                // --- EL CAMBIO ESTÁ AQUÍ ---
+                // En lugar de FieldSpec, creamos un MethodSpec que hace un 'return new ...'
+                com.squareup.javapoet.MethodSpec method = com.squareup.javapoet.MethodSpec.methodBuilder(methodName)
+                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+                        .returns(innerClassName)
+                        .addStatement("return new $T($L)", innerClassName, args)
                         .build();
 
-                factoryBuilder.addField(field);
+                factoryBuilder.addMethod(method);
             }
         }
 

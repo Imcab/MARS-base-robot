@@ -26,12 +26,12 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
         super(SubsystemBuilder.<IntakeInputs, IntakeIO>setup()
             .key(KeyManager.INTAKE_KEY)
             .hardware(io, new IntakeInputs())
-            .request(IntakeRequestFactory.idle)
+            .request(IntakeRequestFactory.idle())
             .telemetry(new IntakeTelemetry())
         );
 
         registerTelemetry(new IntakeTelemetry());
-        this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle()));
 
     }
 

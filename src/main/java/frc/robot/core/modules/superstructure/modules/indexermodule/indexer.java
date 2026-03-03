@@ -24,12 +24,12 @@ public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
         super(SubsystemBuilder.<IndexerInputs, IndexerIO>setup()
             .key(KeyManager.INDEX_KEY)
             .hardware(io, new IndexerInputs())
-            .request(IndexerRequestFactory.idle)
+            .request(IndexerRequestFactory.idle())
             .telemetry(new IndexerTelemetry())
         );
 
         registerTelemetry(new IndexerTelemetry());
-        this.setDefaultCommand(runRequest(()-> IndexerRequestFactory.idle));
+        this.setDefaultCommand(runRequest(()-> IndexerRequestFactory.idle()));
     }
 
     public Command setControl(Supplier<IndexerRequest> request){

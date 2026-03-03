@@ -174,7 +174,7 @@ public class RobotContainer implements IRobotContainer{
   @Override
   public void updateNodes() {
 
-    limelightNode.periodic();
+    //limelightNode.periodic();
       
     virtualRobot.periodic();
     trajetorySim.periodic();
