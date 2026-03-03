@@ -2,6 +2,8 @@ package frc.robot.core.modules.superstructure.modules.turretmodule;
 
 import java.util.function.Supplier;
 
+import com.stzteam.features.dictionary.Dictionary.CommonTables;
+import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.models.SubsystemBuilder;
@@ -16,8 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.KeyManager.CommonTables;
-import frc.robot.configuration.KeyManager.CommonTables.Terminology;
+
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.core.requests.moduleRequests.TurretRequest;
 

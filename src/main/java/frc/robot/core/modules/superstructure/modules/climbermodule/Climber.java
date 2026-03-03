@@ -2,6 +2,8 @@ package frc.robot.core.modules.superstructure.modules.climbermodule;
 
 import java.util.function.Supplier;
 
+import com.stzteam.features.dictionary.Dictionary.CommonTables;
+import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.models.SubsystemBuilder;
@@ -11,8 +13,6 @@ import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.KeyManager.CommonTables;
-import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
 import frc.robot.configuration.factories.ClimberRequestFactory;

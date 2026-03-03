@@ -8,12 +8,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.configuration.KeyManager.StatusCodes;
+
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
 import frc.robot.helpers.AllianceUtil;
 
+import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 

@@ -1,17 +1,17 @@
 package frc.robot.core.requests.moduleRequests;
 
-import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.configuration.constants.Constants;
 
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.configuration.KeyManager.CommonTables.Terminology;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 
 import frc.robot.diagnostics.FlywheelsCode;
 
+import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
+import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 

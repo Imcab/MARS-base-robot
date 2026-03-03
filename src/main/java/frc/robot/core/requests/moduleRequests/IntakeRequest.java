@@ -1,13 +1,14 @@
 package frc.robot.core.requests.moduleRequests;
 
 import edu.wpi.first.math.MathUtil;
-import frc.robot.configuration.KeyManager.StatusCodes;
+
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.diagnostics.IntakeCode;
 import frc.robot.diagnostics.TurretCode;
 
+import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 

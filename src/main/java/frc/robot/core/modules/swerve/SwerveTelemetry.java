@@ -2,6 +2,7 @@ package frc.robot.core.modules.swerve;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.forgemini.io.NetworkIO;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -9,7 +10,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import frc.robot.configuration.KeyManager;
-import frc.robot.configuration.KeyManager.CommonTables;
 
 public class SwerveTelemetry {
 

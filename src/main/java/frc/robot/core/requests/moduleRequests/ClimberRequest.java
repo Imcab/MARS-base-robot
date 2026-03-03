@@ -1,10 +1,10 @@
 package frc.robot.core.requests.moduleRequests;
 
-import frc.robot.configuration.KeyManager.StatusCodes;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
 import frc.robot.diagnostics.ClimberCode;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO;
 
+import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
