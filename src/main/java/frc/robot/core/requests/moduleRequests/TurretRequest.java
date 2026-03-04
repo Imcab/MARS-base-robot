@@ -102,7 +102,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             Translation2d target = targetSupplier.get();
             Optional<Alliance> alliance = DriverStation.getAlliance();
             if (alliance.isPresent()) {
-              if(alliance.get() == Alliance.Red){
+              if(alliance.get() == Alliance.Red ){
                 target = AllianceUtil.flip(targetSupplier.get());
               }
              }

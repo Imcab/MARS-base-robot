@@ -10,6 +10,7 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
+
 @MARSTest(name = "Intake Diagnostic Routine")
 public class IntakeTest extends TestRoutine {
 
