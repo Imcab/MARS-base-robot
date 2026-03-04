@@ -17,6 +17,7 @@ import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.Ind
 import frc.robot.core.requests.moduleRequests.IndexerRequest;
 import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 
+
 public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
 
     public Indexer(IndexerIO io){
