@@ -81,14 +81,15 @@ public class OperatorBindings implements Binding {
         buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bubir el intake (y)
         .withAngle(-10)
         .Tolerance(Constants.INTAKE_TOLERANCE)
-        .withMode(intakeMODE.kUP)));
+        .withMode(intakeMODE.kUP)));    
         
         buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
         .withVolts(-9))); //Ruedas intake (b)
 
-        bumpers.left().whileTrue(superstructure.shoot());
-        
+        bumpers.left().whileTrue(superstructure.lockToHub());
 
+        bumpers.left().whileTrue(superstructure.ShootAngle(0, -4000));
+        
         driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 

@@ -22,7 +22,7 @@ public interface IndexerIO extends IO<IndexerIO.IndexerInputs> {
         
     }
 
-    public void applyOutput(@Unit(value = "Volts", group = "Indexer") double volts);
+    public void applyOutput(@Unit(value = "Volts", group = "Indexer") double rollersVolts, double intakeVolts);
     public void setSpeed(@Unit(value = "DutyCycle", group = "Indexer") double speed);
     public void stopAll();
     

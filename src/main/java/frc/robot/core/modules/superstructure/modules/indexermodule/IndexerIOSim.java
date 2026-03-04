@@ -48,7 +48,7 @@ public class IndexerIOSim implements IndexerIO{
     }
 
     @Override
-    public void applyOutput(double volts) {
+    public void applyOutput(double volts, double f) {
         this.appliedVolts = volts;
     }
 

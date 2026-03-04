@@ -163,7 +163,7 @@ public class RobotContainer implements IRobotContainer{
   .withNodes(gamePieceViz, trajetorySim)
   .bind();
 
-  tests = TestBindings.create(intake, turret, arm);
+  tests = TestBindings.create(intake, turret, arm, index);
 
   tests.bind();
 
@@ -174,7 +174,7 @@ public class RobotContainer implements IRobotContainer{
   @Override
   public void updateNodes() {
 
-    //limelightNode.periodic();
+    limelightNode.periodic();
       
     virtualRobot.periodic();
     trajetorySim.periodic();

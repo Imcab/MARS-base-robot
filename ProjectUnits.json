@@ -10,7 +10,7 @@
     "IndexerInputs.appliedVoltsIndex": "Volts",
     "IndexerInputs.appliedVoltsRoll": "Volts",
     "IndexerInputs.velocityRoll": "RPM",
-    "IndexerIO.applyOutput(volts)": "Volts",
+    "IndexerIO.applyOutput(rollersVolts)": "Volts",
     "IndexerInputs.velocityIndex": "RPM",
     "IndexerIO.setSpeed(speed)": "DutyCycle"
   },
