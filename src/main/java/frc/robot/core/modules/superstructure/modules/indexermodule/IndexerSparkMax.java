@@ -67,9 +67,9 @@ public class IndexerSparkMax implements IndexerIO{
     }
 
     @Override
-    public void applyOutput(double volts) {
-        rollers.setVoltage(volts);
-        indexMotor.setVoltage(volts);
+    public void applyOutput(double rollersVolts, double indexVolts) {
+        rollers.setVoltage(rollersVolts);
+        indexMotor.setVoltage(indexVolts);
     }
 
     @Override

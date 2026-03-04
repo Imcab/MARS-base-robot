@@ -13,6 +13,7 @@ import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.Constants;
 
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
@@ -79,11 +80,23 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                 flywheelShooter.runRequest(()-> FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50))
             ).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withVolts(8))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(8))
         );
     }
 
-    public Command ShootAngle(double armAngle){
+    public Command eatCommand(){
+        FlyWheel intakeWheels = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
+        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+
+        return Commands.parallel(
+            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-9)),
+
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(8))
+
+        );
+    }
+
+    public Command ShootAngle(double armAngle, double rpm){
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
         FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
@@ -95,13 +108,12 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                     .withTarget(()-> this.getVirtualTarget())
                     .withTolerance(Constants.TURRET_TOLERANCE)),
                 
-                arm.setControl(() -> ArmRequestFactory.setAngle().withAngle(armAngle).withTolerance(2)),
+                arm.setControl(() -> ArmRequestFactory.setAngle().withAngle(armAngle).withTolerance(2).withMode(ArmMODE.kUP)),
                 
-                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM().withDistance(() -> this.getVirtualDistance())
-                    .withTolerance(Constants.FLYWHEEL_TOLERANCE))
-            ).until(() -> inputs.readyToShoot),
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm).withTolerance(50))
+            ).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withVolts(12.0))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12))
         );
 
     }
@@ -127,9 +139,9 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                 flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM().withDistance(() -> this.getVirtualDistance())
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE)
                 )
-            ).until(() -> inputs.readyToShoot),
+            ).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withVolts(12.0))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(8).withIndex(8))
         );
     }
 
