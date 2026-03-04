@@ -2,12 +2,13 @@ package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.ClimberInputs;
 import frc.robot.diagnostics.ClimberCode;
-import mars.src.processor.RequestFactory;
 import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
+
+import com.stzteam.features.marsprocessor.RequestFactory;
 
 @RequestFactory
 public interface ClimberRequest extends Request <ClimberInputs, ClimberIO> {

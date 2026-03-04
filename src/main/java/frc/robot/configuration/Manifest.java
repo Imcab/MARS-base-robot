@@ -64,7 +64,7 @@ public class Manifest {
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final RunMode CURRENT_MODE = RunMode.SIM;
+    public static final RunMode CURRENT_MODE = RunMode.REAL;
 
     static{
         Environment.setMode(CURRENT_MODE);
@@ -75,13 +75,13 @@ public class Manifest {
 
     public static final boolean HAS_DRIVETRAIN = true;
 
-    public static final boolean HAS_VISUALS = true;
+    public static final boolean HAS_VISUALS = false;
     public static final boolean HAS_TRAJ_VISUAL = false;
     public static final boolean HAS_FUEL_VISUAL = false;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
     public static final boolean HAS_LIMELIGHT = false; //TODO: No cambiar a true, no hara nada pq no se implemento el nodo en el swerve
-    public static final boolean HAS_INDEXER = false;
+    public static final boolean HAS_INDEXER = true;
     public static final boolean HAS_QUESTNAV = false;
     public static final boolean HAS_SHOOTER_WHEELS = true;
     public static final boolean HAS_INTAKE = true;

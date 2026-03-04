@@ -8,14 +8,14 @@ public class ArmConstants {
 
     public static final int kId = 18;
 
-    public static final int currentLimit = 80;
-    public static final InvertedValue invertedValue = InvertedValue.Clockwise_Positive;
+    public static final int currentLimit = 60;
+    public static final InvertedValue invertedValue = InvertedValue.CounterClockwise_Positive;
 
-    public static final double kP = 0;
+    public static final double kP = 48;
     public static final double kI = 0;
-    public static final double kD = 0;
+    public static final double kD = 0.5;
 
-    public static final double kS = 0;
+    public static final double kS = 1.5;
     public static final double kV = 0;
     public static final double kA = 0;
 
@@ -27,6 +27,6 @@ public class ArmConstants {
     public static final double kArmMassKg = 3.0; // 3 kg de peso
 
     public static final double kMinAngleRads = Units.degreesToRadians(0);
-    public static final double kMaxAngleRads = Units.degreesToRadians(40);
+    public static final double kMaxAngleRads = Units.degreesToRadians(-40);
 
 }

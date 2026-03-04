@@ -21,19 +21,16 @@ public class TurretConstants {
     public static final double kMaxOutput = 1;
 
     //CONFIGURACION DE MAXMOTION
-    public static final double kP = 0;
+    public static final double kP = 4;
     public static final double kI = 0;
-    public static final double kD = 0;
+    public static final double kD = 2.4;
 
-    public static final double kS = 0;
-    public static final double kV = 0;
+    public static final double kS = 0.45;
+    public static final double kV = 2;
     public static final double kA = 0;
 
-    public static final double kCruiseVelocity = 2.0;
-    public static final double kMaxAcc = 4;
-
     //PEDIR
-    public static final double kGearRatio = 15;
+    public static final double kGearRatio = 20;
 
     public static final double kPositionFactor = 1 / kGearRatio; //Si NO ESTA DIRECTO A LA TORRETA
     //Si esta directo a la torreta usar (1:1):
@@ -44,11 +41,11 @@ public class TurretConstants {
     public static final int kCurrentLimit = 40;
     public static final double kMaxVolts = 12;
 
-    public static final double kLowerLimit = Units.degreesToRotations(-100);
-    public static final double kUpperLimit = Units.degreesToRotations(100);
+    public static final double kLowerLimit = Units.degreesToRotations(-85);
+    public static final double kUpperLimit = Units.degreesToRotations(85);
 
     //PEDIR
-    public static final int kMotorId = 50;
+    public static final int kMotorId = 19;
 
     public static final boolean kMotorInverted = false;
     public static final boolean kEncoderInverted = false;

@@ -20,7 +20,7 @@ public class IntakeConstants {
     public static final double kIntakeMassKg = 6.7;       // 3 kg de peso
 
     public static final double kMinAngleRads = Units.degreesToRadians(-150);
-    public static final double kMaxAngleRads = Units.degreesToRadians(10);
+    public static final double kMaxAngleRads = Units.degreesToRadians(-10);
     
 
     

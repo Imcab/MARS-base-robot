@@ -76,4 +76,9 @@ public class TurretIOSim implements TurretIO {
     public void stop() {
         setVoltage(0.0);
     }
+
+    @Override
+    public void resetEnc() {
+        
+    }
 }

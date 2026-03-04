@@ -4,7 +4,7 @@ import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.models.singlemodule.Data;
 import com.stzteam.mars.models.singlemodule.IO;
 
-import mars.src.processor.Fallback;
+import com.stzteam.features.marsprocessor.Fallback;
 
 @Fallback
 public interface ClimberIO extends IO<ClimberIO.ClimberInputs>{
@@ -15,15 +15,8 @@ public interface ClimberIO extends IO<ClimberIO.ClimberInputs>{
         
     }
 
-    public void applyOutput(@Unit("Volts")double volts);
+    public void applyOutput(@Unit(value = "Volts", group = "Climber") double volts);
     
-    public void setSpeed(@Unit("DutyCycle") double speed);
-
-    
-
-    
-
-
-
+    public void setSpeed(@Unit(value = "DutyCycle", group = "Climber") double speed);
 
 }

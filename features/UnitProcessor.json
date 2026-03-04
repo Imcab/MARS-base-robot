@@ -1,7 +1,7 @@
 {
   "featureId": "UnitProcessor",
   "name": "Unit Processor",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "groupId": "com.stzteam.features.unitprocessor",
   "author": "STZ-Robotics",
   "description": "Annotation processor for Units.",
@@ -13,7 +13,7 @@
     {
       "groupId": "com.stzteam.features.unitprocessor",
       "artifactId": "UnitProcessor",
-      "version": "1.0.0",
+      "version": "1.0.3",
       "isProcessor": true
     }
   ]

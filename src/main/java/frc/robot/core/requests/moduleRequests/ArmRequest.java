@@ -3,17 +3,19 @@ package frc.robot.core.requests.moduleRequests;
 import java.util.function.DoubleSupplier;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
-import com.stzteam.features.unitprocessor.Unit;
+import com.stzteam.features.marsprocessor.RequestFactory;
+
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 
 import edu.wpi.first.math.MathUtil;
 
 import frc.robot.configuration.constants.Constants;
+import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.diagnostics.ArmCode;
-import mars.src.processor.RequestFactory;
 
 @RequestFactory
 public interface ArmRequest extends Request<ArmInputs, ArmIO> {
@@ -29,6 +31,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
     public static class InterpolateTarget implements ArmRequest {
         private DoubleSupplier distanciaMetros;
         private double tolerance = 1.0;
+        private ArmMODE mode;
  
         public InterpolateTarget withDistance(DoubleSupplier target){
             this.distanciaMetros = target;
@@ -49,7 +52,13 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
                  return ActionStatus.of(ArmCode.OUT_OF_RANGE, StatusCodes.ARM_TABULATED_ERROR);
             }
 
-            actor.setPosition(anguloDeseado.doubleValue());
+            if(anguloDeseado > 0){
+                mode = ArmMODE.kUP;
+            } else {
+                mode = ArmMODE.kDOWN;
+            }
+
+            actor.setPosition(anguloDeseado.doubleValue(), mode);
             parameters.targetAngle = anguloDeseado.doubleValue();
 
             boolean isLocked = MathUtil.isNear(
@@ -70,6 +79,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
     public static class SetAngle implements ArmRequest {
         private double angle;
         private double tolerance = 1.0; // Grados de tolerancia por defecto
+        private ArmMODE mode;
 
         public SetAngle(double initialAngle){
             this.angle = initialAngle;
@@ -85,10 +95,15 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
             return this;
         }
 
+        public SetAngle withMode(ArmMODE mode){
+            this.mode = mode;
+            return this;
+        }
+
         @Override
         public ActionStatus apply(ArmInputs parameters, ArmIO actor) {
             parameters.targetAngle = angle;
-            actor.setPosition(angle);
+            actor.setPosition(angle, mode);
 
             boolean isLocked = MathUtil.isNear(
                 angle, 

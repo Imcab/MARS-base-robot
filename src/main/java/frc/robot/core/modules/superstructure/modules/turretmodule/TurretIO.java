@@ -1,5 +1,6 @@
 package frc.robot.core.modules.superstructure.modules.turretmodule;
 
+import com.stzteam.features.marsprocessor.Fallback;
 import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.mars.models.singlemodule.Data;
 import com.stzteam.mars.models.singlemodule.IO;
@@ -8,7 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
-import mars.src.processor.Fallback;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 
 @Fallback
@@ -16,14 +16,14 @@ public interface TurretIO extends IO<TurretInputs>{
 
     public static class TurretInputs extends Data<TurretInputs>{
   
-        @Unit("Rotations")
+        @Unit(value = "Rotations", group = "Turret")
         public Rotation2d angle = new Rotation2d();
-        @Unit("Rotations")
+        @Unit(value = "Rotations", group = "Turret")
         public Rotation2d targetAngle = new Rotation2d();
 
-        @Unit("RPS")
+        @Unit(value = "RPS", group = "Turret")
         public double velocityRPS = 0;
-        @Unit("Volts")
+        @Unit(value = "Volts", group = "Turret")
         public double appliedVolts = 0.0;
 
         public Pose2d robotPose = new Pose2d();
@@ -43,8 +43,9 @@ public interface TurretIO extends IO<TurretInputs>{
         }
     }
 
-    public void setVoltage(@Unit("Volts") double volts);
-    public void setPosition(@Unit("Rotations") Rotation2d angle);
+    public void setVoltage(@Unit(value = "Volts", group = "Turret") double volts);
+    public void setPosition(@Unit(value = "Rotations", group = "Turret") Rotation2d angle);
     public void stop();
+    public void resetEnc();
 
 }

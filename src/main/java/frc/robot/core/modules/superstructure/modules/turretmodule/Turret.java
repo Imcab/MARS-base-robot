@@ -61,7 +61,7 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> {
         return runRequest(request);
     }
 
-    @Unit("Meters")
+    @Unit(value = "Meters", group = "Turret")
     public double distanceTo(Translation2d point){
         return poseSupplier.get().getTranslation().getDistance(point);
     }

@@ -1,30 +1,42 @@
 {
-  "ArmInputs.position": "Degrees",
-  "ArmInputs.targetAngle": "Degrees",
-  "ArmIOSim.setPosition(angle)": "Degrees",
-  "ClimberIO.applyOutput(volts)": "Volts",
-  "ClimberIO.setSpeed(speed)": "DutyCycle",
-  "FlyWheelInputs.targetRPM": "RPM",
-  "FlyWheelInputs.velocityRPM": "RPM",
-  "FlyWheelIO.applyOutput(volts)": "Volts",
-  "FlyWheelIO.setSpeed(speed)": "DutyCycle",
-  "FlyWheelIO.setTargetRPM(rpm)": "RPM",
-  "IndexerInputs.appliedVoltsRoll": "Volts",
-  "IndexerInputs.velocityRoll": "RPM",
-  "IndexerInputs.appliedVoltsIndex": "Volts",
-  "IndexerInputs.velocityIndex": "RPM",
-  "IndexerIO.applyOutput(volts)": "Volts",
-  "IndexerIO.setSpeed(speed)": "DutyCycle",
-  "IntakeInputs.position": "Degrees",
-  "IntakeInputs.targetAngle": "Degrees",
-  "IntakeInputs.appliedVolts": "Volts",
-  "IntakeIO.setPosition(Angle)": "Degrees",
-  "IntakeIO.applyOutput(volts)": "Volts",
-  "Turret.distanceTo": "Meters",
-  "TurretInputs.angle": "Rotations",
-  "TurretInputs.targetAngle": "Rotations",
-  "TurretInputs.velocityRPS": "RPS",
-  "TurretInputs.appliedVolts": "Volts",
-  "TurretIO.setVoltage(volts)": "Volts",
-  "TurretIO.setPosition(angle)": "Rotations"
+  "FlyWheel": {
+    "FlyWheelInputs.targetRPM": "RPM",
+    "FlyWheelIO.setSpeed(speed)": "DutyCycle",
+    "FlyWheelIO.applyOutput(volts)": "Volts",
+    "FlyWheelInputs.velocityRPM": "RPM",
+    "FlyWheelIO.setTargetRPM(rpm)": "RPM"
+  },
+  "Indexer": {
+    "IndexerInputs.appliedVoltsIndex": "Volts",
+    "IndexerInputs.appliedVoltsRoll": "Volts",
+    "IndexerInputs.velocityRoll": "RPM",
+    "IndexerIO.applyOutput(volts)": "Volts",
+    "IndexerInputs.velocityIndex": "RPM",
+    "IndexerIO.setSpeed(speed)": "DutyCycle"
+  },
+  "Climber": {
+    "ClimberIO.setSpeed(speed)": "DutyCycle",
+    "ClimberIO.applyOutput(volts)": "Volts"
+  },
+  "Intake": {
+    "IntakeInputs.targetAngle": "Degrees",
+    "IntakeIO.setPosition(Angle)": "Degrees",
+    "IntakeInputs.appliedVolts": "Volts",
+    "IntakeIO.applyOutput(volts)": "Volts",
+    "IntakeInputs.position": "Degrees"
+  },
+  "Arm": {
+    "ArmInputs.targetAngle": "Degrees",
+    "ArmInputs.position": "Degrees",
+    "ArmIOSim.setPosition(angle)": "Degrees"
+  },
+  "Turret": {
+    "TurretInputs.velocityRPS": "RPS",
+    "TurretInputs.angle": "Rotations",
+    "TurretInputs.appliedVolts": "Volts",
+    "TurretIO.setPosition(angle)": "Rotations",
+    "Turret.distanceTo": "Meters",
+    "TurretIO.setVoltage(volts)": "Volts",
+    "TurretInputs.targetAngle": "Rotations"
+  }
 }

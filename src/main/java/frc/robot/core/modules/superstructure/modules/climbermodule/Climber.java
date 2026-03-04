@@ -19,8 +19,6 @@ import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.Cli
 import frc.robot.core.requests.moduleRequests.ClimberRequest;
 import frc.robot.core.requests.moduleRequests.ClimberRequestFactory;
 
-
-
 public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO>{
 
    

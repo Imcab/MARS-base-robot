@@ -59,6 +59,30 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return currentPose.getDistance(getVirtualTarget());
     }
 
+    public Command lockToHub(){
+        Turret turret = getSubsystem(KeyManager.TURRET_KEY);
+
+        return Commands.parallel(
+            turret.setControl(() -> TurretRequestFactory.lockOnTarget()
+                .withTarget(()-> this.getVirtualTarget())
+                .withTolerance(Constants.TURRET_TOLERANCE)
+            )
+        );
+    }
+
+    public Command shoot(){
+        FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
+        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+
+        return Commands.sequence(
+            Commands.parallel(
+                flywheelShooter.runRequest(()-> FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50))
+            ).until(()-> flywheelShooter.isAtTarget(50)),
+
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withVolts(8))
+        );
+    }
+
     public Command shootOnTheMove() {
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 

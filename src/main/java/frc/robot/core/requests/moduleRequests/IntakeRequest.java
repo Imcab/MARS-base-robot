@@ -7,11 +7,12 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.Intak
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.diagnostics.IntakeCode;
 import frc.robot.diagnostics.TurretCode;
-import mars.src.processor.RequestFactory;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
+
+import com.stzteam.features.marsprocessor.RequestFactory;
 
 @RequestFactory
 public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
@@ -31,7 +32,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO>{
             return ActionStatus.of(TurretCode.RESET, "Reseted");
         }
     }
-
+    
     public static class setAngle implements IntakeRequest {
         private double angle;
         private double tolerance = 1.0; // Grados de tolerancia por defecto

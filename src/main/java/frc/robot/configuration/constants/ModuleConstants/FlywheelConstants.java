@@ -9,14 +9,14 @@ public class FlywheelConstants {
         public static final int shooterLeaderID = 19;
         public static final int shooterFollowerID = 20;
 
-        public static final double SupplyCurrentLimit = 60;
+        public static final double SupplyCurrentLimit = 120;
         public static final boolean SupplyCurrentLimitEnable = true;
 
         public static final double kRPMTolerance = 250;
 
         public static final double kS = 0;
-        public static final double kV = 0;
-        public static final double kP = 0;
+        public static final double kV = 0.125;
+        public static final double kP = 1.8;
         public static final double kI = 0;
         public static final double kD = 0;
 

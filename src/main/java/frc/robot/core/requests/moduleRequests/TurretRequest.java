@@ -13,11 +13,12 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
 import frc.robot.helpers.AllianceUtil;
-import mars.src.processor.RequestFactory;
 
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
+
+import com.stzteam.features.marsprocessor.RequestFactory;
 
 @RequestFactory
 public interface TurretRequest extends Request<TurretInputs, TurretIO> {
@@ -115,7 +116,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -360, 360);
+            double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -85, 85);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
             data.targetAngle = targetRot;

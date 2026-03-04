@@ -10,6 +10,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import frc.robot.configuration.constants.ModuleConstants.ArmConstants;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 
 public class ArmIOSim implements ArmIO {
 
@@ -72,7 +73,7 @@ public class ArmIOSim implements ArmIO {
     }
 
     @Override
-    public void setPosition(@Unit("Degrees") double angle) {
+    public void setPosition(@Unit(value = "Degrees", group = "Arm") double angle, ArmMODE mode) {
         isClosedLoop = true;
         this.currentTargetAngle = angle;
     }

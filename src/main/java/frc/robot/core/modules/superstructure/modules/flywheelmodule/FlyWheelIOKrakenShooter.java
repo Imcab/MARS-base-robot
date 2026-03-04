@@ -1,5 +1,6 @@
 package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
@@ -20,10 +21,9 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO{
 
     private double velocityTarget;
 
-
     public FlyWheelIOKrakenShooter(){
-        leaderShooter = new TalonFX(ShooterWheelsConstants.shooterLeaderID, TunerConstants.kCANBus); //Si estan en el can de la rico cambiar a "CANBus.roboRIO()"
-        followerShooter = new TalonFX(ShooterWheelsConstants.shooterFollowerID, TunerConstants.kCANBus);
+        leaderShooter = new TalonFX(ShooterWheelsConstants.shooterLeaderID, CANBus.roboRIO()); //Si estan en el can de la rico cambiar a "CANBus.roboRIO()"
+        followerShooter = new TalonFX(ShooterWheelsConstants.shooterFollowerID, CANBus.roboRIO());
 
         leaderConfig = new TalonFXConfiguration();
         followerConfig = new TalonFXConfiguration();
@@ -62,7 +62,7 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO{
 
     @Override
     public void updateInputs(FlyWheelInputs inputs){
-        inputs.velocityRPM = leaderShooter.getVelocity().getValueAsDouble();
+        inputs.velocityRPM = leaderShooter.getVelocity().getValueAsDouble() * 60.0; // Convert from rotations per second to RPM
         inputs.appliedVolts = leaderShooter.getMotorVoltage().getValueAsDouble();
         inputs.targetRPM = leaderShooter.getPosition().getTimestamp().getLatency();
         inputs.targetRPM = this.velocityTarget;
@@ -71,7 +71,7 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO{
     @Override
     public void setTargetRPM(double RPM){
         this.velocityTarget = RPM;
-        leaderShooter.setControl(velocityRequest.withVelocity(RPM).withSlot(0));
+        leaderShooter.setControl(velocityRequest.withVelocity(RPM/60).withSlot(0));
     }
 
     @Override

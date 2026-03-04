@@ -18,7 +18,6 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.Intak
 import frc.robot.core.requests.moduleRequests.IntakeRequest;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
-
 public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
 
     public Intake(IntakeIO io){

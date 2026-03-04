@@ -10,14 +10,13 @@ import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 
-
 @MARSTest(name = "Turret Angle Test")
 public class TurretTest extends TestRoutine {
 
     private final Turret t;
 
-    private Rotation2d target1 = new Rotation2d(Math.toRadians(50));
-    private Rotation2d target2 = new Rotation2d(Math.toRadians(-50));
+    private Rotation2d target1 = new Rotation2d(Math.toRadians(45));
+    private Rotation2d target2 = new Rotation2d(Math.toRadians(-45));
 
     public TurretTest(Turret turret){
         this.t = turret;

@@ -9,19 +9,20 @@ import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class TurretIOSparkMax implements TurretIO {
     private final SparkMax m_motor;
-    private final AbsoluteEncoder m_encoder;
+    private final RelativeEncoder m_encoder;
 
     private Rotation2d currentTargetAngle = new Rotation2d();
 
     public TurretIOSparkMax() {
         m_motor = new SparkMax(TurretConstants.kMotorId, MotorType.kBrushless);
-        m_encoder = m_motor.getAbsoluteEncoder();
+        m_encoder = m_motor.getEncoder();
         
         motorConfig();
     }
@@ -44,8 +45,6 @@ public class TurretIOSparkMax implements TurretIO {
 
             profiles.feedForward.kS(TurretConstants.kS).kV(TurretConstants.kV).kA(TurretConstants.kA);
 
-            profiles.maxMotion.cruiseVelocity(TurretConstants.kCruiseVelocity).maxAcceleration(TurretConstants.kMaxAcc);
-
             config.
                 idleMode(IdleMode.kBrake).
                 inverted(TurretConstants.kMotorInverted).
@@ -58,8 +57,7 @@ public class TurretIOSparkMax implements TurretIO {
                 reverseSoftLimit(TurretConstants.kLowerLimit).
                 reverseSoftLimitEnabled(true);
 
-            config.absoluteEncoder.
-                inverted(TurretConstants.kEncoderInverted).
+            config.encoder.
                 positionConversionFactor(TurretConstants.kPositionFactor).
                 velocityConversionFactor(TurretConstants.kVelocityFactor);
         
@@ -91,12 +89,17 @@ public class TurretIOSparkMax implements TurretIO {
     @Override
     public void setPosition(Rotation2d angle) {
         this.currentTargetAngle = angle;
-        m_motor.getClosedLoopController().setSetpoint(angle.getRotations(), ControlType.kMAXMotionPositionControl);
+        m_motor.getClosedLoopController().setSetpoint(angle.getRotations(), ControlType.kPosition);
     }
 
     @Override
     public void stop() {
         m_motor.stopMotor();
+    }
+
+    @Override
+    public void resetEnc() {
+        m_encoder.setPosition(0);
     }
 
 }

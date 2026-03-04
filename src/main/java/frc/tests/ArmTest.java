@@ -7,7 +7,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
+import frc.robot.diagnostics.ArmCode;
 
 @MARSTest(name = "Arm PID Motion Test")
 public class ArmTest extends TestRoutine{
@@ -21,31 +23,31 @@ public class ArmTest extends TestRoutine{
     public Command getRoutineCommand() {
         return Commands.sequence(
 
-            run(ArmRequestFactory.setAngle().withAngle(10).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(-40).withMode(ArmMODE.kUP).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
             assertLessThan(
-                calculateError(10, a.getState().position), 
+                calculateError(-40, a.getState().position), 
                 2, 
                 "Error es muy alto"
             ),
 
             delay(1),
 
-            run(ArmRequestFactory.setAngle().withAngle(35).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(-20).withMode(ArmMODE.kDOWN).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
             assertLessThan(
-                calculateError(35, a.getState().position), 
+                calculateError(-20, a.getState().position), 
                 2, 
                 "Error es muy alto"
             ),
 
             delay(1),
 
-            run(ArmRequestFactory.setAngle().withAngle(0).withTolerance(Constants.ARM_TOLERANCE), a),
+            run(ArmRequestFactory.setAngle().withAngle(0).withMode(ArmMODE.kDOWN).withTolerance(Constants.ARM_TOLERANCE), a),
 
             waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 

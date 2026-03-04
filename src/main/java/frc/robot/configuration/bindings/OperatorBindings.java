@@ -29,6 +29,7 @@ public class OperatorBindings implements Binding {
     private Intake intake;
     private CommandSwerveDrivetrain drivetrain;
     private FlyWheel flyWheelsIntake;
+    private FlyWheel flywheelShooter;
 
     private Node<GamePieceMsg> gamePieceViz;
     private Node<TrajectoryMsg> trajectoryNode;
@@ -42,11 +43,12 @@ public class OperatorBindings implements Binding {
         return new OperatorBindings(operator, ss);
     }
 
-    public OperatorBindings withSubsystems(Turret t, Arm a, Intake i, CommandSwerveDrivetrain dt, FlyWheel f) {
+    public OperatorBindings withSubsystems(Turret t, Arm a, Intake i, CommandSwerveDrivetrain dt, FlyWheel f, FlyWheel fs) {
         this.turret = t;
         this.arm = a;
         this.intake = i;
         this.drivetrain = dt;
+        this.flywheelShooter = fs;
         this.flyWheelsIntake = f;
         return this;
     }
@@ -82,7 +84,10 @@ public class OperatorBindings implements Binding {
         .withMode(intakeMODE.kUP)));
         
         buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
-        .withVolts(-11))); //Ruedas intake (b)
+        .withVolts(-9))); //Ruedas intake (b)
+
+        bumpers.left().whileTrue(superstructure.shoot());
+        
 
         driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
