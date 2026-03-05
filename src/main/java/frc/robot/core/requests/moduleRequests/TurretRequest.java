@@ -116,7 +116,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            double cleanDegrees = MathUtil.inputModulus(turretSetpoint.getDegrees(), -85, 85);
+            double cleanDegrees = -MathUtil.clamp(turretSetpoint.getDegrees(), -180, 180);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
             data.targetAngle = targetRot;
@@ -124,10 +124,8 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
 
             boolean isLocked = MathUtil.isNear(
                 targetRot.getDegrees(), 
-                data.targetAngle.getDegrees(), 
-                toleranceDegrees,
-                -180.0,
-                180.0
+                data.angle.getDegrees(), 
+                toleranceDegrees
             );
             
             if (isLocked) {

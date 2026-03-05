@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stzteam.features.limelight.LimelightConfig;
@@ -48,7 +49,7 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 
-public class RobotContainer implements IRobotContainer{
+public class RobotContainer implements IRobotContainer {
 
   public final ControllerOI driver;
   public final ControllerOI operator;
@@ -59,7 +60,7 @@ public class RobotContainer implements IRobotContainer{
   public PathPlannerAuto eatAuto;
   public PathPlannerAuto AutoCenter;
   public PathPlannerAuto autoForeward;
-  
+
   public final Arm arm;
   public final Turret turret;
   public final FlyWheel flywheelShooter;
@@ -72,19 +73,20 @@ public class RobotContainer implements IRobotContainer{
   private final Node<VisualizerMsg> virtualRobot;
   private final Node<TrajectoryMsg> trajetorySim;
   private final Node<GamePieceMsg> gamePieceViz;
-  
+
   public final Superstructure superstructure;
 
   public final TestBindings tests;
 
-  public void configureAutos(){
-    NamedCommands.registerCommand("Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
+  public void configureAutos() {
+    NamedCommands.registerCommand("Angle->Eat",
+        superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
     NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
 
     eatAuto = new PathPlannerAuto("EatAuto1");
     AutoCenter = new PathPlannerAuto("AutoCenter");
     autoForeward = new PathPlannerAuto("New Auto");
-     
+
     chooser.setDefaultOption("EatAuto", eatAuto);
     chooser.addOption("AutoCenter", AutoCenter);
     chooser.addOption("test1Forward", autoForeward);
@@ -95,79 +97,73 @@ public class RobotContainer implements IRobotContainer{
 
   public RobotContainer() {
 
-  //WHEELS AHHH
-  //GG PAPA
-  //GGGGGGGG
-  //Banana Chong 2
-  //Banana Chong
+    // WHEELS AHHH
+    // GG PAPA
+    // GGGGGGGG
+    // Banana Chong 2
+    // Banana Chong
+    // Branch Chong gg papa
 
-  this.driver = ControlsBuilder.buildDriver();
+    this.driver = ControlsBuilder.buildDriver();
 
-  this.operator = ControlsBuilder.buildOperator();
+    this.operator = ControlsBuilder.buildOperator();
 
-  this.drivetrain = DrivetrainBuilder.buildModule();
+    this.drivetrain = DrivetrainBuilder.buildModule();
 
-  this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
-  this.arm = ArmBuilder.create().buildModule();
-  this.intake = IntakeBuilder.create().buildModule();
-  this.index = IndexerBuilder.create().buildModule();
-  this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
-  this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
+    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
+    this.arm = ArmBuilder.create().buildModule();
+    this.intake = IntakeBuilder.create().buildModule();
+    this.index = IndexerBuilder.create().buildModule();
+    this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
+    this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
 
-  this.superstructure = Manifest.SuperstructureBuilder.superBuild(
-      this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake
-  );
+    this.superstructure = Manifest.SuperstructureBuilder.superBuild(
+        this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake);
 
-  LimelightConfig config = new LimelightConfig().
-            withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS).
-            withMaxAngularVelocity(VisionConstants.MAX_ANGULAR_VELOCITY_DEG_PER_SEC).
-            withMultiTagStdDev(VisionConstants.MULTI_TAG_STD_DEV).
-            withRotationStdDev(VisionConstants.ROTATION_STD_DEV).
-            withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS).
-            withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV).
-            withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
+    LimelightConfig config = new LimelightConfig().withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS)
+        .withMaxAngularVelocity(VisionConstants.MAX_ANGULAR_VELOCITY_DEG_PER_SEC)
+        .withMultiTagStdDev(VisionConstants.MULTI_TAG_STD_DEV).withRotationStdDev(VisionConstants.ROTATION_STD_DEV)
+        .withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS)
+        .withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV)
+        .withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
 
-  this.limelightNode = !Manifest.HAS_LIMELIGHT ?
-    new FallbackNode<>() :
-    new LimelightNode(config, new LimelightDriver(
-      ()-> drivetrain.getPigeon2().getRotation2d(),
-      ()-> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()),
-    msg-> {
-      if (msg.validPose) {
-          drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
-      }
-    });
+    this.limelightNode = !Manifest.HAS_LIMELIGHT ? new FallbackNode<>()
+        : new LimelightNode(config, new LimelightDriver(
+            () -> drivetrain.getPigeon2().getRotation2d(),
+            () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()),
+            msg -> {
+              if (msg.validPose) {
+                drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
+              }
+            });
 
-  this.virtualRobot = VisualizerBuilder.buildNode(
-    turret::getDegrees,
-    () -> arm.getState().position,
-    () -> intake.getState().position,
-    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY)
-  );
+    this.virtualRobot = VisualizerBuilder.buildNode(
+        turret::getDegrees,
+        () -> arm.getState().position,
+        () -> intake.getState().position,
+        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY));
 
-  this.trajetorySim = TrajectoryBuilder.buildNode(
-    () -> drivetrain.getState().Pose,
-    turret::getDegrees,
-    () -> arm.getState().position,
-    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY)
-  );
+    this.trajetorySim = TrajectoryBuilder.buildNode(
+        () -> drivetrain.getState().Pose,
+        turret::getDegrees,
+        () -> arm.getState().position,
+        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY));
 
-  this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
-    msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY)
-  );
-    
-  DriverBindings.parameterized(drivetrain, driver).bind();
+    this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
+        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY));
 
-  OperatorBindings.create(operator, superstructure)
-  .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake, flywheelShooter)
-  .withNodes(gamePieceViz, trajetorySim)
-  .bind();
+    DriverBindings.parameterized(drivetrain, driver).bind();
 
-  tests = TestBindings.create(intake, turret, arm, index);
+    OperatorBindings.create(operator, superstructure)
+        .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake, flywheelShooter)
+        .withNodes(gamePieceViz, trajetorySim)
+        .bind();
 
-  tests.bind();
+    tests = TestBindings.create(intake, turret, arm, index, superstructure);
 
-  configureAutos();
+    tests.bind();
+
+    configureAutos();
 
   }
 
@@ -175,11 +171,11 @@ public class RobotContainer implements IRobotContainer{
   public void updateNodes() {
 
     limelightNode.periodic();
-      
+
     virtualRobot.periodic();
     trajetorySim.periodic();
     gamePieceViz.periodic();
-      
+
   }
 
   @Override
@@ -188,7 +184,7 @@ public class RobotContainer implements IRobotContainer{
   }
 
   @Override
-  public TestRoutine getTestRoutine(){
+  public TestRoutine getTestRoutine() {
     return tests.getSelected();
   }
 }

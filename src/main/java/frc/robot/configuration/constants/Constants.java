@@ -24,7 +24,7 @@ public class Constants {
 
     static {
 
-        RPM_MAP.put(1.00, 2000.0);
+        RPM_MAP.put(1.00, 2350.0);
         RPM_MAP.put(2.50, 3200.0);
         RPM_MAP.put(4.50, 4500.0);
         RPM_MAP.put(6.00, 5500.0);
