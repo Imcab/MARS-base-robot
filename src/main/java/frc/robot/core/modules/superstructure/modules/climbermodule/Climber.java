@@ -19,54 +19,50 @@ import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.Cli
 import frc.robot.core.requests.moduleRequests.ClimberRequest;
 import frc.robot.core.requests.moduleRequests.ClimberRequestFactory;
 
-public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO>{
+public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
 
-   
-
-   public Climber(ClimberIO io){
+    public Climber(ClimberIO io) {
 
         super(SubsystemBuilder.<ClimberInputs, ClimberIO>setup()
-            .key(KeyManager.CLIMBER_KEY)
-            .hardware(io, new ClimberInputs())
-            .request(ClimberRequestFactory.idle())
-            .telemetry(new ClimberTelemetry())
-        );
+                .key(KeyManager.CLIMBER_KEY)
+                .hardware(io, new ClimberInputs())
+                .request(ClimberRequestFactory.idle())
+                .telemetry(new ClimberTelemetry()));
 
         registerTelemetry(new ClimberTelemetry());
-        this.setDefaultCommand(runRequest(()-> ClimberRequestFactory.idle()));
+        this.setDefaultCommand(runRequest(() -> ClimberRequestFactory.idle()));
     }
 
-    public Command setControl(Supplier<ClimberRequest> request){
+    public Command setControl(Supplier<ClimberRequest> request) {
         return runRequest(request);
     }
 
-     @Override
-    public ClimberInputs getState(){
+    @Override
+    public ClimberInputs getState() {
         return inputs;
     }
 
-
-    public static class ClimberTelemetry extends Telemetry<ClimberInputs>{
+    public static class ClimberTelemetry extends Telemetry<ClimberInputs> {
 
         @Override
         public void telemeterize(ClimberInputs data, ActionStatus lastStatus) {
             NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
             NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
-            if(lastStatus != null && lastStatus.code != null){
+            if (lastStatus != null && lastStatus.code != null) {
                 NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
                 NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY,
+                        lastStatus.getPayload().message());
             }
-            
+
         }
-        
+
     }
 
     @Override
-        public void absolutePeriodic(ClimberInputs inputs) {
-        
-    }
+    public void absolutePeriodic(ClimberInputs inputs) {
 
     }
 
+}
