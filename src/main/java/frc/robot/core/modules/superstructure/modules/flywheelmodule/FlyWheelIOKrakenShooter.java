@@ -8,7 +8,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 
-import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants.ShooterWheelsConstants;
 
 public class FlyWheelIOKrakenShooter implements FlyWheelIO{

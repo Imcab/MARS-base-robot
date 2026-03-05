@@ -110,10 +110,9 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                 
                 arm.setControl(() -> ArmRequestFactory.setAngle().withAngle(armAngle).withTolerance(2).withMode(ArmMODE.kUP)),
                 
-                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm).withTolerance(50))
-            ).until(()-> flywheelShooter.isAtTarget(50)),
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm).withTolerance(50))).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12))
+                index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12))
         );
 
     }
