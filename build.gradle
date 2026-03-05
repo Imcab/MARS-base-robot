@@ -151,7 +151,6 @@ jar {
         exclude 'mars_terminal/**' // Bloqueamos la carpeta de la terminal
         exclude 'mars-alloy/**'    // Bloqueamos la carpeta de alloy
         exclude 'mars-logtool/**'  // Bloqueamos la carpeta logtool
-        exclude 'mars-processor/**'// Por si acaso, bloqueamos la carpeta vieja del procesador local
 
         exclude 'features/**'      // Bloqueamos los JSON de features
         exclude 'vendordeps/**'    // Bloqueamos los JSON de vendordeps para no llenar el roboRIO con basura de versiones anteriores
