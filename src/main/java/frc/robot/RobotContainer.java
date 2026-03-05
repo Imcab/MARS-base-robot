@@ -163,7 +163,7 @@ public class RobotContainer implements IRobotContainer{
   .withNodes(gamePieceViz, trajetorySim)
   .bind();
 
-  tests = TestBindings.create(intake, turret, arm, index);
+  tests = TestBindings.create(intake, turret, arm, index, superstructure);
 
   tests.bind();
 
