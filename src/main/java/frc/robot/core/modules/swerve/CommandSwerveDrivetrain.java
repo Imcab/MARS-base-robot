@@ -266,7 +266,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
             });
         }
   
-        //updateVision();
         field.setRobotPose(getState().Pose);
         NetworkIO.set(KeyManager.SWERVE_KEY, "Distancia", getDistanceToTag());
         NetworkIO.set(KeyManager.SWERVE_KEY, "OdometryFrequency", getOdometryFrequency());
@@ -302,21 +301,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         if (angleToGoalRadians == 0) return 0.0;
 
         return (targetHeightMeters - cameraHeightMeters) / Math.tan(angleToGoalRadians);
-    }
-    return 0.0;
-}
-
-    private void updateVision() {
-        LimelightHelpers.SetRobotOrientation(KeyManager.LIMELIGHT_KEY, this.getPigeon2().getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
-        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(KeyManager.LIMELIGHT_KEY);
-        
-        if (mt2 == null || mt2.tagCount == 0) return;
-
-        if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) return;
-        
-        NetworkIO.set(KeyManager.SWERVE_KEY, "Mt2", mt2.pose);
-
-        addVisionMeasurement(mt2.pose, mt2.timestampSeconds, VecBuilder.fill(.3,.3,9999999));
+        }
+        return 0.0;
     }
 
     public void aproachY() { 
@@ -450,6 +436,5 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     public Subsystem asSubsystem() {
         return this;
     }
-
 
 }
