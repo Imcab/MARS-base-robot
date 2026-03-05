@@ -42,6 +42,7 @@ public class DriverBindings implements Binding{
         );
 
         driverButtons.top().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
+        
 
         driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake()));
 

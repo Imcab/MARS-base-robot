@@ -75,7 +75,7 @@ public class TurretIOSparkMax implements TurretIO {
 
     @Override
     public void updateInputs(TurretInputs inputs) {
-        inputs.angle = Rotation2d.fromRotations(m_encoder.getPosition());
+        inputs.angle = Rotation2d.fromRotations(-m_encoder.getPosition());
         inputs.targetAngle = this.currentTargetAngle;
         inputs.velocityRPS = m_encoder.getVelocity();
         inputs.appliedVolts = m_motor.getAppliedOutput() * m_motor.getBusVoltage();

@@ -75,9 +75,9 @@ public class Manifest {
 
     public static final boolean HAS_DRIVETRAIN = true;
 
-    public static final boolean HAS_VISUALS = false;
-    public static final boolean HAS_TRAJ_VISUAL = false;
-    public static final boolean HAS_FUEL_VISUAL = false;
+    public static final boolean HAS_VISUALS = true;
+    public static final boolean HAS_TRAJ_VISUAL = true;
+    public static final boolean HAS_FUEL_VISUAL = true;
     public static final boolean HAS_TURRET = true;
     public static final boolean HAS_ARM = true;
     public static final boolean HAS_LIMELIGHT = true; 
