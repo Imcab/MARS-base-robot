@@ -66,7 +66,6 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return Commands.parallel(
             turret.setControl(() -> TurretRequestFactory.lockOnTarget()
                 .withTarget(()-> this.getVirtualTarget())
-                .withTolerance(Constants.TURRET_TOLERANCE)
             )
         );
     }
@@ -191,5 +190,6 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
     @Override
     public void absolutePeriodic(SuperstructureData inputs) {
         NetworkIO.set("Superstructure", "DistanciaAlHub", getVirtualDistance());
+        NetworkIO.set("Superstructure", "Virtual", getVirtualTarget());
     }
 }
