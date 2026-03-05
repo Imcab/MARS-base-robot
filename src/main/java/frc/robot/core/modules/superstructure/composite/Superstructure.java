@@ -1,6 +1,11 @@
 package frc.robot.core.modules.superstructure.composite;
 
+import java.security.PublicKey;
+import java.util.function.DoubleSupplier;
+
 import com.stzteam.forgemini.io.NetworkIO;
+import com.stzteam.forgemini.io.Signal;
+import com.stzteam.forgemini.io.Tunable;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.multimodules.CompositeSubsystem;
 
@@ -29,6 +34,12 @@ import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 public class Superstructure extends CompositeSubsystem<SuperstructureData, SuperstructureIO> {
 
     private static final double NOMINAL_FUEL_VELOCITY_MPS = 18.0; 
+
+    @Tunable
+    public double RPMTest = -3500;
+
+    @Tunable
+    public double AngleTest = -20;
 
     public Superstructure(SubsystemBuilder<SuperstructureData, SuperstructureIO> builder) {
         super(builder);
@@ -117,6 +128,28 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
     }
 
+    public Command ShootAngleTest(DoubleSupplier armAngle, DoubleSupplier rpm){
+        Turret turret = getSubsystem(KeyManager.TURRET_KEY);
+        FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
+        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+        Arm arm = getSubsystem(KeyManager.ARM_KEY); 
+
+        return Commands.sequence(
+            Commands.parallel(
+                turret.setControl(() -> TurretRequestFactory.lockOnTarget()
+                    .withTarget(()-> this.getVirtualTarget())
+                    .withTolerance(Constants.TURRET_TOLERANCE)),
+                
+                arm.setControl(() -> ArmRequestFactory.setAngle().withAngle(armAngle.getAsDouble()).withTolerance(2).withMode(ArmMODE.kUP)),
+                
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm.getAsDouble()).withTolerance(50))
+            ).until(()-> flywheelShooter.isAtTarget(50)),
+
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12))
+        );
+
+    }
+
     public Command shootOnTheMove() {
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
@@ -155,6 +188,16 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(voltage))
             );
 
+    }
+
+    @Signal(key = "RPM")
+    public double getRPM(){
+        return RPMTest;
+    }
+
+    @Signal(key = "Angle")
+    public double getAngle(){
+        return AngleTest;
     }
 
     public Command EatAutoWheels(double voltage){

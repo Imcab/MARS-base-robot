@@ -86,7 +86,9 @@ public class OperatorBindings implements Binding {
         buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
         .withVolts(-9))); //Ruedas intake (b)
 
-        bumpers.left().whileTrue(superstructure.lockToHub());
+        bumpers.left().whileTrue(superstructure.lockToHub()); 
+
+        bumpers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
 
         //bumpers.left().whileTrue(superstructure.ShootAngle(0, -4000));
         
