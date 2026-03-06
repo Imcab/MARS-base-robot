@@ -24,8 +24,8 @@ public class Constants {
 
     static {
 
-        RPM_MAP.put(1.00, 2350.0);
-        RPM_MAP.put(2.50, 3200.0);
+        RPM_MAP.put(1.00, -2350.0); //Listo
+        RPM_MAP.put(2.50, -2900.0);  //Listo
         RPM_MAP.put(4.50, 4500.0);
         RPM_MAP.put(6.00, 5500.0);
     }
@@ -39,7 +39,7 @@ public class Constants {
         // --- ZONA 2: FUERA DEL TRENCH (Distancia Media) ---
         // A ~2.5m, ya tienes ángulo para disparar más directo.
         // Cerramos un poco el hood para ganar velocidad horizontal.
-        INTERPOLATION_MAP.put(2.50, 18.0); 
+        INTERPOLATION_MAP.put(2.50, -4.5); 
 
         // --- ZONA 3: OUTPOST / DEPOT (Lejos) ---
         // A 4.5m+, el FUEL debe viajar rápido para no perder altura.

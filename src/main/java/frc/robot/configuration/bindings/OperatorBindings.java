@@ -64,6 +64,7 @@ public class OperatorBindings implements Binding {
         var buttons = operator.getActionButtons();
         var bumpers = operator.getBumpers();
         var driverSystem = operator.getSystemTriggers();
+        var triggers = operator.getAnalogTriggers();
         
         var intakeDown = IntakeRequestFactory.setAngle().withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
@@ -73,6 +74,8 @@ public class OperatorBindings implements Binding {
 
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
+        // ----- Botones (a,b,x,y) -----
+        /* 
         buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bajar el intake (a)
         .withAngle(-130) 
         .Tolerance(Constants.INTAKE_TOLERANCE)
@@ -81,18 +84,17 @@ public class OperatorBindings implements Binding {
         buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bubir el intake (y)
         .withAngle(-10)
         .Tolerance(Constants.INTAKE_TOLERANCE)
-        .withMode(intakeMODE.kUP)));    
-        
-        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
-        .withVolts(-9))); //Ruedas intake (b)
+        .withMode(intakeMODE.kUP)));    */        
+        buttons.right().whileTrue(superstructure.eatCommand()); //Comer fuels
+
+        buttons.left().whileTrue(superstructure.clearFuel()); // Desatorar fuels
+        // ----- Botones (a,b,x,y) -----
 
         bumpers.left().whileTrue(superstructure.lockToHub()); 
 
-        bumpers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
-
-        //bumpers.left().whileTrue(superstructure.ShootAngle(0, -4000));
+        triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
         
-        driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
+        //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
         //  REGISTRO EN LA TERMINAL (MARS GCS)

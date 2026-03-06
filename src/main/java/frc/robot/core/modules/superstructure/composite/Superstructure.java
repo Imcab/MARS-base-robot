@@ -99,12 +99,28 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
 
         return Commands.parallel(
-            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-9)),
+            intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-8)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(8))
+            index.setControl(()->IndexerRequestFactory.moveVoltage().withIndex(0).withRollers(8))
 
         );
     }
+
+    public Command clearFuel(){
+        FlyWheel intakeFlyWheel = getSubsystem(KeyManager.FLYWHEEL_INTAKE_KEY);
+        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+
+        return Commands.parallel(
+            intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-5)),
+
+            Commands.sequence(
+                index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)).withTimeout(1.5),
+                index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)).withTimeout(1.5)
+            ).repeatedly()
+            
+            );
+    }
+
 
     public Command ShootAngle(double armAngle, double rpm){
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
@@ -149,7 +165,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         );
 
     }
-
+    
     public Command shootOnTheMove() {
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
