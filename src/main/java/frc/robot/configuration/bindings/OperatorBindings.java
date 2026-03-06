@@ -65,7 +65,8 @@ public class OperatorBindings implements Binding {
         var buttons = operator.getActionButtons();
         var bumpers = operator.getBumpers();
         var driverSystem = operator.getSystemTriggers();
-
+        var triggers = operator.getAnalogTriggers();
+        
         var intakeDown = IntakeRequestFactory.setAngle().withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN);
         var intakeUp = IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2).withMode(intakeMODE.kUP);
         var intakeOuttake = IntakeRequestFactory.moveVoltage().withVolts(0.44);
@@ -75,32 +76,28 @@ public class OperatorBindings implements Binding {
         // --------------------------------------------------------------- MANDO
         // ---------------------------------------------------------------
 
-        buttons.bottom().whileTrue(intake.setControl(() -> IntakeRequestFactory.setAngle() // Bajar el intake (a)
-                .withAngle(-130)
-                .Tolerance(Constants.INTAKE_TOLERANCE)
-                .withMode(intakeMODE.kDOWN)));
+        // ----- Botones (a,b,x,y) -----
+        /* 
+        buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bajar el intake (a)
+        .withAngle(-130) 
+        .Tolerance(Constants.INTAKE_TOLERANCE)
+        .withMode(intakeMODE.kDOWN)));
 
-        buttons.top().whileTrue(intake.setControl(() -> IntakeRequestFactory.setAngle() // Bubir el intake (y)
-                .withAngle(-10)
-                .Tolerance(Constants.INTAKE_TOLERANCE)
-                .withMode(intakeMODE.kUP)));
+        buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bubir el intake (y)
+        .withAngle(-10)
+        .Tolerance(Constants.INTAKE_TOLERANCE)
+        .withMode(intakeMODE.kUP)));    */        
+        buttons.right().whileTrue(superstructure.eatCommand()); //Comer fuels
 
-        buttons.right().whileTrue(flyWheelsIntake.setControl(() -> FlyWheelRequestFactory.moveVoltage()
-                .withVolts(-9))); // Ruedas intake (b)
+        buttons.left().whileTrue(superstructure.clearFuel()); // Desatorar fuels
+        // ----- Botones (a,b,x,y) -----
 
-        bumpers.left().whileTrue(superstructure.lockToHub());
+        bumpers.left().whileTrue(superstructure.lockToHub()); 
 
-        bumpers.right().whileTrue(
-                superstructure.ShootAngleTest(() -> superstructure.getAngle(), () -> superstructure.getRPM()));
-
-        // bumpers.left().whileTrue(superstructure.ShootAngle(0, -4000));
-
-        driverSystem.start().toggleOnTrue(intake.setControl(() -> IntakeRequestFactory.setAngle())); // Resetea la
-                                                                                                     // posición del
-                                                                                                     // encoder a 0
-                                                                                                     // (start)}
-        // --------------------------------------------------------------- MANDO
-        // ---------------------------------------------------------------
+        triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        
+        //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
+        // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
         // REGISTRO EN LA TERMINAL (MARS GCS)
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);

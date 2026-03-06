@@ -33,8 +33,8 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
     public static class moveSpeed implements FlyWheelRequest {
         double speed;
 
-        public moveSpeed withSpeed(double target){
-            this.speed = target;
+        public moveSpeed withSpeed(double speed){
+            this.speed = speed;
             return this;
         }
         
