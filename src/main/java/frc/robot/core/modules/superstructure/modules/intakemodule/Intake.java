@@ -18,45 +18,42 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.Intak
 import frc.robot.core.requests.moduleRequests.IntakeRequest;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
+public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> {
 
-public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
-
-    public Intake(IntakeIO io){
+    public Intake(IntakeIO io) {
 
         super(SubsystemBuilder.<IntakeInputs, IntakeIO>setup()
-            .key(KeyManager.INTAKE_KEY)
-            .hardware(io, new IntakeInputs())
-            .request(IntakeRequestFactory.idle())
-            .telemetry(new IntakeTelemetry())
-        );
+                .key(KeyManager.INTAKE_KEY)
+                .hardware(io, new IntakeInputs())
+                .request(IntakeRequestFactory.idle())
+                .telemetry(new IntakeTelemetry()));
 
         registerTelemetry(new IntakeTelemetry());
-        this.setDefaultCommand(runRequest(()-> IntakeRequestFactory.idle()));
+        this.setDefaultCommand(runRequest(() -> IntakeRequestFactory.idle()));
 
     }
 
     @Override
-    public IntakeInputs getState(){
+    public IntakeInputs getState() {
         return inputs;
     }
 
     public boolean isAtTarget(double toleranceDegrees) {
         return MathUtil.isNear(
-            inputs.targetAngle, 
-            inputs.position, 
-            toleranceDegrees
-        );
+                inputs.targetAngle,
+                inputs.position,
+                toleranceDegrees);
     }
 
     @Override
     public void absolutePeriodic(IntakeInputs inputs) {
     }
 
-    public Command setControl(Supplier<IntakeRequest> request){
+    public Command setControl(Supplier<IntakeRequest> request) {
         return runRequest(request);
     }
 
-    public static class IntakeTelemetry extends Telemetry<IntakeInputs>{
+    public static class IntakeTelemetry extends Telemetry<IntakeInputs> {
 
         @Override
         public void telemeterize(IntakeInputs data, ActionStatus lastStatus) {
@@ -65,14 +62,15 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO>{
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
 
-            if(lastStatus != null && lastStatus.code != null){
+            if (lastStatus != null && lastStatus.code != null) {
                 NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
                 NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+                NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_MESSAGE_KEY,
+                        lastStatus.getPayload().message());
             }
-            
+
         }
-        
+
     }
-    
+
 }

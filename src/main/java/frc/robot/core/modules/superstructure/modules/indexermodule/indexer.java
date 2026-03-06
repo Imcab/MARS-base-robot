@@ -17,32 +17,30 @@ import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.Ind
 import frc.robot.core.requests.moduleRequests.IndexerRequest;
 import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 
+public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> {
 
-public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
-
-    public Indexer(IndexerIO io){
+    public Indexer(IndexerIO io) {
 
         super(SubsystemBuilder.<IndexerInputs, IndexerIO>setup()
-            .key(KeyManager.INDEX_KEY)
-            .hardware(io, new IndexerInputs())
-            .request(IndexerRequestFactory.idle())
-            .telemetry(new IndexerTelemetry())
-        );
+                .key(KeyManager.INDEX_KEY)
+                .hardware(io, new IndexerInputs())
+                .request(IndexerRequestFactory.idle())
+                .telemetry(new IndexerTelemetry()));
 
         registerTelemetry(new IndexerTelemetry());
-        this.setDefaultCommand(runRequest(()-> IndexerRequestFactory.idle()));
+        this.setDefaultCommand(runRequest(() -> IndexerRequestFactory.idle()));
     }
 
-    public Command setControl(Supplier<IndexerRequest> request){
+    public Command setControl(Supplier<IndexerRequest> request) {
         return runRequest(request);
     }
 
     @Override
-    public IndexerInputs getState(){
+    public IndexerInputs getState() {
         return inputs;
     }
 
-    public static class IndexerTelemetry extends Telemetry<IndexerInputs>{
+    public static class IndexerTelemetry extends Telemetry<IndexerInputs> {
 
         @Override
         public void telemeterize(IndexerInputs data, ActionStatus lastStatus) {
@@ -50,21 +48,20 @@ public class Indexer extends ModularSubsystem<IndexerInputs,IndexerIO >{
             NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY + "Roll", data.velocityRoll);
             NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
-            if(lastStatus != null && lastStatus.code != null){
+            if (lastStatus != null && lastStatus.code != null) {
                 NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
                 NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+                NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_MESSAGE_KEY,
+                        lastStatus.getPayload().message());
             }
-            
+
         }
-        
+
     }
-
-
 
     @Override
     public void absolutePeriodic(IndexerInputs inputs) {
-        
+
     }
-    
+
 }
