@@ -11,7 +11,6 @@ import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
-import com.stzteam.features.marsprocessor.Fallback;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
 
 import frc.robot.core.requests.moduleRequests.IndexerRequest;

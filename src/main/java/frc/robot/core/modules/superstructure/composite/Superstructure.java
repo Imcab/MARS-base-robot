@@ -1,6 +1,5 @@
 package frc.robot.core.modules.superstructure.composite;
 
-import java.security.PublicKey;
 import java.util.function.DoubleSupplier;
 
 import com.stzteam.forgemini.io.NetworkIO;

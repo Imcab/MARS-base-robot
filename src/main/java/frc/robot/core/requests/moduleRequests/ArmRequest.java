@@ -11,7 +11,6 @@ import com.stzteam.mars.requests.Request;
 import edu.wpi.first.math.MathUtil;
 
 import frc.robot.configuration.constants.Constants;
-import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
