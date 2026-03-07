@@ -26,7 +26,7 @@ public class Constants {
 
         RPM_MAP.put(1.00, -2350.0); //Listo
         RPM_MAP.put(2.50, -2900.0);  //Listo
-        RPM_MAP.put(4.50, 4500.0);
+        RPM_MAP.put(4.50, -3500.0);
         RPM_MAP.put(6.00, 5500.0);
     }
 
@@ -44,7 +44,7 @@ public class Constants {
         // --- ZONA 3: OUTPOST / DEPOT (Lejos) ---
         // A 4.5m+, el FUEL debe viajar rápido para no perder altura.
         // Cerramos el hood casi al máximo.
-        INTERPOLATION_MAP.put(4.50, 32.0); 
+        INTERPOLATION_MAP.put(4.50, -17.0); 
 
         // --- ZONA 4: CROSS-FIELD (Máximo Rango) ---
         // Tiro casi horizontal para cruzar la cancha.

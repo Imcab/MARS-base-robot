@@ -267,8 +267,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         }
   
         field.setRobotPose(getState().Pose);
-        NetworkIO.set(KeyManager.SWERVE_KEY, "Distancia", getDistanceToTag());
-        NetworkIO.set(KeyManager.SWERVE_KEY, "OdometryFrequency", getOdometryFrequency());
+
 
     }
 

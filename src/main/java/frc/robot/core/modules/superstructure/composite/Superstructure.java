@@ -111,7 +111,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
 
         return Commands.parallel(
-            intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-5)),
+            intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(5)),
 
             Commands.sequence(
                 index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)).withTimeout(1.5),
@@ -127,6 +127,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
+        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.sequence(
             Commands.parallel(
@@ -139,7 +140,9 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                 flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm).withTolerance(50))
             ).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12))
+            index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12)),
+
+            intake.setControl(()->IntakeRequestFactory.moveVoltage().withVolts(-6))
         );
 
     }
@@ -171,6 +174,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Arm arm = getSubsystem(KeyManager.ARM_KEY); 
         FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.sequence(
             Commands.parallel(
@@ -181,15 +185,20 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                 
                 arm.setControl(() -> ArmRequestFactory.interpolateTarget()
                     .withDistance(() -> this.getVirtualDistance())
-                    .withTolerance(Constants.ARM_TOLERANCE)
+                    .withTolerance(2)
                 ),
                 
                 flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM().withDistance(() -> this.getVirtualDistance())
-                    .withTolerance(Constants.FLYWHEEL_TOLERANCE)
+                    .withTolerance(50)
                 )
             ).until(()-> flywheelShooter.isAtTarget(50)),
 
-            index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(8).withIndex(8))
+            Commands.parallel(
+                intake.setControl(()->IntakeRequestFactory.moveVoltage().withVolts(-6)),
+                index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)))
+
+            
+            
         );
     }
 

@@ -91,8 +91,10 @@ public class OperatorBindings implements Binding {
         // ----- Botones (a,b,x,y) -----
 
         bumpers.left().whileTrue(superstructure.lockToHub()); 
+        
 
-        triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        //triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        triggers.right().whileTrue(superstructure.shootOnTheMove());
         
         //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
