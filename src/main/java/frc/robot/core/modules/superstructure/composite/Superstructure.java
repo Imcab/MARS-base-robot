@@ -1,6 +1,5 @@
 package frc.robot.core.modules.superstructure.composite;
 
-import java.security.PublicKey;
 import java.util.function.DoubleSupplier;
 
 import com.stzteam.forgemini.io.NetworkIO;
@@ -107,7 +106,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
 
         return Commands.parallel(
-            intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-5)),
+            intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(5)),
 
             Commands.sequence(
                 index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)).withTimeout(1.5),
@@ -117,28 +116,6 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             );
     }
 
-
-    public Command ShootAngle(double armAngle, double rpm){
-        Turret turret = getSubsystem(KeyManager.TURRET_KEY);
-        FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
-        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
-        Arm arm = getSubsystem(KeyManager.ARM_KEY);
-
-        return Commands.sequence(
-                Commands.parallel(
-                        turret.setControl(() -> TurretRequestFactory.lockOnTarget()
-                                .withTarget(() -> this.getVirtualTarget())
-                                .withTolerance(Constants.TURRET_TOLERANCE)),
-
-                        arm.setControl(() -> ArmRequestFactory.setAngle().withAngle(armAngle).withTolerance(2)
-                                .withMode(ArmMODE.kUP)),
-
-                        flywheelShooter.runRequest(() -> FlyWheelRequestFactory.setRPM().toRPM(rpm).withTolerance(50)))
-                        .until(() -> flywheelShooter.isAtTarget(50)),
-
-                index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12)));
-
-    }
 
     public Command ShootAngleTest(DoubleSupplier armAngle, DoubleSupplier rpm) {
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
@@ -168,23 +145,32 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         Arm arm = getSubsystem(KeyManager.ARM_KEY);
         FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
         Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+        Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
 
         return Commands.sequence(
-                Commands.parallel(
-                        turret.setControl(() -> TurretRequestFactory.lockOnTarget()
-                                .withTarget(() -> this.getVirtualTarget())
-                                .withTolerance(Constants.TURRET_TOLERANCE)),
+            Commands.parallel(
+                turret.setControl(() -> TurretRequestFactory.lockOnTarget()
+                    .withTarget(()-> this.getVirtualTarget())
+                    .withTolerance(Constants.TURRET_TOLERANCE)
+                ),
+                
+                arm.setControl(() -> ArmRequestFactory.interpolateTarget()
+                    .withDistance(() -> this.getVirtualDistance())
+                    .withTolerance(2)
+                ),
+                
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM().withDistance(() -> this.getVirtualDistance())
+                    .withTolerance(50)
+                )
+            ).until(()-> flywheelShooter.isAtTarget(50)),
 
-                        arm.setControl(() -> ArmRequestFactory.interpolateTarget()
-                                .withDistance(() -> this.getVirtualDistance())
-                                .withTolerance(Constants.ARM_TOLERANCE)),
+            Commands.parallel(
+                intake.setControl(()->IntakeRequestFactory.moveVoltage().withVolts(-6)),
+                index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)))
 
-                        flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM()
-                                .withDistance(() -> this.getVirtualDistance())
-                                .withTolerance(Constants.FLYWHEEL_TOLERANCE)))
-                        .until(() -> flywheelShooter.isAtTarget(50)),
-
-                index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(8).withIndex(8)));
+            
+            
+        );
     }
 
     public Command EatAutoAngle(double angle, double tolerance, intakeMODE mode, double voltage) {

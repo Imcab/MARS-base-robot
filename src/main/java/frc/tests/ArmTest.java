@@ -9,7 +9,6 @@ import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
-import frc.robot.diagnostics.ArmCode;
 
 @MARSTest(name = "Arm PID Motion Test")
 public class ArmTest extends TestRoutine {

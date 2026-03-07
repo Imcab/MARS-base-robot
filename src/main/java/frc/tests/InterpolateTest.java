@@ -19,7 +19,7 @@ public class InterpolateTest extends TestRoutine{
     public Command getRoutineCommand() {
         return Commands.sequence(
 
-            run(()-> s.ShootAngle(s.getAngle(), s.getRPM()), s),
+            run(()-> s.ShootAngleTest(()-> s.getAngle(),()-> s.getRPM()), s),
 
             delay(6),
 

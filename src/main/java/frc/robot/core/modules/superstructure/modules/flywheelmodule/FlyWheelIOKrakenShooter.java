@@ -43,6 +43,9 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO{
         
         limitConfigs.SupplyCurrentLimit = ShooterWheelsConstants.SupplyCurrentLimit;
         limitConfigs.SupplyCurrentLimitEnable = ShooterWheelsConstants.SupplyCurrentLimitEnable;
+
+        limitConfigs.StatorCurrentLimit = ShooterWheelsConstants.StatorCurrentLimit;
+        limitConfigs.StatorCurrentLimitEnable = ShooterWheelsConstants.StatorCurrentLimitEnable;
         
         var slot0Configs = leaderConfig.Slot0;
 

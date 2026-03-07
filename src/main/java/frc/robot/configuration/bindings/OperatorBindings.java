@@ -17,7 +17,6 @@ import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
-import frc.robot.configuration.constants.Constants;
 
 public class OperatorBindings implements Binding {
 
@@ -93,8 +92,10 @@ public class OperatorBindings implements Binding {
         // ----- Botones (a,b,x,y) -----
 
         bumpers.left().whileTrue(superstructure.lockToHub()); 
+        
 
-        triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        //triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        triggers.right().whileTrue(superstructure.shootOnTheMove());
         
         //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
