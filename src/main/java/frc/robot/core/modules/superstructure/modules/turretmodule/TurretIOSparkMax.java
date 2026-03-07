@@ -10,7 +10,9 @@ import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController.ArbFFUnits;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 public class TurretIOSparkMax implements TurretIO {
@@ -89,6 +91,18 @@ public class TurretIOSparkMax implements TurretIO {
     public void setPosition(Rotation2d angle) {
         this.currentTargetAngle = angle;
         m_motor.getClosedLoopController().setSetpoint(angle.getRotations(), ControlType.kPosition);
+    }
+
+    @Override
+    public void setPositionWithFF(Rotation2d angle, double arbFFVolts) {
+        this.currentTargetAngle = angle;
+        m_motor.getClosedLoopController().setSetpoint(
+            angle.getRotations(),
+            ControlType.kPosition,
+            ClosedLoopSlot.kSlot0,
+            arbFFVolts,
+            ArbFFUnits.kVoltage
+        );
     }
 
     @Override

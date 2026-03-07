@@ -152,10 +152,9 @@ public class RobotContainer implements IRobotContainer {
     this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
         msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY));
 
-    DriverBindings.parameterized(drivetrain, driver).bind();
+    DriverBindings.create(drivetrain, driver).bind();
 
     OperatorBindings.create(operator, superstructure)
-        .withSubsystems(turret, arm, intake, drivetrain, flywheelIntake, flywheelShooter)
         .withNodes(gamePieceViz, trajetorySim)
         .bind();
 
@@ -172,9 +171,9 @@ public class RobotContainer implements IRobotContainer {
 
     limelightNode.periodic();
 
-    virtualRobot.periodic();
-    trajetorySim.periodic();
-    gamePieceViz.periodic();
+    //virtualRobot.periodic();
+    //trajetorySim.periodic();
+    //gamePieceViz.periodic();
 
   }
 

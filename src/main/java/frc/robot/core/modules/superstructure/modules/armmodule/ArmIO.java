@@ -18,6 +18,7 @@ public interface ArmIO extends IO<ArmIO.ArmInputs>{
         @Unit(value = "Degrees", group = "Arm")
         public double position = 0;
         
+        @Unit(value = "Radians", group = "Arm")
         public Rotation2d rotation = new Rotation2d();
 
         @Unit(value = "Degrees", group = "Arm")
@@ -25,9 +26,9 @@ public interface ArmIO extends IO<ArmIO.ArmInputs>{
 
     }
 
-    public void applyOutput(double volts);
+    public void applyOutput(@Unit(value = "Volts", group = "Arm") double volts);
 
-    public void setPosition(double angle, ArmMODE mode);
+    public void setPosition(@Unit(value = "Degrees", group = "Arm") double angle, ArmMODE mode);
 
 }    
 

@@ -6,6 +6,8 @@ import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
@@ -58,6 +60,7 @@ public class TurretConstants {
     // Z (W metros): El shooter está a W cm de altura del suelo.
     public static final Translation3d ROBOT_TO_TURRET = new Translation3d(0.15, 0.0, 0.45); 
     public static final Translation2d TURRET_OFFSET = new Translation2d(0.15, 0);
+    public static final Transform2d ROBOT_TO_TURRET_TRANSFORM = new Transform2d(TURRET_OFFSET, new Rotation2d());
 
     //-------------------------------------------------------------
 
@@ -75,5 +78,9 @@ public class TurretConstants {
         
         state -> DataLogManager.log("Turret_SysIdState: " + state.toString())
     );
+
+    // Volts por rad/s de velocidad angular del chasis, para compensar la inercia del robot al girar y evitar que el turret se quede atrás
+    public static double kChassisAngularCompensator = 0.5; 
+    
 
 }
