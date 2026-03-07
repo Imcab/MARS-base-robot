@@ -11,6 +11,7 @@ public interface ClimberIO extends IO<ClimberIO.ClimberInputs>{
 
     public static class ClimberInputs extends Data<ClimberInputs>{
 
+        @Unit(value = "Volts", group = "Climber")
         public double appliedVolts = 0;
         
     }

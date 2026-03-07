@@ -19,7 +19,7 @@ public class DriverBindings implements Binding{
         this.driver = driver;
     }
 
-    public static DriverBindings parameterized(CommandSwerveDrivetrain drivetrain, ControllerOI driver) {
+    public static DriverBindings create(CommandSwerveDrivetrain drivetrain, ControllerOI driver) {
         return new DriverBindings(drivetrain, driver);
     }
 
@@ -27,8 +27,8 @@ public class DriverBindings implements Binding{
     public void bind() {
         var driverLeftStick = driver.getLeftStick();
         var driverRightStick = driver.getRightStick();
-        var driverDPad = driver.getDPadTriggers();
-        var driverSystem = driver.getSystemTriggers();
+        //var driverDPad = driver.getDPadTriggers();
+        //var driverSystem = driver.getSystemTriggers();
         var driverBumpers = driver.getBumpers();
         var driverButtons = driver.getActionButtons();
 

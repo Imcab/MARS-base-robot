@@ -7,11 +7,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
 import frc.tests.ArmTest;
 import frc.tests.IndexerTest;
 import frc.tests.IntakeTest;
@@ -26,8 +24,6 @@ public class TestBindings implements Binding{
     private Turret turret;
     private Arm arm;
     private Intake intake;
-    private CommandSwerveDrivetrain drivetrain;
-    private FlyWheel flyWheelsIntake;
     private Indexer index;
     private Superstructure s;
 
@@ -45,6 +41,7 @@ public class TestBindings implements Binding{
 
     @Override
     public void bind() {
+
         tests.addOption("IntakeTest", new IntakeTest(intake));
         tests.addOption("TurretTest", new TurretTest(turret));
         tests.addOption("ArmTest", new ArmTest(arm));

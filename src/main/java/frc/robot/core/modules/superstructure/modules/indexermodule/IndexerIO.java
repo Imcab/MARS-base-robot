@@ -17,6 +17,7 @@ public interface IndexerIO extends IO<IndexerIO.IndexerInputs> {
         
         @Unit(value = "Volts", group = "Indexer")
         public double appliedVoltsIndex = 0;
+        
         @Unit(value = "RPM", group = "Indexer")
         public double velocityIndex = 0;
         

@@ -73,6 +73,13 @@ public class TurretIOSim implements TurretIO {
     }
 
     @Override
+    public void setPositionWithFF(Rotation2d angle, double arbFFVolts) {
+        isClosedLoop = true;
+        this.currentTargetAngle = angle;
+        simController.setGoal(angle.getRotations()); 
+    }
+
+    @Override
     public void stop() {
         setVoltage(0.0);
     }

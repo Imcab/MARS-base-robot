@@ -12,9 +12,13 @@ import com.stzteam.features.marsprocessor.Fallback;
 public interface FlyWheelIO extends IO<FlyWheelInputs>{
 
     public static class FlyWheelInputs extends Data<FlyWheelInputs>{
+
+        @Unit(value = "Volts", group = "FlyWheel")
         public double appliedVolts = 0;
+
         @Unit(value = "RPM", group = "FlyWheel")
         public double targetRPM = 0;
+
         @Unit(value = "RPM", group = "FlyWheel")
         public double velocityRPM = 0;
     }

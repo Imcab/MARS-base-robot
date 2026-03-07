@@ -1,14 +1,16 @@
 package frc.robot.core.requests.moduleRequests;
 
 import java.util.Optional;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-
+import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
@@ -84,10 +86,16 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
     public static class LockOnTarget implements TurretRequest {
         
         private Supplier<Translation2d> targetSupplier;
+        private DoubleSupplier rotationSupplier;
         private double toleranceDegrees = 1.5;
 
         public LockOnTarget withTarget(Supplier<Translation2d> targetSupplier){
             this.targetSupplier = targetSupplier;
+            return this;
+        }
+
+        public LockOnTarget withChassisOmega(DoubleSupplier rotationSupplier) {
+            this.rotationSupplier = rotationSupplier;
             return this;
         }
 
@@ -100,6 +108,9 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
         public ActionStatus apply(TurretInputs data, TurretIO actor) {
  
             Translation2d target = targetSupplier.get();
+
+            double chassisOmega = rotationSupplier.getAsDouble();
+
             Optional<Alliance> alliance = DriverStation.getAlliance();
             if (alliance.isPresent()) {
               if(alliance.get() == Alliance.Red ){
@@ -108,7 +119,10 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
              }
             
             Translation2d currentTarget = target;
-            Translation2d turretPose = data.robotPose.getTranslation();
+
+            Pose2d transformedRobotPose = data.robotPose.transformBy(TurretConstants.ROBOT_TO_TURRET_TRANSFORM);
+        
+            Translation2d turretPose = transformedRobotPose.getTranslation();
 
             Translation2d robotToTarget = currentTarget.minus(turretPose);
             
@@ -116,11 +130,14 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
             
             Rotation2d turretSetpoint = fieldAngle.minus(data.robotPose.getRotation());
  
-            double cleanDegrees = -MathUtil.clamp(turretSetpoint.getDegrees(), -180, 180);
+            double cleanDegrees = -MathUtil.inputModulus(turretSetpoint.getDegrees(), -180, 180);
             Rotation2d targetRot = Rotation2d.fromDegrees(cleanDegrees);
 
             data.targetAngle = targetRot;
-            actor.setPosition(targetRot);
+
+            double ffVolts = chassisOmega * TurretConstants.kChassisAngularCompensator;
+
+            actor.setPositionWithFF(targetRot, ffVolts);
 
             boolean isLocked = MathUtil.isNear(
                 targetRot.getDegrees(), 
