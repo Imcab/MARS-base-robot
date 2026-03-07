@@ -23,7 +23,7 @@ public class OperatorBindings implements Binding {
 
     private final ControllerOI operator;
     private final Superstructure superstructure;
-    
+
     private Turret turret;
     private Arm arm;
     private Intake intake;
@@ -43,7 +43,8 @@ public class OperatorBindings implements Binding {
         return new OperatorBindings(operator, ss);
     }
 
-    public OperatorBindings withSubsystems(Turret t, Arm a, Intake i, CommandSwerveDrivetrain dt, FlyWheel f, FlyWheel fs) {
+    public OperatorBindings withSubsystems(Turret t, Arm a, Intake i, CommandSwerveDrivetrain dt, FlyWheel f,
+            FlyWheel fs) {
         this.turret = t;
         this.arm = a;
         this.intake = i;
@@ -72,7 +73,8 @@ public class OperatorBindings implements Binding {
         var intakeIntake = IntakeRequestFactory.moveVoltage().withVolts(-3);
         var flyWheelsShoot = FlyWheelRequestFactory.moveVoltage().withVolts(-11);
 
-        // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
+        // --------------------------------------------------------------- MANDO
+        // ---------------------------------------------------------------
 
         // ----- Botones (a,b,x,y) -----
         /* 
@@ -99,7 +101,7 @@ public class OperatorBindings implements Binding {
         //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
-        //  REGISTRO EN LA TERMINAL (MARS GCS)
+        // REGISTRO EN LA TERMINAL (MARS GCS)
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Down", intakeDown);
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Up", intakeUp);
         TerminalGCS.registerRemoteRequest(KeyManager.INTAKE_KEY, "Outtake", intakeOuttake);
@@ -108,6 +110,5 @@ public class OperatorBindings implements Binding {
         TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Shoot", flyWheelsShoot);
         TerminalGCS.registerRemoteRequest(KeyManager.FLYWHEEL_INTAKE_KEY, "Idle", FlyWheelRequestFactory.idle());
 
-        
     }
 }

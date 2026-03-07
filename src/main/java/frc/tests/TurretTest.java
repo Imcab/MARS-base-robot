@@ -18,55 +18,52 @@ public class TurretTest extends TestRoutine {
     private Rotation2d target1 = new Rotation2d(Math.toRadians(45));
     private Rotation2d target2 = new Rotation2d(Math.toRadians(-45));
 
-    public TurretTest(Turret turret){
+    public TurretTest(Turret turret) {
         this.t = turret;
     }
 
     @Override
     public Command getRoutineCommand() {
         return Commands.sequence(
-                
-            run(TurretRequestFactory.position()
-                .withTargetAngle(target1)
-                .withTolerance(Constants.TURRET_TOLERANCE), t),
-   
-            waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
-            assertLessThan(
-                () -> Math.abs(target1.minus(t.getState().angle).getRadians()), 
-                2.0, 
-                "High turret error on target 1"
-            ),
+                run(TurretRequestFactory.position()
+                        .withTargetAngle(target1)
+                        .withTolerance(Constants.TURRET_TOLERANCE), t),
 
-            delay(1.0),
+                waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
-            run(TurretRequestFactory.position()
-                .withTargetAngle(target2)
-                .withTolerance(Constants.TURRET_TOLERANCE), t),
+                assertLessThan(
+                        () -> Math.abs(target1.minus(t.getState().angle).getRadians()),
+                        2.0,
+                        "High turret error on target 1"),
 
-            waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
+                delay(1.0),
 
-            assertLessThan(
-                () -> Math.abs(target2.minus(t.getState().angle).getRadians()), 
-                2.0, 
-                "High turret error on target 2"
-            ),
+                run(TurretRequestFactory.position()
+                        .withTargetAngle(target2)
+                        .withTolerance(Constants.TURRET_TOLERANCE), t),
 
-            delay(1),
+                waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
-            run(TurretRequestFactory.position().withTargetAngle(Rotation2d.kZero), t),
+                assertLessThan(
+                        () -> Math.abs(target2.minus(t.getState().angle).getRadians()),
+                        2.0,
+                        "High turret error on target 2"),
 
-            waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
+                delay(1),
 
-            assertLessThan(
-                () -> Math.abs(target2.minus(t.getState().angle).getRadians()), 
-                2.0, 
-                "High turret error on zeroed"
-            ),
+                run(TurretRequestFactory.position().withTargetAngle(Rotation2d.kZero), t),
 
-            delay(0.5),
+                waitFor(() -> t.isAtTarget(Constants.TURRET_TOLERANCE), 2.0),
 
-           run(TurretRequestFactory.idle(), t)
+                assertLessThan(
+                        () -> Math.abs(target2.minus(t.getState().angle).getRadians()),
+                        2.0,
+                        "High turret error on zeroed"),
+
+                delay(0.5),
+
+                run(TurretRequestFactory.idle(), t)
 
         );
     }

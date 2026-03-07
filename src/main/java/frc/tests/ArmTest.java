@@ -12,10 +12,10 @@ import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.diagnostics.ArmCode;
 
 @MARSTest(name = "Arm PID Motion Test")
-public class ArmTest extends TestRoutine{
+public class ArmTest extends TestRoutine {
     private final Arm a;
 
-    public ArmTest(Arm arm){
+    public ArmTest(Arm arm) {
         this.a = arm;
     }
 
@@ -23,47 +23,46 @@ public class ArmTest extends TestRoutine{
     public Command getRoutineCommand() {
         return Commands.sequence(
 
-            run(ArmRequestFactory.setAngle().withAngle(-40).withMode(ArmMODE.kUP).withTolerance(Constants.ARM_TOLERANCE), a),
+                run(ArmRequestFactory.setAngle().withAngle(-40).withMode(ArmMODE.kUP)
+                        .withTolerance(Constants.ARM_TOLERANCE), a),
 
-            waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
+                waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
-            assertLessThan(
-                calculateError(-40, a.getState().position), 
-                2, 
-                "Error es muy alto"
-            ),
+                assertLessThan(
+                        calculateError(-40, a.getState().position),
+                        2,
+                        "Error es muy alto"),
 
-            delay(1),
+                delay(1),
 
-            run(ArmRequestFactory.setAngle().withAngle(-20).withMode(ArmMODE.kDOWN).withTolerance(Constants.ARM_TOLERANCE), a),
+                run(ArmRequestFactory.setAngle().withAngle(-20).withMode(ArmMODE.kDOWN)
+                        .withTolerance(Constants.ARM_TOLERANCE), a),
 
-            waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
+                waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
-            assertLessThan(
-                calculateError(-20, a.getState().position), 
-                2, 
-                "Error es muy alto"
-            ),
+                assertLessThan(
+                        calculateError(-20, a.getState().position),
+                        2,
+                        "Error es muy alto"),
 
-            delay(1),
+                delay(1),
 
-            run(ArmRequestFactory.setAngle().withAngle(0).withMode(ArmMODE.kDOWN).withTolerance(Constants.ARM_TOLERANCE), a),
+                run(ArmRequestFactory.setAngle().withAngle(0).withMode(ArmMODE.kDOWN)
+                        .withTolerance(Constants.ARM_TOLERANCE), a),
 
-            waitFor(()-> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
+                waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
 
-            assertLessThan(
-                calculateError(0, a.getState().position), 
-                2, 
-                "Error es muy alto"
-            ),
+                assertLessThan(
+                        calculateError(0, a.getState().position),
+                        2,
+                        "Error es muy alto"),
 
-            delay(0.5),
+                delay(0.5),
 
-            run(ArmRequestFactory.idle(), a)
+                run(ArmRequestFactory.idle(), a)
 
         );
 
     }
-
 
 }
