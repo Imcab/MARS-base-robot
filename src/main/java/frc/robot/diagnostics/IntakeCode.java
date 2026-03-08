@@ -1,43 +1,44 @@
-package frc.robot.diagnostics;
+// Copyright (c) 2026 STZ Robotics
+// Open Source Software; you can modify and/or share it under the terms of
+// the MIT license file in the root directory of this project.
 
-import edu.wpi.first.wpilibj.util.Color;
+package frc.robot.diagnostics;
 
 import com.stzteam.mars.diagnostics.DiagnosticPattern;
 import com.stzteam.mars.diagnostics.StatusCode;
+import edu.wpi.first.wpilibj.util.Color;
 
-public enum IntakeCode implements StatusCode{
+public enum IntakeCode implements StatusCode {
+  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
 
-    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
-    ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
-    
-    MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
-    MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)),
-    
-    OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange));
+  MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
+  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)),
 
-    private final Severity severity;
-    private final DiagnosticPattern pattern;
+  RESET(Severity.OK, DiagnosticPattern.solid(Color.kDarkSalmon)),
 
-    IntakeCode(Severity severity, DiagnosticPattern pattern) {
-        this.severity = severity;
-        this.pattern = pattern;
-    }
+  OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange));
 
-    @Override 
-    public Severity getSeverity() { 
-        return this.severity; 
-    }
+  private final Severity severity;
+  private final DiagnosticPattern pattern;
 
-    @Override 
-    public String getName() { 
-        return this.name(); 
-    }
+  IntakeCode(Severity severity, DiagnosticPattern pattern) {
+    this.severity = severity;
+    this.pattern = pattern;
+  }
 
-    @Override 
-    public DiagnosticPattern getVisualPattern() { 
-        return this.pattern; 
-    }
-    
+  @Override
+  public Severity getSeverity() {
+    return this.severity;
+  }
 
+  @Override
+  public String getName() {
+    return this.name();
+  }
 
+  @Override
+  public DiagnosticPattern getVisualPattern() {
+    return this.pattern;
+  }
 }

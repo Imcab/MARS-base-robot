@@ -1,7 +1,7 @@
 {
   "featureId": "MarsProcessor",
   "name": "Mars Processor Feature",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "groupId": "com.stzteam.features.marsprocessor",
   "author": "STZ-Robotics",
   "description": "Feature to process Mars environment data.",
@@ -13,7 +13,7 @@
     {
       "groupId": "com.stzteam.features.marsprocessor",
       "artifactId": "MarsProcessor",
-      "version": "1.0.2",
+      "version": "1.0.5",
       "isProcessor": true
     }
   ]

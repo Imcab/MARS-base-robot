@@ -1,7 +1,10 @@
+// Copyright (c) 2026 STZ Robotics
+// Open Source Software; you can modify and/or share it under the terms of
+// the MIT license file in the root directory of this project.
+
 package frc.robot.core.modules.superstructure.modules.armmodule;
 
 import com.stzteam.features.unitprocessor.Unit;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,67 +17,59 @@ import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMO
 
 public class ArmIOSim implements ArmIO {
 
-    private final SingleJointedArmSim simArm;
-    private final ProfiledPIDController simController;
+  private final SingleJointedArmSim simArm;
+  private final ProfiledPIDController simController;
 
-    private double appliedVolts = 0.0;
-    private boolean isClosedLoop = false;
-    private double currentTargetAngle = 0.0;
+  private double appliedVolts = 0.0;
+  private boolean isClosedLoop = false;
+  private double currentTargetAngle = 0.0;
 
-  
-    public ArmIOSim() {
+  public ArmIOSim() {
 
-        simArm = new SingleJointedArmSim(
+    simArm =
+        new SingleJointedArmSim(
             DCMotor.getNEO(1),
             ArmConstants.kGearRatio,
             SingleJointedArmSim.estimateMOI(ArmConstants.kArmLengthMeters, ArmConstants.kArmMassKg),
             ArmConstants.kArmLengthMeters,
             ArmConstants.kMinAngleRads,
             ArmConstants.kMaxAngleRads,
-            true, 
-            Units.degreesToRadians(15)
-        );
+            true,
+            Units.degreesToRadians(15));
 
-        simController = new ProfiledPIDController(
-            0.5, 0.0, 0.0,
-            new TrapezoidProfile.Constraints(
-                180.0,
-                360.0
-            )
-        );
+    simController =
+        new ProfiledPIDController(0.5, 0.0, 0.0, new TrapezoidProfile.Constraints(180.0, 360.0));
+  }
 
+  @Override
+  public void updateInputs(ArmInputs inputs) {
+
+    if (isClosedLoop) {
+      double currentDegrees = Units.radiansToDegrees(simArm.getAngleRads());
+      appliedVolts = simController.calculate(currentDegrees, currentTargetAngle);
     }
 
-    @Override
-    public void updateInputs(ArmInputs inputs) {
+    appliedVolts = MathUtil.clamp(appliedVolts, -12.0, 12.0);
+    simArm.setInputVoltage(appliedVolts);
 
-        if (isClosedLoop) {
-            double currentDegrees = Units.radiansToDegrees(simArm.getAngleRads());
-            appliedVolts = simController.calculate(currentDegrees, currentTargetAngle);
-        }
+    simArm.update(0.02);
 
-        appliedVolts = MathUtil.clamp(appliedVolts, -12.0, 12.0);
-        simArm.setInputVoltage(appliedVolts);
-        
-        simArm.update(0.02);
+    double simulatedDegrees = Units.radiansToDegrees(simArm.getAngleRads());
 
-        double simulatedDegrees = Units.radiansToDegrees(simArm.getAngleRads());
+    inputs.position = simulatedDegrees;
+    inputs.rotation = Rotation2d.fromDegrees(simulatedDegrees);
+    inputs.targetAngle = currentTargetAngle;
+  }
 
-        inputs.position = simulatedDegrees;
-        inputs.rotation = Rotation2d.fromDegrees(simulatedDegrees);
-        inputs.targetAngle = currentTargetAngle;
-        
-    }
+  @Override
+  public void applyOutput(double volts) {
+    isClosedLoop = false;
+    this.appliedVolts = volts;
+  }
 
-    @Override
-    public void applyOutput(double volts) {
-        isClosedLoop = false;
-        this.appliedVolts = volts;
-    }
-
-    @Override
-    public void setPosition(@Unit(value = "Degrees", group = "Arm") double angle, ArmMODE mode) {
-        isClosedLoop = true;
-        this.currentTargetAngle = angle;
-    }
+  @Override
+  public void setPosition(@Unit(value = "Degrees", group = "Arm") double angle, ArmMODE mode) {
+    isClosedLoop = true;
+    this.currentTargetAngle = angle;
+  }
 }
