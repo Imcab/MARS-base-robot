@@ -9,6 +9,7 @@ import com.stzteam.mars.builder.Environment;
 import com.stzteam.mars.models.containers.IRobotContainer;
 import com.stzteam.mars.test.TestScheduler;
 import com.stzteam.mars.utils.TerminalGCS;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -42,6 +43,8 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     TerminalGCS.printModuleSummary();
+
+    CameraServer.startAutomaticCapture();
 
     NetworkIO.set("System", "IO", Environment.getMode().name());
     NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());

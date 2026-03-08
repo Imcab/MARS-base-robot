@@ -184,6 +184,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
     FlyWheel flywheelShooter = getFlywheelShooter();
     Indexer index = getIndexer();
     Arm arm = getArm();
+    FlyWheel intakeWheels = getFlyWheelsIntake();
 
     return Commands.sequence(
         Commands.parallel(
@@ -205,7 +206,10 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                             .toRPM(rpm.getAsDouble())
                             .withTolerance(Constants.FLYWHEEL_TOLERANCE)))
             .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
-        index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12)));
+        Commands.parallel(
+            index.setControl(
+                () -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)),
+            intakeWheels.setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(-8))));
   }
 
   public Command shootOnTheMove(
@@ -227,16 +231,8 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                             .withTarget(() -> turretTarget)
                             .withTolerance(Constants.TURRET_TOLERANCE)
                             .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)),
-                arm.setControl(
-                    () ->
-                        ArmRequestFactory.interpolateTarget()
-                            .withDistance(() -> this.getVirtualDistance())
-                            .withTolerance(Constants.ARM_TOLERANCE)),
-                flywheelShooter.runRequest(
-                    () ->
-                        FlyWheelRequestFactory.interpolateRPM()
-                            .withDistance(() -> this.getVirtualDistance())
-                            .withTolerance(Constants.FLYWHEEL_TOLERANCE)))
+                arm.setControl(() -> armRequest),
+                flywheelShooter.runRequest(() -> shooterRequest))
             .until(() -> flywheelShooter.isAtTarget(50)),
         Commands.parallel(
             index.setControl(
