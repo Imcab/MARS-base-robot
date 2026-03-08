@@ -17,6 +17,7 @@ import frc.tests.ArmTest;
 import frc.tests.IndexerTest;
 import frc.tests.IntakeTest;
 import frc.tests.InterpolateTest;
+import frc.tests.ShooterWheelsVoltage;
 import frc.tests.TurretTest;
 
 public class TestBindings implements Binding {
@@ -50,6 +51,7 @@ public class TestBindings implements Binding {
     tests.addOption("ArmTest", new ArmTest(arm));
     tests.addOption("IndexTest", new IndexerTest(index));
     tests.addOption("InterTest", new InterpolateTest(s));
+    tests.addOption("ShooterVoltage Test", new ShooterWheelsVoltage(s.getFlywheelShooter()));
 
     SmartDashboard.putData("TestRoutines", tests);
   }

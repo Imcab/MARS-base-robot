@@ -34,6 +34,7 @@ import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 import java.util.function.DoubleSupplier;
 
+
 public class Superstructure extends CompositeSubsystem<SuperstructureData, SuperstructureIO> {
 
   private static final double NOMINAL_FUEL_VELOCITY_MPS = 18.0;
