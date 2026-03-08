@@ -1,6 +1,6 @@
-// Copyright (c) FIRST and other WPILib contributors.
+// Copyright (c) 2026 STZ Robotics
 // Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+// the MIT license file in the root directory of this project.
 
 package frc.robot;
 
@@ -15,15 +15,12 @@ import com.stzteam.mars.operator.ControllerOI;
 import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 import com.stzteam.mars.test.TestRoutine;
-
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.Manifest;
 import frc.robot.configuration.Manifest.ArmBuilder;
-
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
 import frc.robot.configuration.Manifest.FlywheelIntakeBuilder;
@@ -79,8 +76,8 @@ public class RobotContainer implements IRobotContainer {
   public final TestBindings tests;
 
   public void configureAutos() {
-    NamedCommands.registerCommand("Angle->Eat",
-        superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
+    NamedCommands.registerCommand(
+        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
     NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
 
     eatAuto = new PathPlannerAuto("EatAuto1");
@@ -92,7 +89,6 @@ public class RobotContainer implements IRobotContainer {
     chooser.addOption("test1Forward", autoForeward);
 
     SmartDashboard.putData("AutoSelector", chooser);
-
   }
 
   public RobotContainer() {
@@ -117,53 +113,66 @@ public class RobotContainer implements IRobotContainer {
     this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
     this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
 
-    this.superstructure = Manifest.SuperstructureBuilder.superBuild(
-        this.turret, this.arm, this.intake, this.index, this.flywheelShooter, this.flywheelIntake);
+    this.superstructure =
+        Manifest.SuperstructureBuilder.superBuild(
+            this.turret,
+            this.arm,
+            this.intake,
+            this.index,
+            this.flywheelShooter,
+            this.flywheelIntake);
 
-    LimelightConfig config = new LimelightConfig().withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS)
-        .withMaxAngularVelocity(VisionConstants.MAX_ANGULAR_VELOCITY_DEG_PER_SEC)
-        .withMultiTagStdDev(VisionConstants.MULTI_TAG_STD_DEV).withRotationStdDev(VisionConstants.ROTATION_STD_DEV)
-        .withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS)
-        .withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV)
-        .withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
+    LimelightConfig config =
+        new LimelightConfig()
+            .withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS)
+            .withMaxAngularVelocity(VisionConstants.MAX_ANGULAR_VELOCITY_DEG_PER_SEC)
+            .withMultiTagStdDev(VisionConstants.MULTI_TAG_STD_DEV)
+            .withRotationStdDev(VisionConstants.ROTATION_STD_DEV)
+            .withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS)
+            .withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV)
+            .withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
 
-    this.limelightNode = !Manifest.HAS_LIMELIGHT ? new FallbackNode<>()
-        : new LimelightNode(config, new LimelightDriver(
-            () -> drivetrain.getPigeon2().getRotation2d(),
-            () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()),
-            msg -> {
-              if (msg.validPose) {
-                drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
-              }
-            });
+    this.limelightNode =
+        !Manifest.HAS_LIMELIGHT
+            ? new FallbackNode<>()
+            : new LimelightNode(
+                config,
+                new LimelightDriver(
+                    () -> drivetrain.getPigeon2().getRotation2d(),
+                    () -> drivetrain.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()),
+                msg -> {
+                  if (msg.validPose) {
+                    drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
+                  }
+                });
 
-    this.virtualRobot = VisualizerBuilder.buildNode(
-        turret::getDegrees,
-        () -> arm.getState().position,
-        () -> intake.getState().position,
-        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY));
+    this.virtualRobot =
+        VisualizerBuilder.buildNode(
+            turret::getDegrees,
+            () -> arm.getState().position,
+            () -> intake.getState().position,
+            msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY));
 
-    this.trajetorySim = TrajectoryBuilder.buildNode(
-        () -> drivetrain.getState().Pose,
-        turret::getDegrees,
-        () -> arm.getState().position,
-        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY));
+    this.trajetorySim =
+        TrajectoryBuilder.buildNode(
+            () -> drivetrain.getState().Pose,
+            turret::getDegrees,
+            () -> arm.getState().position,
+            msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY));
 
-    this.gamePieceViz = Manifest.GamePieceBuilder.buildNode(
-        msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY));
+    this.gamePieceViz =
+        Manifest.GamePieceBuilder.buildNode(
+            msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY));
 
     DriverBindings.create(drivetrain, driver).bind();
 
-    OperatorBindings.create(operator, superstructure)
-        .withNodes(gamePieceViz, trajetorySim)
-        .bind();
+    OperatorBindings.create(operator, superstructure).withNodes(gamePieceViz, trajetorySim).bind();
 
     tests = TestBindings.create(intake, turret, arm, index, superstructure);
 
     tests.bind();
 
     configureAutos();
-
   }
 
   @Override
@@ -171,9 +180,9 @@ public class RobotContainer implements IRobotContainer {
 
     limelightNode.periodic();
 
-    //virtualRobot.periodic();
-    //trajetorySim.periodic();
-    //gamePieceViz.periodic();
+    // virtualRobot.periodic();
+    // trajetorySim.periodic();
+    // gamePieceViz.periodic();
 
   }
 

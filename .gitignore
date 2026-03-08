@@ -197,3 +197,6 @@ compile_commands.json
 !mars-logtool/Release/**/*.exe
 !mars-logtool/Release/**/*.dll
 !mars-logtool/Release/data/**
+
+# version file
+src/main/java/frc/robot/BuildConstants.java

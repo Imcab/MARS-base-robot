@@ -1,3 +1,7 @@
+// Copyright (c) 2026 STZ Robotics
+// Open Source Software; you can modify and/or share it under the terms of
+// the MIT license file in the root directory of this project.
+
 package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
@@ -10,55 +14,52 @@ import frc.robot.configuration.constants.ModuleConstants.TunerConstants;
 
 public class FlyWheelIOKrakenIntake implements FlyWheelIO {
 
-    private final TalonFX intakeFlyWheels ;
-    private TalonFXConfigurator FlyWheelsConfigurator;
+  private final TalonFX intakeFlyWheels;
+  private TalonFXConfigurator FlyWheelsConfigurator;
 
-    public FlyWheelIOKrakenIntake(){
-        intakeFlyWheels = new TalonFX(IntakeWheelsConstants.IntakeWheels_ID,TunerConstants.kCANBus);
-        FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
+  public FlyWheelIOKrakenIntake() {
+    intakeFlyWheels = new TalonFX(IntakeWheelsConstants.IntakeWheels_ID, TunerConstants.kCANBus);
+    FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
 
-        configMotor();
-    }
+    configMotor();
+  }
 
-    public void configMotor(){
-        var motorConfigs = new MotorOutputConfigs();
+  public void configMotor() {
+    var motorConfigs = new MotorOutputConfigs();
 
-        motorConfigs.Inverted = IntakeWheelsConstants.invertedValue;
-        motorConfigs.NeutralMode = NeutralModeValue.Brake;
+    motorConfigs.Inverted = IntakeWheelsConstants.invertedValue;
+    motorConfigs.NeutralMode = NeutralModeValue.Brake;
 
+    var limitConfigs = new CurrentLimitsConfigs();
 
-        var limitConfigs = new CurrentLimitsConfigs();
+    limitConfigs.StatorCurrentLimit = IntakeWheelsConstants.StatorCurrentLimit;
+    limitConfigs.StatorCurrentLimitEnable = true;
 
-        limitConfigs.StatorCurrentLimit = IntakeWheelsConstants.StatorCurrentLimit;
-        limitConfigs.StatorCurrentLimitEnable = true; 
+    limitConfigs.SupplyCurrentLimit = IntakeWheelsConstants.SupplyCurrentLimit;
+    limitConfigs.SupplyCurrentLimitEnable = true;
 
-        limitConfigs.SupplyCurrentLimit = IntakeWheelsConstants.SupplyCurrentLimit;
-        limitConfigs.SupplyCurrentLimitEnable = true;
-        
+    intakeFlyWheels.getConfigurator().apply(limitConfigs);
 
-        intakeFlyWheels.getConfigurator().apply(limitConfigs);
+    FlyWheelsConfigurator.refresh(motorConfigs);
+    FlyWheelsConfigurator.apply(motorConfigs);
+  }
 
-        FlyWheelsConfigurator.refresh(motorConfigs);
-        FlyWheelsConfigurator.apply(motorConfigs);
-    }
+  @Override
+  public void applyOutput(double volts) {
+    intakeFlyWheels.setVoltage(volts);
+  }
 
-    @Override
-    public void applyOutput(double volts){
-        intakeFlyWheels.setVoltage(volts);
-    }
+  @Override
+  public void setSpeed(double speed) {
+    intakeFlyWheels.set(speed);
+  }
 
-    @Override
-    public void setSpeed(double speed){
-        intakeFlyWheels.set(speed);
-    }
+  @Override
+  public void setTargetRPM(double RPM) {}
 
-    @Override
-    public void setTargetRPM(double RPM){}
-
-
-    @Override
-    public void updateInputs(FlyWheelInputs inputs){
-        inputs.appliedVolts = intakeFlyWheels.getMotorVoltage().getValueAsDouble();
-        inputs.velocityRPM = intakeFlyWheels.getVelocity().getValueAsDouble();
-    }
+  @Override
+  public void updateInputs(FlyWheelInputs inputs) {
+    inputs.appliedVolts = intakeFlyWheels.getMotorVoltage().getValueAsDouble();
+    inputs.velocityRPM = intakeFlyWheels.getVelocity().getValueAsDouble();
+  }
 }

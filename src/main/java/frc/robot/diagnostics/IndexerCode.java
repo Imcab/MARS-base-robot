@@ -1,40 +1,40 @@
+// Copyright (c) 2026 STZ Robotics
+// Open Source Software; you can modify and/or share it under the terms of
+// the MIT license file in the root directory of this project.
+
 package frc.robot.diagnostics;
-
-import edu.wpi.first.wpilibj.util.Color;
-
 
 import com.stzteam.mars.diagnostics.DiagnosticPattern;
 import com.stzteam.mars.diagnostics.StatusCode;
+import edu.wpi.first.wpilibj.util.Color;
 
-public enum IndexerCode implements StatusCode{
-    
-    IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
-    VOLTAGE(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
-    SPEED(Severity.OK, DiagnosticPattern.solid(Color.kYellow)),
-    
-    STOPED(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kRed));
+public enum IndexerCode implements StatusCode {
+  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  VOLTAGE(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
+  SPEED(Severity.OK, DiagnosticPattern.solid(Color.kYellow)),
 
-    private final Severity severity;
-    private final DiagnosticPattern pattern;
+  STOPED(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kRed));
 
-    IndexerCode(Severity severity, DiagnosticPattern pattern) {
-        this.severity = severity;
-        this.pattern = pattern;
-    }
+  private final Severity severity;
+  private final DiagnosticPattern pattern;
 
-    @Override 
-    public Severity getSeverity() { 
-        return this.severity; 
-    }
+  IndexerCode(Severity severity, DiagnosticPattern pattern) {
+    this.severity = severity;
+    this.pattern = pattern;
+  }
 
-    @Override 
-    public String getName() { 
-        return this.name(); 
-    }
+  @Override
+  public Severity getSeverity() {
+    return this.severity;
+  }
 
-    @Override 
-    public DiagnosticPattern getVisualPattern() { 
-        return this.pattern; 
-    }
-    
+  @Override
+  public String getName() {
+    return this.name();
+  }
+
+  @Override
+  public DiagnosticPattern getVisualPattern() {
+    return this.pattern;
+  }
 }

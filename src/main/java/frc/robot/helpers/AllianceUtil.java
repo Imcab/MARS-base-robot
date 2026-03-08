@@ -1,3 +1,7 @@
+// Copyright (c) 2026 STZ Robotics
+// Open Source Software; you can modify and/or share it under the terms of
+// the MIT license file in the root directory of this project.
+
 package frc.robot.helpers;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -7,36 +11,33 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
-public class AllianceUtil{
+public class AllianceUtil {
 
-    public static final double FIELD_LENGTH_METERS = 16.54175;
+  public static final double FIELD_LENGTH_METERS = 16.54175;
 
-    public static Translation2d flip(Translation2d translation) {
-        return new Translation2d(FIELD_LENGTH_METERS - translation.getX(), translation.getY());
-    }
+  public static Translation2d flip(Translation2d translation) {
+    return new Translation2d(FIELD_LENGTH_METERS - translation.getX(), translation.getY());
+  }
 
-    public static Rotation2d flip(Rotation2d rotation) {
-        return new Rotation2d(Math.PI - rotation.getRadians());
-    }
+  public static Rotation2d flip(Rotation2d rotation) {
+    return new Rotation2d(Math.PI - rotation.getRadians());
+  }
 
-    public static Pose2d flip(Pose2d pose) {
-        return new Pose2d(flip(pose.getTranslation()), flip(pose.getRotation()));
-    }
+  public static Pose2d flip(Pose2d pose) {
+    return new Pose2d(flip(pose.getTranslation()), flip(pose.getRotation()));
+  }
 
-    public static Translation3d flip(Translation3d translation) {
-        return new Translation3d(FIELD_LENGTH_METERS - translation.getX(), translation.getY(), translation.getZ());
-    }
+  public static Translation3d flip(Translation3d translation) {
+    return new Translation3d(
+        FIELD_LENGTH_METERS - translation.getX(), translation.getY(), translation.getZ());
+  }
 
-    public static Rotation3d flip(Rotation3d rotation) {
-  
-        return new Rotation3d(
-            -rotation.getX(), 
-            rotation.getY(), 
-            Math.PI - rotation.getZ()
-        );
-    }
+  public static Rotation3d flip(Rotation3d rotation) {
 
-    public static Pose3d flip(Pose3d pose) {
-        return new Pose3d(flip(pose.getTranslation()), flip(pose.getRotation()));
-    }
+    return new Rotation3d(-rotation.getX(), rotation.getY(), Math.PI - rotation.getZ());
+  }
+
+  public static Pose3d flip(Pose3d pose) {
+    return new Pose3d(flip(pose.getTranslation()), flip(pose.getRotation()));
+  }
 }
