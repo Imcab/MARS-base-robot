@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BumpFront"
+            "pathName": "AlignToBump"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PassBump"
           }
         },
         {
@@ -17,7 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "RotateToFuel"
+                  "pathName": "EatFuel"
                 }
               },
               {
@@ -32,13 +38,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Eat"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bump45"
+            "pathName": "goToOutPost"
           }
         }
       ]

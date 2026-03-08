@@ -45,6 +45,7 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
 public class RobotContainer implements IRobotContainer {
 
@@ -57,6 +58,8 @@ public class RobotContainer implements IRobotContainer {
   public PathPlannerAuto eatAuto;
   public PathPlannerAuto AutoCenter;
   public PathPlannerAuto autoForeward;
+  public PathPlannerAuto elipse;
+  public PathPlannerAuto bumpPost;
 
   public final Arm arm;
   public final Turret turret;
@@ -77,16 +80,25 @@ public class RobotContainer implements IRobotContainer {
 
   public void configureAutos() {
     NamedCommands.registerCommand(
-        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(3));
+        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
     NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
+    NamedCommands.registerCommand(
+        "IntakeUp",
+        superstructure
+            .getIntake()
+            .setControl(() -> IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2)));
 
     eatAuto = new PathPlannerAuto("EatAuto1");
     AutoCenter = new PathPlannerAuto("AutoCenter");
     autoForeward = new PathPlannerAuto("New Auto");
+    elipse = new PathPlannerAuto("elipse");
+    bumpPost = new PathPlannerAuto("EatPost-auto");
 
     chooser.setDefaultOption("EatAuto", eatAuto);
     chooser.addOption("AutoCenter", AutoCenter);
     chooser.addOption("test1Forward", autoForeward);
+    chooser.addOption("Elipse", elipse);
+    chooser.addOption("Post", bumpPost);
 
     SmartDashboard.putData("AutoSelector", chooser);
   }
