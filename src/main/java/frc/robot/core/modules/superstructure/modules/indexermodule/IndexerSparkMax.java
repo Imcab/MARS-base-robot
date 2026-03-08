@@ -12,7 +12,6 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import frc.robot.configuration.constants.ModuleConstants.IndexerConstants;
-import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 
 public class IndexerSparkMax implements IndexerIO {
 
@@ -40,11 +39,11 @@ public class IndexerSparkMax implements IndexerIO {
 
     config
         .idleMode(IdleMode.kBrake)
-        .inverted(TurretConstants.kMotorInverted)
-        .smartCurrentLimit(TurretConstants.kCurrentLimit)
-        .voltageCompensation(TurretConstants.kMaxVolts);
+        .inverted(IndexerConstants.kMotorInverted)
+        .smartCurrentLimit(IndexerConstants.SmartCurrentLimit)
+        .voltageCompensation(IndexerConstants.VoltageCompesation);
 
-    config.absoluteEncoder.inverted(TurretConstants.kEncoderInverted);
+    config.absoluteEncoder.inverted(IndexerConstants.kEncoderInverted);
 
     rollers.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     indexMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

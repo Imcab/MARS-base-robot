@@ -40,9 +40,7 @@ deploy {
                     //  AJUSTA ESTE VALOR SI TIENES PROBLEMAS DE MEMORIA,
                     //  NO PONER DEMASIADO ALTO PARA NO AFECTAR EL RENDIMIENTO DE LA ROBORIO
                     final MAX_JAVA_HEAP_SIZE_MB = 128;
-                    jvmArgs.add("-Xmx" + MAX_JAVA_HEAP_SIZE_MB + "M")
-                    jvmArgs.add("-Xms" + MAX_JAVA_HEAP_SIZE_MB + "M")
-                    jvmArgs.add("-XX:+AlwaysPreTouch")
+                    
                 }
 
                 // Static files artifact

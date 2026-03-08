@@ -12,6 +12,7 @@ import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceN
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
+import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
@@ -79,7 +80,13 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.ShootAngleTest(
                 () -> superstructure.getAngle(), () -> superstructure.getRPM()));
-    pov.down().whileTrue(superstructure.lockToHub());
+
+    pov.down()
+        .whileTrue(
+            superstructure
+                .getFlywheelShooter()
+                .setControl(() -> FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50)));
+
     pov.left()
         .whileTrue(
             superstructure
@@ -120,7 +127,7 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(0),
+                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
                 12));
 
@@ -130,7 +137,7 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(0),
+                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
                 -12));
 

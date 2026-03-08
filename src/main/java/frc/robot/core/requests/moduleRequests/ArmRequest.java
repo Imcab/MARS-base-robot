@@ -33,7 +33,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
   public static class InterpolateTarget implements ArmRequest {
     private DoubleSupplier distanciaMetros;
     private double tolerance = 1.0;
-    private ArmMODE mode;
+    private ArmMODE mode = ArmMODE.kUP;
 
     public InterpolateTarget withDistance(DoubleSupplier target) {
       this.distanciaMetros = target;
@@ -52,12 +52,6 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
       if (anguloDeseado == null) {
         actor.applyOutput(0);
         return ActionStatus.of(ArmCode.OUT_OF_RANGE, StatusCodes.ARM_TABULATED_ERROR);
-      }
-
-      if (anguloDeseado > 0) {
-        mode = ArmMODE.kUP;
-      } else {
-        mode = ArmMODE.kDOWN;
       }
 
       actor.setPosition(anguloDeseado.doubleValue(), mode);

@@ -57,8 +57,7 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
     public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
 
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(
-            KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+        NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.ARM_KEY);
         NetworkIO.set(
             KeyManager.ARM_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
         NetworkIO.set(
