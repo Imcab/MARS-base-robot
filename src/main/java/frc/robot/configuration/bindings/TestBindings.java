@@ -13,7 +13,9 @@ import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.tests.ArmTest;
 import frc.tests.IndexerTest;
 import frc.tests.IntakeTest;
+import frc.tests.IntakeWheelsTest;
 import frc.tests.InterpolateTest;
+import frc.tests.ShooterWheelsVoltage;
 import frc.tests.TurretTest;
 
 
@@ -21,32 +23,27 @@ public class TestBindings implements Binding{
 
     private SendableChooser<TestRoutine> tests = new SendableChooser<>();
 
-    private Turret turret;
-    private Arm arm;
-    private Intake intake;
-    private Indexer index;
+
     private Superstructure s;
 
-    private TestBindings(Intake intake, Turret turret, Arm arm, Indexer index, Superstructure sup){
-        this.intake = intake;
-        this.turret = turret;
-        this.arm = arm;
-        this.index = index;
+    private TestBindings(Superstructure sup){
         this.s = sup;
     }
 
-    public static TestBindings create(Intake intake, Turret turret, Arm arm, Indexer index, Superstructure sup){
-        return new TestBindings(intake, turret, arm, index, sup);
+    public static TestBindings create( Superstructure sup){
+        return new TestBindings( sup);
     }
 
     @Override
     public void bind() {
 
-        tests.addOption("IntakeTest", new IntakeTest(intake));
-        tests.addOption("TurretTest", new TurretTest(turret));
-        tests.addOption("ArmTest", new ArmTest(arm));
-        tests.addOption("IndexTest", new IndexerTest(index));
+        tests.addOption("IntakeTest", new IntakeTest(s.getIntake()));
+        tests.addOption("TurretTest", new TurretTest(s.getTurret()));
+        tests.addOption("ArmTest", new ArmTest(s.getArm()));
+        tests.addOption("IndexTest", new IndexerTest(s.getIndexer()));
         tests.addOption("InterTest", new InterpolateTest(s));
+        tests.addOption("IntakeWheels Test", new IntakeWheelsTest(s.getFlyWheelsIntake()));
+        tests.addOption("ShooterVoltage Test", new ShooterWheelsVoltage(s.getFlywheelShooter()));
 
         SmartDashboard.putData("TestRoutines", tests);
     }

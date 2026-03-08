@@ -17,18 +17,33 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.F
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 
+
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO> {
 
     public static String subKey;
 
-    public FlyWheel(FlyWheelIO io, String key) {
+    public enum idleMode{
+        intakeIDLE, outakeIDLE
+    }
+
+    public idleMode mode;
+
+    public FlyWheel(FlyWheelIO io, String key, idleMode mode) {
         super(SubsystemBuilder.<FlyWheelInputs, FlyWheelIO>setup()
                 .key(key)
                 .hardware(io, new FlyWheelInputs())
-                .request(FlyWheelRequestFactory.idle())
+                .request(FlyWheelRequestFactory.idleIntake())
                 .telemetry(new FlyWheelTelemetry(key)));
 
-        this.setDefaultCommand(runRequest(() -> FlyWheelRequestFactory.idle()));
+        this.mode = mode;
+
+        if(mode == idleMode.intakeIDLE){
+            this.setDefaultCommand(runRequest(() -> FlyWheelRequestFactory.idleIntake()));
+        }else{
+            this.setDefaultCommand(runRequest(() -> FlyWheelRequestFactory.idleOutake()));
+        }
+
+
 
         FlyWheel.subKey = key;
     }
@@ -65,7 +80,7 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO> {
             NetworkIO.set(key, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
 
             if (lastStatus != null && lastStatus.code != null) {
-                NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, key);
                 NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
                 NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             }

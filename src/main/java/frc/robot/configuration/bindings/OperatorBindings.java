@@ -4,10 +4,16 @@ import com.stzteam.mars.models.containers.Binding;
 import com.stzteam.mars.operator.ControllerOI;
 import com.stzteam.mars.services.nodes.Node;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
-
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKrakenShooter;
+import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
+import frc.robot.configuration.constants.Constants;
 
 public class OperatorBindings implements Binding {
 
@@ -38,6 +44,7 @@ public class OperatorBindings implements Binding {
         var bumpers = operator.getBumpers();
         //var driverSystem = operator.getSystemTriggers();
         var triggers = operator.getAnalogTriggers();
+        var pov = operator.getDPadTriggers();
         
         // --------------------------------------------------------------- MANDO
         // ---------------------------------------------------------------
@@ -56,17 +63,124 @@ public class OperatorBindings implements Binding {
 
         buttons.right().whileTrue(superstructure.eatCommand()); //Comer fuels
 
-        buttons.left().whileTrue(superstructure.clearFuel()); // Desatorar fuels
         // ----- Botones (a,b,x,y) -----
 
-        bumpers.left().whileTrue(superstructure.lockToHub()); 
-        
+        bumpers.right().whileTrue(superstructure.getIndexer().setControl(()-> IndexerRequestFactory.moveVoltage().withIndex(-12).withRollers(-12)));
+        bumpers.left().whileTrue(superstructure.clearFuel());
 
-        //triggers.right().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
-        triggers.right().whileTrue(superstructure.shootOnTheMove());
+        pov.up().whileTrue(superstructure.ShootAngleTest(()-> superstructure.getAngle(), ()-> superstructure.getRPM()));
+        pov.down().whileTrue(superstructure.lockToHub());
+        pov.left().whileTrue(superstructure.getFlywheelShooter().setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-12)));
+
+        triggers.right().and(bumpers.right().negate()).whileTrue(superstructure.shootOnTheMove(superstructure.getVirtualTarget(), 
+            ArmRequestFactory.interpolateTarget()
+                .withDistance(() -> superstructure.getVirtualDistance())
+                .withTolerance(Constants.ARM_TOLERANCE),
+
+            FlyWheelRequestFactory.interpolateRPM()
+                .withDistance(() -> superstructure.getVirtualDistance())
+                .withTolerance(Constants.FLYWHEEL_TOLERANCE),
+                12
+                ));
+
+        triggers.right().and(bumpers.right()).whileTrue(superstructure.shootOnTheMove(superstructure.getVirtualTarget(), 
+            ArmRequestFactory.interpolateTarget()
+                .withDistance(() -> superstructure.getVirtualDistance())
+                .withTolerance(Constants.ARM_TOLERANCE),
+
+            FlyWheelRequestFactory.interpolateRPM()
+                .withDistance(() -> superstructure.getVirtualDistance())
+                .withTolerance(Constants.FLYWHEEL_TOLERANCE),
+                -12
+                ));
+
+        triggers.left().and(bumpers.right().negate()).whileTrue(superstructure.shootOnTheMove(new Translation2d(0.863,4.003), 
+            ArmRequestFactory.setAngle().withAngle(0), 
+            FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
+            12
+            )); 
+
+        triggers.left().and(bumpers.right()).whileTrue(superstructure.shootOnTheMove(new Translation2d(0.863,4.003), 
+            ArmRequestFactory.setAngle().withAngle(0), 
+            FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
+            -12
+            )); 
+    
+    
         
-        //driverSystem.start().toggleOnTrue(intake.setControl(()-> IntakeRequestFactory.setAngle())); //Resetea la posición del encoder a 0 (start)}
         // --------------------------------------------------------------- MANDO ---------------------------------------------------------------
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

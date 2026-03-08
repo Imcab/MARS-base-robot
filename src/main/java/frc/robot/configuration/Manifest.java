@@ -44,6 +44,7 @@ import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOFa
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKrakenIntake;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOKrakenShooter;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIOSim;
+import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel.idleMode;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIOFallback;
@@ -66,7 +67,7 @@ public class Manifest {
     private static final int DRIVER_PORT = 0;
     private static final int OPERATOR_PORT = 1;
 
-    public static final RunMode CURRENT_MODE = RunMode.SIM;
+    public static final RunMode CURRENT_MODE = RunMode.REAL;
 
     static {
         Environment.setMode(CURRENT_MODE);
@@ -207,7 +208,7 @@ public class Manifest {
                     FlyWheelIOKrakenShooter::new,
                     FlyWheelIOSim::new);
 
-            return new FlyWheel(io, KeyManager.FLYWHEEL_OUTAKE_KEY);
+            return new FlyWheel(io, KeyManager.FLYWHEEL_OUTAKE_KEY, idleMode.outakeIDLE);
         }
     }
 
@@ -228,7 +229,7 @@ public class Manifest {
                     FlyWheelIOKrakenIntake::new,
                     FlyWheelIOSim::new);
 
-            return new FlyWheel(io, KeyManager.FLYWHEEL_INTAKE_KEY);
+            return new FlyWheel(io, KeyManager.FLYWHEEL_INTAKE_KEY, idleMode.intakeIDLE);
         }
     }
 

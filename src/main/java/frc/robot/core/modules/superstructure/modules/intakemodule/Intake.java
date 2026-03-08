@@ -63,7 +63,7 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> {
             NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
 
             if (lastStatus != null && lastStatus.code != null) {
-                NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INTAKE_KEY);
                 NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
                 NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_MESSAGE_KEY,
                         lastStatus.getPayload().message());

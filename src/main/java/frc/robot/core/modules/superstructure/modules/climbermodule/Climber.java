@@ -19,6 +19,7 @@ import frc.robot.core.modules.superstructure.modules.climbermodule.ClimberIO.Cli
 import frc.robot.core.requests.moduleRequests.ClimberRequest;
 import frc.robot.core.requests.moduleRequests.ClimberRequestFactory;
 
+
 public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
 
     public Climber(ClimberIO io) {
@@ -50,10 +51,9 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
             NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
             if (lastStatus != null && lastStatus.code != null) {
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.CLIMBER_KEY);
                 NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY,
-                        lastStatus.getPayload().message());
+                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             }
 
         }
