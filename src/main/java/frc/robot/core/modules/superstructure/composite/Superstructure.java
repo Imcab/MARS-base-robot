@@ -8,6 +8,7 @@ import com.stzteam.forgemini.io.Tunable;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.multimodules.CompositeSubsystem;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -24,11 +25,14 @@ import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.core.requests.moduleRequests.ArmRequest;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
+import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
+
 
 public class Superstructure extends CompositeSubsystem<SuperstructureData, SuperstructureIO> {
 
@@ -72,7 +76,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
     }
 
-    private Translation2d getVirtualTarget() {
+    public Translation2d getVirtualTarget() {
         Turret turret = getTurret();
 
         Pose2d robotPose = turret.getRobotPose();
@@ -91,7 +95,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return Constants.HUB_LOCATION.toTranslation2d().minus(robotVelVector.times(timeOfFlight));
     }
 
-    private double getVirtualDistance() {
+    public double getVirtualDistance() {
         Turret turret = getSubsystem(KeyManager.TURRET_KEY);
 
         Pose2d turretPose = turret.getRobotPose().transformBy(TurretConstants.ROBOT_TO_TURRET_TRANSFORM);
@@ -104,7 +108,9 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
         return Commands.parallel(
                 turret.setControl(() -> TurretRequestFactory.lockOnTarget()
-                        .withTarget(() -> this.getVirtualTarget()).withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)));
+                .withTarget(()-> this.getVirtualTarget())
+                .withTolerance(Constants.TURRET_TOLERANCE)
+                .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)));
     }
 
     public Command shoot() {
@@ -138,13 +144,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
         return Commands.parallel(
             intakeFlyWheel.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(5)),
-
-            Commands.sequence(
-                index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)).withTimeout(1.5),
-                index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)).withTimeout(1.5)
-            ).repeatedly()
-            
-            );
+            index.setControl(()-> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)).withTimeout(1.5));
     }
 
 
@@ -153,6 +153,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         FlyWheel flywheelShooter = getFlywheelShooter();
         Indexer index = getIndexer();
         Arm arm = getArm();
+        FlyWheel intakeWheels = getFlyWheelsIntake();
 
         return Commands.sequence(
                 Commands.parallel(
@@ -170,63 +171,40 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                         () -> FlyWheelRequestFactory.setRPM().toRPM(rpm.getAsDouble()).withTolerance(Constants.FLYWHEEL_TOLERANCE)))
                         .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
                 
-                index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(12).withRollers(12)));
+                 Commands.parallel(
+                index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)),
+                intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-8)))
+                );
 
     }
     
-    public Command shootOnTheMove() {
-        Turret turret = getTurret();
-        Arm arm = getArm();
-        FlyWheel flywheelShooter = getFlywheelShooter();
-        Indexer index = getIndexer();
-        Intake intake = getIntake();
+    public Command shootOnTheMove(Translation2d turretTarget, ArmRequest armRequest, FlyWheelRequest shooterRequest, double voltIndex) {
+        Turret turret = getSubsystem(KeyManager.TURRET_KEY);
+        Arm arm = getSubsystem(KeyManager.ARM_KEY);
+        FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
+        Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+        FlyWheel intakeWheels = getFlyWheelsIntake();
 
-        return Commands.parallel(
-            
-            turret.setControl(() -> TurretRequestFactory.lockOnTarget()
-                .withTarget(()-> this.getVirtualTarget())
+        return Commands.sequence(
+            Commands.parallel(
+                turret.setControl(() -> TurretRequestFactory.lockOnTarget()
+                .withTarget(()-> turretTarget)
                 .withTolerance(Constants.TURRET_TOLERANCE)
-                .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)
-            ),
-            
-            arm.setControl(() -> ArmRequestFactory.interpolateTarget()
+                .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)),
+                
+                arm.setControl(() -> ArmRequestFactory.interpolateTarget()
                 .withDistance(() -> this.getVirtualDistance())
-                .withTolerance(Constants.ARM_TOLERANCE)
-            ),
-            
-            flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM()
+                .withTolerance(Constants.ARM_TOLERANCE)),
+                
+                flywheelShooter.runRequest(() -> FlyWheelRequestFactory.interpolateRPM()
                 .withDistance(() -> this.getVirtualDistance())
-                .withTolerance(50)
-            ),
+                .withTolerance(Constants.FLYWHEEL_TOLERANCE))
 
-            index.setControl(() -> {
+            ).until(()-> flywheelShooter.isAtTarget(50)),
 
-                boolean isShooterReady = flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE);
-                boolean isTurretReady = turret.isAtTarget(Constants.TURRET_TOLERANCE);
-                boolean isArmReady = arm.isAtTarget(Constants.ARM_TOLERANCE);
-
-                if (isShooterReady && isTurretReady && isArmReady) {
-
-                    return IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12);
-                } else {
-
-                    return IndexerRequestFactory.moveVoltage().withRollers(0).withIndex(0);
-                }
-            }),
-            
-            intake.setControl(() -> {
-
-                boolean isShooterReady = flywheelShooter.isAtTarget(50);
-                boolean isTurretReady = turret.isAtTarget(Constants.TURRET_TOLERANCE);
-                boolean isArmReady = arm.isAtTarget(2);
-
-                if (isShooterReady && isTurretReady && isArmReady) {
-                    return IntakeRequestFactory.moveVoltage().withVolts(-6);
-                } else {
-                    return IntakeRequestFactory.moveVoltage().withVolts(0);
-                }
-            })
-        );
+            Commands.parallel(
+                index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(voltIndex).withIndex(voltIndex)),
+                intakeWheels.setControl(()-> FlyWheelRequestFactory.moveVoltage().withVolts(-8))));
     }
 
     public Command EatAutoAngle(double angle, double tolerance, intakeMODE mode, double voltage) {
@@ -242,15 +220,16 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
     }
 
-    @Signal(key = "RPM", onChange = true)
+    @Signal(key = "RPM")
     public double getRPM() {
         return RPMTest;
     }
 
-    @Signal(key = "Angle", onChange = true)
+    @Signal(key = "Angle")
     public double getAngle() {
         return AngleTest;
     }
+
 
     public Command EatAutoWheels(double voltage) {
         FlyWheel intakeWheels = getFlyWheelsIntake();
@@ -269,8 +248,8 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
         return Commands.parallel(
                 turret.setControl(() -> TurretRequestFactory.idle()),
                 arm.setControl(() -> ArmRequestFactory.idle()),
-                flywheel.runRequest(() -> FlyWheelRequestFactory.idle()),
-                flywheelout.runRequest(() -> FlyWheelRequestFactory.idle()),
+                flywheel.runRequest(() -> FlyWheelRequestFactory.idleIntake()),
+                flywheelout.runRequest(() -> FlyWheelRequestFactory.idleOutake()),
                 index.setControl(() -> IndexerRequestFactory.idle()),
                 intake.setControl(() -> IntakeRequestFactory.idle())
         );

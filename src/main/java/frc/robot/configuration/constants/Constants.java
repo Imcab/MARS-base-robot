@@ -24,31 +24,24 @@ public class Constants {
 
     static {
 
-        RPM_MAP.put(1.00, -2350.0); //Listo
-        RPM_MAP.put(2.50, -2900.0);  //Listo
-        RPM_MAP.put(4.50, -3500.0);
-        RPM_MAP.put(6.00, 5500.0);
+        RPM_MAP.put(1.81592710, -2500.0); //Listo
+        RPM_MAP.put(2.80519751, -2700.0);  //Listo
+        RPM_MAP.put(3.79659061, -2900.0);
+        RPM_MAP.put(4.95643191, -3400.0);
+        RPM_MAP.put(5.86085769, -4000.0);
+        RPM_MAP.put(6.86240250, -4100.0);
+        RPM_MAP.put(7.80406202, -4500.0);
     }
 
     static {
-        // --- ZONA 1: FENDER / CONTACTO (Muy Cerca) ---
-        // El Hub está bajo (1.25m). Si disparas recto aquí, le pegas al borde de plástico.
-        // Necesitas "bombear" el FUEL hacia arriba para que caiga en el embudo.
-        INTERPOLATION_MAP.put(1.00, 0.0);  // Hood totalmente abierto
 
-        // --- ZONA 2: FUERA DEL TRENCH (Distancia Media) ---
-        // A ~2.5m, ya tienes ángulo para disparar más directo.
-        // Cerramos un poco el hood para ganar velocidad horizontal.
-        INTERPOLATION_MAP.put(2.50, -4.5); 
-
-        // --- ZONA 3: OUTPOST / DEPOT (Lejos) ---
-        // A 4.5m+, el FUEL debe viajar rápido para no perder altura.
-        // Cerramos el hood casi al máximo.
-        INTERPOLATION_MAP.put(4.50, -17.0); 
-
-        // --- ZONA 4: CROSS-FIELD (Máximo Rango) ---
-        // Tiro casi horizontal para cruzar la cancha.
-        INTERPOLATION_MAP.put(6.00, 40.0); 
+        INTERPOLATION_MAP.put(1.815927105, 0.0);  // Hood totalmente abierto
+        INTERPOLATION_MAP.put(2.80519751, -5.0); 
+        INTERPOLATION_MAP.put(3.79659061, -10.0); 
+        INTERPOLATION_MAP.put(4.95643191, -17.0); 
+        INTERPOLATION_MAP.put(5.86085769, -18.0);
+        INTERPOLATION_MAP.put(6.86240250, -19.7);
+        INTERPOLATION_MAP.put(7.80406202, -20.0);
     }
 
     

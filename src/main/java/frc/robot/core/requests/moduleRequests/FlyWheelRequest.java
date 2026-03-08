@@ -1,6 +1,7 @@
 package frc.robot.core.requests.moduleRequests;
 
 import frc.robot.configuration.constants.Constants;
+import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
 
 import java.util.function.DoubleSupplier;
 
@@ -20,11 +21,21 @@ import com.stzteam.features.marsprocessor.RequestFactory;
 @RequestFactory
 public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO>{
 
-    public static class Idle implements FlyWheelRequest{
+    public static class IdleIntake implements FlyWheelRequest{
 
         @Override
         public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
             actor.applyOutput(0);
+            return ActionStatus.of(FlywheelsCode.IDLE, StatusCodes.IDLE_STATUS);
+        }
+        
+    }
+
+    public static class IdleOutake implements FlyWheelRequest{
+
+        @Override
+        public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
+            actor.applyOutput(FlywheelConstants.ShooterWheelsConstants.idleVoltage);
             return ActionStatus.of(FlywheelsCode.IDLE, StatusCodes.IDLE_STATUS);
         }
         

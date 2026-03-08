@@ -3,6 +3,7 @@ package frc.robot.core.modules.superstructure.modules.armmodule;
 import java.util.function.Supplier;
 
 import com.stzteam.features.dictionary.Dictionary.CommonTables;
+import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.models.SubsystemBuilder;
@@ -15,6 +16,8 @@ import frc.robot.configuration.KeyManager;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.requests.moduleRequests.ArmRequest;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
+
+
 
 public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> {
 
@@ -56,8 +59,12 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> {
         @Override
         public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
 
+            NetworkIO.set(KeyManager.ARM_KEY, CommonTables.DEGREES_KEY, data.position);
+            NetworkIO.set(KeyManager.ARM_KEY, CommonTables.TARGET_KEY, data.targetAngle);
+            NetworkIO.set(KeyManager.ARM_KEY, CommonTables.ROTATION_KEY, data.rotation);
+
             if (lastStatus != null && lastStatus.code != null) {
-                NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+                NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.ARM_KEY);
                 NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
                 NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
             }
