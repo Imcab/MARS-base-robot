@@ -168,7 +168,7 @@ public class RobotContainer implements IRobotContainer {
 
     OperatorBindings.create(operator, superstructure).withNodes(gamePieceViz, trajetorySim).bind();
 
-    tests = TestBindings.create( superstructure);
+    tests = TestBindings.create(superstructure);
 
     tests.bind();
 

@@ -19,12 +19,7 @@ import frc.robot.core.requests.moduleRequests.ClimberRequest;
 import frc.robot.core.requests.moduleRequests.ClimberRequestFactory;
 import java.util.function.Supplier;
 
-<<<<<<< HEAD
 public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> implements ClimberCommands {
-=======
-
-public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
->>>>>>> 2fec589affc2ebc8e258210e99e5c004ba0c2607
 
   public Climber(ClimberIO io) {
 
@@ -52,7 +47,6 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
   public static class ClimberTelemetry extends Telemetry<ClimberInputs> {
 
     @Override
-<<<<<<< HEAD
     public void telemeterize(ClimberInputs data, ActionStatus lastStatus) {
       NetworkIO.set(
           KeyManager.CLIMBER_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
@@ -70,32 +64,6 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> {
             CommonTables.PAYLOAD_MESSAGE_KEY,
             lastStatus.getPayload().message());
       }
-=======
-    public ClimberInputs getState() {
-        return inputs;
-    }
-
-    public static class ClimberTelemetry extends Telemetry<ClimberInputs> {
-
-        @Override
-        public void telemeterize(ClimberInputs data, ActionStatus lastStatus) {
-            NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
-            NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
-
-            if (lastStatus != null && lastStatus.code != null) {
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.CLIMBER_KEY);
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-                NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
-            }
-
-        }
-
-    }
-
-    @Override
-    public void absolutePeriodic(ClimberInputs inputs) {
-
->>>>>>> 2fec589affc2ebc8e258210e99e5c004ba0c2607
     }
   }
 

@@ -4,20 +4,6 @@
 
 package frc.robot.core.requests.moduleRequests;
 
-<<<<<<< HEAD
-=======
-import frc.robot.configuration.constants.Constants;
-import frc.robot.configuration.constants.ModuleConstants.FlywheelConstants;
-
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.math.MathUtil;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
-
-import frc.robot.diagnostics.FlywheelsCode;
-
->>>>>>> 2fec589affc2ebc8e258210e99e5c004ba0c2607
 import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.features.dictionary.Dictionary.StatusCodes;
 import com.stzteam.features.marsprocessor.CreateCommand;
@@ -35,11 +21,7 @@ import java.util.function.DoubleSupplier;
 @RequestFactory
 public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO> {
 
-<<<<<<< HEAD
   public static class IdleIntake implements FlyWheelRequest {
-=======
-    public static class IdleIntake implements FlyWheelRequest{
->>>>>>> 2fec589affc2ebc8e258210e99e5c004ba0c2607
 
     @Override
     public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
@@ -66,27 +48,12 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO> {
       return this;
     }
 
-<<<<<<< HEAD
     @Override
     public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
       actor.setSpeed(speed);
       return ActionStatus.of(FlywheelsCode.MANUAL_OVERRIDE, "Speed");
     }
   }
-=======
-    public static class IdleOutake implements FlyWheelRequest{
-
-        @Override
-        public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
-            actor.applyOutput(FlywheelConstants.ShooterWheelsConstants.idleVoltage);
-            return ActionStatus.of(FlywheelsCode.IDLE, StatusCodes.IDLE_STATUS);
-        }
-        
-    }
-
-    public static class moveSpeed implements FlyWheelRequest {
-        double speed;
->>>>>>> 2fec589affc2ebc8e258210e99e5c004ba0c2607
 
   @CreateCommand(name = "spinAtVoltage")
   public static class moveVoltage implements FlyWheelRequest {
