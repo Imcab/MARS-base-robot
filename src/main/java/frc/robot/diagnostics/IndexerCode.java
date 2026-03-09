@@ -9,11 +9,11 @@ import com.stzteam.mars.diagnostics.StatusCode;
 import edu.wpi.first.wpilibj.util.Color;
 
 public enum IndexerCode implements StatusCode {
-  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  IDLE(Severity.OK, DiagnosticPattern.solid(Color.kDarkGreen)),
   VOLTAGE(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
   SPEED(Severity.OK, DiagnosticPattern.solid(Color.kYellow)),
 
-  STOPED(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kRed));
+  STOPED(Severity.WARNING, DiagnosticPattern.solid(Color.kRed));
 
   private final Severity severity;
   private final DiagnosticPattern pattern;

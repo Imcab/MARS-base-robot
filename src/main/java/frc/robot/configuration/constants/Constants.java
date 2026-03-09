@@ -12,7 +12,7 @@ public class Constants {
 
   public static final double INTAKE_TOLERANCE = 2;
   public static final double TURRET_TOLERANCE = 4;
-  public static final double FLYWHEEL_TOLERANCE = 50;
+  public static final double FLYWHEEL_TOLERANCE = 70;
   public static final double ARM_TOLERANCE = 2;
 
   public static final double kSimLoopPeriod = 0.004;
@@ -20,7 +20,7 @@ public class Constants {
   public static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
   public static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
 
-  public static final Translation3d HUB_LOCATION = new Translation3d(4.63, 4.04, 1.9);
+  public static final Translation3d HUB_LOCATION = new Translation3d(4.63, 4.10, 1.9);
 
   public static final InterpolatingDoubleTreeMap INTERPOLATION_MAP =
       new InterpolatingDoubleTreeMap();

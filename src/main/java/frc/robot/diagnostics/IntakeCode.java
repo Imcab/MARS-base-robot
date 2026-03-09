@@ -9,15 +9,15 @@ import com.stzteam.mars.diagnostics.StatusCode;
 import edu.wpi.first.wpilibj.util.Color;
 
 public enum IntakeCode implements StatusCode {
-  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  IDLE(Severity.OK, DiagnosticPattern.solid(Color.kDarkGreen)),
   ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
 
-  MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
-  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple)),
+  MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
+  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple)),
 
   RESET(Severity.OK, DiagnosticPattern.solid(Color.kDarkSalmon)),
 
-  OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.blinkFast(Color.kOrange));
+  OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.solid(Color.kOrange));
 
   private final Severity severity;
   private final DiagnosticPattern pattern;
