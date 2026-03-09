@@ -39,10 +39,10 @@ deploy {
                     //CUANTOS MB DE MEMORIA USA LA ROBORIO PARA EJECUTAR EL PROGRAMA?
                     //  AJUSTA ESTE VALOR SI TIENES PROBLEMAS DE MEMORIA,
                     //  NO PONER DEMASIADO ALTO PARA NO AFECTAR EL RENDIMIENTO DE LA ROBORIO
-                    final MAX_JAVA_HEAP_SIZE_MB = 128;
+                    /*final MAX_JAVA_HEAP_SIZE_MB = 128;
                     jvmArgs.add("-Xmx" + MAX_JAVA_HEAP_SIZE_MB + "M")
                     jvmArgs.add("-Xms" + MAX_JAVA_HEAP_SIZE_MB + "M")
-                    jvmArgs.add("-XX:+AlwaysPreTouch")
+                    jvmArgs.add("-XX:+AlwaysPreTouch")*/
                 }
 
                 // Static files artifact
@@ -253,3 +253,7 @@ spotless {
 compileJava.dependsOn generateBuildConstants
 compileJava.dependsOn syncMarsVersion
 compileJava.dependsOn spotlessApply
+
+apply from: 'gradle-features/voice-announcer.gradle'
+apply from: 'gradle-features/ascii-logo.gradle'
+apply from : 'gradle-features/todo-hunter.gradle'

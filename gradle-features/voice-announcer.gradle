@@ -1,0 +1,21 @@
+gradle.buildFinished { buildResult ->
+
+    def mensaje = ""
+    if (buildResult.failure == null) {
+
+        mensaje = "Build successful."
+    } else {
+
+        mensaje = "Build failed."
+    }
+
+    try {
+
+        def psCommand = "Add-Type -AssemblyName System.Speech; \$voz = New-Object System.Speech.Synthesis.SpeechSynthesizer; try { \$voz.SelectVoice('Microsoft Zira Desktop') } catch { try { \$voz.SelectVoice('Microsoft David Desktop') } catch {} }; \$voz.Speak('${mensaje}');"
+        
+        ["powershell", "-Command", psCommand].execute()
+        
+    } catch (Exception e) {
+        println "[MARS] The voice announcer cannot inicialize."
+    }
+}

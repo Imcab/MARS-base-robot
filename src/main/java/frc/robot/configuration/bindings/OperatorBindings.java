@@ -47,6 +47,8 @@ public class OperatorBindings implements Binding {
     var triggers = operator.getAnalogTriggers();
     var pov = operator.getDPadTriggers();
 
+    // TODO: Terminar los bindings del operador
+
     // --------------------------------------------------------------- MANDO
     // ---------------------------------------------------------------
 
