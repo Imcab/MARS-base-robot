@@ -3,8 +3,14 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "AutoCenter",
+    "BotBusters",
+    "BumpToOutPost",
+    "Depot",
     "EatPaths",
-    "AutoCenter"
+    "BumpToDepot",
+    "PracticePaths",
+    "ShootAlliance"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
