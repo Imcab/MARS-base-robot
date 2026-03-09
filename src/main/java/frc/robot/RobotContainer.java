@@ -101,7 +101,9 @@ public class RobotContainer implements IRobotContainer {
                 .withDistance(() -> superstructure.getVirtualDistance())
                 .withTolerance(Constants.FLYWHEEL_TOLERANCE),
             12));
-    NamedCommands.registerCommand("Shoot", superstructure.shootAuto().withTimeout(10));
+    NamedCommands.registerCommand("ShootOnly", superstructure.shootAuto().withTimeout(10));
+
+    
 
     eatAuto = new PathPlannerAuto("EatAuto1");
     AutoCenter = new PathPlannerAuto("AutoCenter");
@@ -207,7 +209,7 @@ public class RobotContainer implements IRobotContainer {
 
     limelightNode.periodic();
 
-    // virtualRobot.periodic();
+    virtualRobot.periodic();
     // trajetorySim.periodic();
     // gamePieceViz.periodic();
 
