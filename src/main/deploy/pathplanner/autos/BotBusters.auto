@@ -17,9 +17,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "EatFuel-L"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PassBump-L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Angle->Eat"
+                }
+              }
+            ]
           }
         },
         {

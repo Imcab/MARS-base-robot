@@ -60,6 +60,7 @@ public class RobotContainer implements IRobotContainer {
   public PathPlannerAuto autoForeward;
   public PathPlannerAuto elipse;
   public PathPlannerAuto bumpPost;
+  public PathPlannerAuto depotAuto;
 
   public final Arm arm;
   public final Turret turret;
@@ -101,6 +102,7 @@ public class RobotContainer implements IRobotContainer {
     autoForeward = new PathPlannerAuto("New Auto");
     elipse = new PathPlannerAuto("elipse");
     bumpPost = new PathPlannerAuto("EatPost-auto");
+    depotAuto = new PathPlannerAuto("DepotAuto");
 
     chooser.setDefaultOption("EatAuto", eatAuto);
     chooser.addOption("AutoCenter", AutoCenter);

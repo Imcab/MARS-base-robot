@@ -15,7 +15,6 @@ import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
-import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 
 public class OperatorBindings implements Binding {
 
@@ -69,14 +68,6 @@ public class OperatorBindings implements Binding {
 
     // ----- Botones (a,b,x,y) -----
 
-    bumpers
-        .right()
-        .whileTrue(
-            superstructure
-                .getIndexer()
-                .setControl(
-                    () -> IndexerRequestFactory.moveVoltage().withIndex(-12).withRollers(-12)));
-
     bumpers.left().whileTrue(superstructure.clearFuel());
 
     triggers
@@ -124,7 +115,7 @@ public class OperatorBindings implements Binding {
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
                 ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
+                FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50),
                 -12));
 
     // --------------------------------------------------------------- MANDO

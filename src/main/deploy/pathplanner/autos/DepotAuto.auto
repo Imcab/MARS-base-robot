@@ -17,16 +17,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "IntakeUp"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Eat"
+                  "name": "Angle->Eat"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DepotToHub"
           }
         },
         {
