@@ -88,27 +88,45 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
 
   public static class TurretTelemetry extends Telemetry<TurretInputs> {
 
+    private static final String APPLIED_OUTPUT_KEY =
+        CommonTables.APPLIED_KEY + CommonTables.OUTPUT_KEY;
+    private static final String ANGLE_DEGREES_KEY =
+        CommonTables.ANGLE_KEY + CommonTables.DEGREES_KEY;
+    private static final String TARGET_ANGLE_DEG_KEY =
+        CommonTables.TARGET_KEY + CommonTables.ANGLE_KEY + Terminology.DEG;
+    private static final String VELOCITY_RPS_KEY = CommonTables.VELOCITY_KEY + Terminology.RPS;
+    private static final String LATENCY_MS_KEY = CommonTables.LATENCY_KEY + Terminology.MS;
+
+    private String lastSentHex = "";
+    private String lastSentMessage = "";
+
     @Override
     public void telemeterize(TurretInputs data, ActionStatus lastStatus) {
 
       String table = KeyManager.TURRET_KEY;
 
-      NetworkIO.set(table, CommonTables.APPLIED_KEY + CommonTables.OUTPUT_KEY, data.appliedVolts);
-      NetworkIO.set(
-          table, CommonTables.ANGLE_KEY + CommonTables.DEGREES_KEY, data.angle.getDegrees());
-      NetworkIO.set(
-          table,
-          CommonTables.TARGET_KEY + CommonTables.ANGLE_KEY + Terminology.DEG,
-          data.targetAngle.getDegrees());
-      NetworkIO.set(table, CommonTables.VELOCITY_KEY + Terminology.RPS, data.velocityRPS);
-      NetworkIO.set(
-          table,
-          CommonTables.LATENCY_KEY + Terminology.MS,
-          (Timer.getFPGATimestamp() - data.timestamp) * 1000);
+      NetworkIO.set(table, APPLIED_OUTPUT_KEY, data.appliedVolts);
+      NetworkIO.set(table, ANGLE_DEGREES_KEY, data.angle.getDegrees());
+      NetworkIO.set(table, TARGET_ANGLE_DEG_KEY, data.targetAngle.getDegrees());
+      NetworkIO.set(table, VELOCITY_RPS_KEY, data.velocityRPS);
+      NetworkIO.set(table, LATENCY_MS_KEY, (Timer.getFPGATimestamp() - data.timestamp) * 1000);
 
-      NetworkIO.set(table, CommonTables.PAYLOAD_NAME_KEY, table);
-      NetworkIO.set(table, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
-      NetworkIO.set(table, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
+      if (lastStatus != null && lastStatus.getPayload() != null) {
+        String currentHex = lastStatus.getPayload().colorHex();
+        String currentMessage = lastStatus.getPayload().message();
+
+        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
+          NetworkIO.set(table, CommonTables.PAYLOAD_NAME_KEY, table);
+          NetworkIO.set(table, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
+          NetworkIO.set(table, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+
+          lastSentHex = currentHex;
+          lastSentMessage = currentMessage;
+        }
+      }
     }
   }
+
+  @Override
+  public void simulationPeriodic() {}
 }

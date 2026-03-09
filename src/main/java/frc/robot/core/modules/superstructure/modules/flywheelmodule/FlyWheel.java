@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
     implements FlyWheelCommands {
 
-  public static String subKey;
+  public String subKey;
 
   public enum idleMode {
     intakeIDLE,
@@ -40,14 +40,13 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
             .telemetry(new FlyWheelTelemetry(key)));
 
     this.mode = mode;
+    this.subKey = key;
 
     if (mode == idleMode.intakeIDLE) {
       this.setDefaultCommand(runRequest(() -> FlyWheelRequestFactory.idleIntake()));
     } else {
       this.setDefaultCommand(runRequest(() -> FlyWheelRequestFactory.idleOutake()));
     }
-
-    FlyWheel.subKey = key;
   }
 
   @Override
@@ -66,7 +65,14 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
 
   public static class FlyWheelTelemetry extends Telemetry<FlyWheelInputs> {
 
+    private static final String VELOCITY_RPM_KEY = CommonTables.VELOCITY_KEY + Terminology.RPM;
+    private static final String APPLIED_VOLTS_KEY = CommonTables.APPLIED_KEY + Terminology.VOLTS;
+    private static final String TARGET_RPM_KEY = CommonTables.TARGET_KEY + Terminology.RPM;
+
     String key;
+
+    private String lastSentHex = "";
+    private String lastSentMessage = "";
 
     public FlyWheelTelemetry(String key) {
       this.key = key;
@@ -75,18 +81,30 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
     @Override
     public void telemeterize(FlyWheelInputs data, ActionStatus lastStatus) {
 
-      NetworkIO.set(key, CommonTables.VELOCITY_KEY + Terminology.RPM, data.velocityRPM);
-      NetworkIO.set(key, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
-      NetworkIO.set(key, CommonTables.TARGET_KEY + Terminology.RPM, data.targetRPM);
+      NetworkIO.set(key, VELOCITY_RPM_KEY, data.velocityRPM);
+      NetworkIO.set(key, APPLIED_VOLTS_KEY, data.appliedVolts);
+      NetworkIO.set(key, TARGET_RPM_KEY, data.targetRPM);
 
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, key);
-        NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-        NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
+        String currentHex = lastStatus.getPayload().colorHex();
+        String currentMessage = lastStatus.getPayload().message();
+
+        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
+
+          NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, key);
+          NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+          NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
+
+          lastSentHex = currentHex;
+          lastSentMessage = currentMessage;
+        }
       }
     }
   }
 
   @Override
   public void absolutePeriodic(FlyWheelInputs inputs) {}
+
+  @Override
+  public void simulationPeriodic() {}
 }

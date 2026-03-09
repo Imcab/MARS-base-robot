@@ -6,6 +6,7 @@ package frc.robot.configuration.bindings;
 
 import com.stzteam.mars.models.containers.Binding;
 import com.stzteam.mars.operator.ControllerOI;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
@@ -42,27 +43,22 @@ public class DriverBindings implements Binding {
                     .withVelocityX(
                         -driverLeftStick.y().getAsDouble()
                             * SwerveConstants.MaxSpeed
-                            * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0))
+                            * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
+                            * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))
                     .withVelocityY(
                         -driverLeftStick.x().getAsDouble()
                             * SwerveConstants.MaxSpeed
-                            * (driverBumpers.right().getAsBoolean() ? 0.3 : 1.0))
+                            * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
+                            * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))
                     .withRotationalRate(
                         -driverRightStick.x().getAsDouble() * SwerveConstants.MaxAngularRate)));
 
     driverButtons.top().onTrue(drivetrain.runOnce(drivetrain::seedFieldCentric));
 
-    driverBumpers.left().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake()));
+    driverButtons.bottom().whileTrue(drivetrain.applyRequest(() -> SwerveRequestFactory.brake()));
 
     driverButtons
         .left()
-        .whileTrue(
-            drivetrain.applyRequest(
-                () ->
-                    SwerveRequestFactory.point()
-                        .withModuleDirection(
-                            new Rotation2d(
-                                -driverLeftStick.y().getAsDouble(),
-                                -driverLeftStick.x().getAsDouble()))));
+        .whileTrue(drivetrain.getPoseFinder().toPose(new Pose2d(0.579, 0.579, Rotation2d.kZero)));
   }
 }

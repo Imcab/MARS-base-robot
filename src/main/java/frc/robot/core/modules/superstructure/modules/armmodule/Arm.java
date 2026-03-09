@@ -30,7 +30,6 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
             .request(ArmRequestFactory.idle())
             .telemetry(new ArmTelemetry()));
 
-    registerTelemetry(new ArmTelemetry());
     this.setDefaultCommand(runRequest(() -> ArmRequestFactory.idle()));
   }
 
@@ -53,17 +52,27 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
 
   public static class ArmTelemetry extends Telemetry<ArmIO.ArmInputs> {
 
+    private String lastSentHex = "";
+    private String lastSentMessage = "";
+
     @Override
     public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
 
+      NetworkIO.set(KeyManager.ARM_KEY, "Position", data.position);
+
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.ARM_KEY);
-        NetworkIO.set(
-            KeyManager.ARM_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-        NetworkIO.set(
-            KeyManager.ARM_KEY,
-            CommonTables.PAYLOAD_MESSAGE_KEY,
-            lastStatus.getPayload().message());
+        String currentHex = lastStatus.getPayload().colorHex();
+        String currentMessage = lastStatus.getPayload().message();
+
+        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
+
+          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.ARM_KEY);
+          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
+
+          lastSentHex = currentHex;
+          lastSentMessage = currentMessage;
+        }
       }
     }
   }

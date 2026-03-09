@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.revrobotics.util.StatusLogger;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.builder.Environment;
+import com.stzteam.mars.builder.Environment.RunMode;
 import com.stzteam.mars.models.containers.IRobotContainer;
 import com.stzteam.mars.test.TestScheduler;
 import com.stzteam.mars.utils.TerminalGCS;
@@ -25,29 +27,28 @@ public class Robot extends TimedRobot {
 
     Environment.setMode(Manifest.CURRENT_MODE);
 
-    TerminalGCS.initNetworkStream();
+    if (Manifest.HAS_MARS_GCS) {
+      TerminalGCS.initNetworkStream();
 
-    TerminalGCS.bootSequence();
-
-    /*
-    try {
-            TerminalBooter.broadcast("GIT", "Branch", frc.robot.BuildConstants.GIT_BRANCH);
-            broadcast("GIT", "Commit", frc.robot.BuildConstants.GIT_COMMIT);
-            broadcast("BUILD", "Date", frc.robot.BuildConstants.BUILD_DATE);
-        } catch (Exception e) {
-            broadcast("WARN", "Git", "BuildConstants not found.");
-        }*/
+      TerminalGCS.bootSequence();
+    }
 
     DriverStation.silenceJoystickConnectionWarning(true);
 
     m_robotContainer = new RobotContainer();
 
-    TerminalGCS.printModuleSummary();
+    if (Manifest.HAS_MARS_GCS) {
+      TerminalGCS.printModuleSummary();
+    }
 
-    CameraServer.startAutomaticCapture();
+    if (Environment.getMode() == RunMode.REAL) {
+      CameraServer.startAutomaticCapture();
+    }
 
     NetworkIO.set("System", "IO", Environment.getMode().name());
     NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());
+
+    StatusLogger.disableAutoLogging();
   }
 
   @Override
@@ -56,7 +57,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_robotContainer.updateNodes();
 
-    TerminalGCS.updatePeriodic();
+    if (Manifest.HAS_MARS_GCS) {
+      TerminalGCS.updatePeriodic();
+    }
   }
 
   @Override

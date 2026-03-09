@@ -9,12 +9,12 @@ import com.stzteam.mars.diagnostics.StatusCode;
 import edu.wpi.first.wpilibj.util.Color;
 
 public enum TurretCode implements StatusCode {
-  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  IDLE(Severity.OK, DiagnosticPattern.solid(Color.kDarkGreen)),
   LOCKED(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
 
   RESET(Severity.OK, DiagnosticPattern.solid(Color.kDarkSalmon)),
-  TRACKING(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
-  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kPurple));
+  TRACKING(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
+  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple));
 
   private final Severity severity;
   private final DiagnosticPattern pattern;

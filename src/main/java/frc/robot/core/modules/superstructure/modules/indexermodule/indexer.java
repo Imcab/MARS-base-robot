@@ -29,7 +29,6 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
             .request(IndexerRequestFactory.idle())
             .telemetry(new IndexerTelemetry()));
 
-    registerTelemetry(new IndexerTelemetry());
     this.setDefaultCommand(runRequest(() -> IndexerRequestFactory.idle()));
   }
 
@@ -45,24 +44,37 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
 
   public static class IndexerTelemetry extends Telemetry<IndexerInputs> {
 
+    private static final String VELOCITY_INDEX_KEY = CommonTables.VELOCITY_KEY + "Index";
+    private static final String VELOCITY_ROLL_KEY = CommonTables.VELOCITY_KEY + "Roll";
+
+    private String lastSentHex = "";
+
     @Override
     public void telemeterize(IndexerInputs data, ActionStatus lastStatus) {
-      NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY + "Index", data.velocityIndex);
-      NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.VELOCITY_KEY + "Roll", data.velocityRoll);
-      NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
+      NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_INDEX_KEY, data.velocityIndex);
+      NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_ROLL_KEY, data.velocityRoll);
 
       if (lastStatus != null && lastStatus.code != null) {
         NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INDEX_KEY);
-        NetworkIO.set(
-            KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
-        NetworkIO.set(
-            KeyManager.INDEX_KEY,
-            CommonTables.PAYLOAD_MESSAGE_KEY,
-            lastStatus.getPayload().message());
+
+        String currentHex = lastStatus.getPayload().colorHex();
+
+        if (!currentHex.equals(lastSentHex)) {
+          NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+          NetworkIO.set(
+              KeyManager.INDEX_KEY,
+              CommonTables.PAYLOAD_MESSAGE_KEY,
+              lastStatus.getPayload().message());
+
+          lastSentHex = currentHex;
+        }
       }
     }
   }
 
   @Override
   public void absolutePeriodic(IndexerInputs inputs) {}
+
+  @Override
+  public void simulationPeriodic() {}
 }
