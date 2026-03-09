@@ -40,6 +40,12 @@
           "data": {
             "pathName": "goToOutPost"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
         }
       ]
     }
