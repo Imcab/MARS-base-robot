@@ -52,17 +52,16 @@ public class IndexerSparkMax implements IndexerIO {
 
     rollers.setCANTimeout(0);
     indexMotor.setCANTimeout(0);
-
-
   }
 
-  public void optimizeCANBus(SparkMaxConfig config){
-    config.signals
-    .primaryEncoderPositionPeriodMs(500)
-    .primaryEncoderVelocityPeriodMs(500)
-    .analogPositionPeriodMs(500)
-    .analogVelocityPeriodMs(500)
-    .absoluteEncoderPositionPeriodMs(500);
+  public void optimizeCANBus(SparkMaxConfig config) {
+    config
+        .signals
+        .primaryEncoderPositionPeriodMs(500)
+        .primaryEncoderVelocityPeriodMs(500)
+        .analogPositionPeriodMs(500)
+        .analogVelocityPeriodMs(500)
+        .absoluteEncoderPositionPeriodMs(500);
   }
 
   @Override

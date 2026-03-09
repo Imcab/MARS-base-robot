@@ -47,7 +47,7 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
 
   public void optimizeCANBus() {
 
-    //50 hz = 20ms
+    // 50 hz = 20ms
     intakeFlyWheels.getMotorVoltage().setUpdateFrequency(50);
     intakeFlyWheels.getVelocity().setUpdateFrequency(50);
 
@@ -58,7 +58,6 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
     intakeFlyWheels.getClosedLoopIntegratedOutput().setUpdateFrequency(0);
 
     intakeFlyWheels.optimizeBusUtilization();
-    
   }
 
   @Override

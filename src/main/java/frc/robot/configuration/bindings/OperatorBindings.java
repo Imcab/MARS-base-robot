@@ -76,7 +76,7 @@ public class OperatorBindings implements Binding {
                 .getIndexer()
                 .setControl(
                     () -> IndexerRequestFactory.moveVoltage().withIndex(-12).withRollers(-12)));
-                    
+
     bumpers.left().whileTrue(superstructure.clearFuel());
 
     triggers
@@ -113,7 +113,7 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                    ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
+                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
                 12));
 
