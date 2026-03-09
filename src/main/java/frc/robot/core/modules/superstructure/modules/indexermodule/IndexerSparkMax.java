@@ -45,7 +45,7 @@ public class IndexerSparkMax implements IndexerIO {
 
     config.absoluteEncoder.inverted(IndexerConstants.kEncoderInverted);
 
-    optimizeCANBus(config);
+    // optimizeCANBus(config);
 
     rollers.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     indexMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

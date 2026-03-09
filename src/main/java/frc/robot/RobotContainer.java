@@ -36,7 +36,6 @@ import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.Visualize
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.configuration.bindings.TestBindings;
-import frc.robot.configuration.constants.Constants;
 import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
@@ -46,8 +45,6 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
-import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
 public class RobotContainer implements IRobotContainer {
@@ -90,20 +87,8 @@ public class RobotContainer implements IRobotContainer {
         superstructure
             .getIntake()
             .setControl(() -> IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2)));
-    NamedCommands.registerCommand(
-        "Shoot",
-        superstructure.shootOnTheMove(
-            superstructure.getVirtualTarget(),
-            ArmRequestFactory.interpolateTarget()
-                .withDistance(() -> superstructure.getVirtualDistance())
-                .withTolerance(Constants.ARM_TOLERANCE),
-            FlyWheelRequestFactory.interpolateRPM()
-                .withDistance(() -> superstructure.getVirtualDistance())
-                .withTolerance(Constants.FLYWHEEL_TOLERANCE),
-            12));
-    NamedCommands.registerCommand("ShootOnly", superstructure.shootAuto().withTimeout(10));
 
-    
+    NamedCommands.registerCommand("Shoot", superstructure.shootAuto().withTimeout(8));
 
     eatAuto = new PathPlannerAuto("EatAuto1");
     AutoCenter = new PathPlannerAuto("AutoCenter");

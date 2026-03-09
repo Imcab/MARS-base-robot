@@ -60,5 +60,10 @@ public class DriverBindings implements Binding {
     driverButtons
         .left()
         .whileTrue(drivetrain.getPoseFinder().toPose(new Pose2d(0.579, 0.579, Rotation2d.kZero)));
+
+    driverButtons
+        .right()
+        .whileTrue(
+            drivetrain.getPoseFinder().toPose(new Pose2d(3.559, 2.766, Rotation2d.kCCW_90deg)));
   }
 }
