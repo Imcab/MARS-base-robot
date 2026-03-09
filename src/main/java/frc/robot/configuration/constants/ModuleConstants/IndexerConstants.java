@@ -16,4 +16,10 @@ public class IndexerConstants {
 
   public static final double kGearing = 1;
   public static final double kMOI = 0.002;
+
+  public static final boolean kMotorInverted = false;
+  public static final boolean kEncoderInverted = false;
+
+  public static final int SmartCurrentLimit = 40;
+  public static final double VoltageCompesation = 12;
 }

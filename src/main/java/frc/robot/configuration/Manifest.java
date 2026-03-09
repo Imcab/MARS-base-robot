@@ -69,7 +69,7 @@ public class Manifest {
   private static final int DRIVER_PORT = 0;
   private static final int OPERATOR_PORT = 1;
 
-  public static final RunMode CURRENT_MODE = RunMode.SIM;
+  public static final RunMode CURRENT_MODE = RunMode.REAL;
 
   static {
     Environment.setMode(CURRENT_MODE);

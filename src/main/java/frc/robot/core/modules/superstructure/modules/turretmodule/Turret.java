@@ -106,7 +106,7 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
           CommonTables.LATENCY_KEY + Terminology.MS,
           (Timer.getFPGATimestamp() - data.timestamp) * 1000);
 
-      NetworkIO.set(table, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+      NetworkIO.set(table, CommonTables.PAYLOAD_NAME_KEY, table);
       NetworkIO.set(table, CommonTables.PAYLOAD_MESSAGE_KEY, lastStatus.getPayload().message());
       NetworkIO.set(table, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
     }

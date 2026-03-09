@@ -28,22 +28,20 @@ public class Constants {
   public static final InterpolatingDoubleTreeMap RPM_MAP = new InterpolatingDoubleTreeMap();
 
   static {
-    RPM_MAP.put(1.81592710, -2500.0); // Listo
-    RPM_MAP.put(2.80519751, -2700.0); // Listo
-    RPM_MAP.put(3.79659061, -2900.0);
-    RPM_MAP.put(4.95643191, -3400.0);
-    RPM_MAP.put(5.86085769, -4000.0);
-    RPM_MAP.put(6.86240250, -4100.0);
-    RPM_MAP.put(7.80406202, -4500.0);
+    RPM_MAP.put(2.03329389, -2350.0);
+    RPM_MAP.put(2.59498157, -2488.0);
+    RPM_MAP.put(2.88109361, -2695.0);
+    RPM_MAP.put(3.79530137, -2800.0);
+    RPM_MAP.put(4.39056989, -2980.0);
+    RPM_MAP.put(4.92660358, -3500.0);
   }
 
   static {
-    INTERPOLATION_MAP.put(1.815927105, 0.0); // Hood totalmente abierto
-    INTERPOLATION_MAP.put(2.80519751, -5.0);
-    INTERPOLATION_MAP.put(3.79659061, -10.0);
-    INTERPOLATION_MAP.put(4.95643191, -17.0);
-    INTERPOLATION_MAP.put(5.86085769, -18.0);
-    INTERPOLATION_MAP.put(6.86240250, -19.7);
-    INTERPOLATION_MAP.put(7.80406202, -20.0);
+    INTERPOLATION_MAP.put(2.03329389, 0.0);
+    INTERPOLATION_MAP.put(2.59498157, 0.0);
+    INTERPOLATION_MAP.put(2.80519751, 0.0);
+    INTERPOLATION_MAP.put(3.79530137, -12.45);
+    INTERPOLATION_MAP.put(4.39056989, -13.0);
+    INTERPOLATION_MAP.put(4.92660358, -14.0);
   }
 }

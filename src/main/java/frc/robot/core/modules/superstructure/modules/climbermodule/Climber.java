@@ -54,7 +54,7 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> implemen
 
       if (lastStatus != null && lastStatus.code != null) {
         NetworkIO.set(
-            KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+            KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.CLIMBER_KEY);
         NetworkIO.set(
             KeyManager.CLIMBER_KEY,
             CommonTables.PAYLOAD_HEX_KEY,

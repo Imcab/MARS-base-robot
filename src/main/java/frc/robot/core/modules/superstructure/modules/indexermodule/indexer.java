@@ -52,8 +52,7 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
       NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(
-            KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, lastStatus.getPayload().name());
+        NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INDEX_KEY);
         NetworkIO.set(
             KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, lastStatus.getPayload().colorHex());
         NetworkIO.set(
