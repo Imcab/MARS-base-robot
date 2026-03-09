@@ -78,6 +78,12 @@ public class RobotContainer implements IRobotContainer {
 
   public final TestBindings tests;
 
+  public enum ZonasSalida {
+    IZQUIERDA_AMP,
+    CENTRO_SPEAKER,
+    DERECHA_SOURCE;
+  }
+
   public void configureAutos() {
     NamedCommands.registerCommand(
         "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
