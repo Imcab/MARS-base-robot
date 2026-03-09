@@ -17,6 +17,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Angle->Eat"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -24,12 +30,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "EatFuel"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Angle->Eat"
                 }
               }
             ]
@@ -39,6 +39,12 @@
           "type": "path",
           "data": {
             "pathName": "goToOutPost"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
           }
         }
       ]
