@@ -45,7 +45,7 @@
     "rotation": -59.8752039038051
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BumpToOutPost",
   "idealStartingState": {
     "velocity": 0,
     "rotation": -0.08619777372525807

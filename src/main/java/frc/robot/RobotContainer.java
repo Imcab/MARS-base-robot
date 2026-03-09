@@ -194,7 +194,7 @@ public class RobotContainer implements IRobotContainer {
 
     limelightNode.periodic();
 
-    // virtualRobot.periodic();
+    virtualRobot.periodic();
     // trajetorySim.periodic();
     // gamePieceViz.periodic();
 

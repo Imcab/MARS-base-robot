@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AlignToBump-L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PassBump-L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "EatFuel-L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ToDepot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "EatDepot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
