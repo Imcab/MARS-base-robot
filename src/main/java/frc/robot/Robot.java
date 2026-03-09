@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.revrobotics.util.StatusLogger;
 import com.stzteam.forgemini.io.NetworkIO;
 import com.stzteam.mars.builder.Environment;
 import com.stzteam.mars.models.containers.IRobotContainer;
@@ -48,6 +49,8 @@ public class Robot extends TimedRobot {
 
     NetworkIO.set("System", "IO", Environment.getMode().name());
     NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());
+
+    StatusLogger.disableAutoLogging();
   }
 
   @Override
