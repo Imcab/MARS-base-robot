@@ -30,7 +30,6 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> implemen
             .request(ClimberRequestFactory.idle())
             .telemetry(new ClimberTelemetry()));
 
-    registerTelemetry(new ClimberTelemetry());
     this.setDefaultCommand(runRequest(() -> ClimberRequestFactory.idle()));
   }
 
@@ -46,23 +45,31 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> implemen
 
   public static class ClimberTelemetry extends Telemetry<ClimberInputs> {
 
+    private static final String APPLIED_VOLTS_KEY = CommonTables.APPLIED_KEY + Terminology.VOLTS;
+
+    private String lastSentHex = "";
+    private String lastSentMessage = "";
+
     @Override
     public void telemeterize(ClimberInputs data, ActionStatus lastStatus) {
-      NetworkIO.set(
-          KeyManager.CLIMBER_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
+
+      NetworkIO.set(KeyManager.CLIMBER_KEY, APPLIED_VOLTS_KEY, data.appliedVolts);
       NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
 
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(
-            KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.CLIMBER_KEY);
-        NetworkIO.set(
-            KeyManager.CLIMBER_KEY,
-            CommonTables.PAYLOAD_HEX_KEY,
-            lastStatus.getPayload().colorHex());
-        NetworkIO.set(
-            KeyManager.CLIMBER_KEY,
-            CommonTables.PAYLOAD_MESSAGE_KEY,
-            lastStatus.getPayload().message());
+        String currentHex = lastStatus.getPayload().colorHex();
+        String currentMessage = lastStatus.getPayload().message();
+
+        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
+
+          NetworkIO.set(
+              KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.CLIMBER_KEY);
+          NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+          NetworkIO.set(KeyManager.CLIMBER_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
+
+          lastSentHex = currentHex;
+          lastSentMessage = currentMessage;
+        }
       }
     }
   }
