@@ -76,24 +76,8 @@ public class OperatorBindings implements Binding {
                 .getIndexer()
                 .setControl(
                     () -> IndexerRequestFactory.moveVoltage().withIndex(-12).withRollers(-12)));
+                    
     bumpers.left().whileTrue(superstructure.clearFuel());
-
-    pov.up()
-        .whileTrue(
-            superstructure.ShootAngleTest(
-                () -> superstructure.getAngle(), () -> superstructure.getRPM()));
-
-    pov.down()
-        .whileTrue(
-            superstructure
-                .getFlywheelShooter()
-                .setControl(() -> FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50)));
-
-    pov.left()
-        .whileTrue(
-            superstructure
-                .getFlywheelShooter()
-                .setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(-12)));
 
     triggers
         .right()
@@ -129,7 +113,7 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
+                    ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
                 12));
 

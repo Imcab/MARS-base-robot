@@ -233,7 +233,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                             .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)),
                 arm.setControl(() -> armRequest),
                 flywheelShooter.runRequest(() -> shooterRequest))
-            .until(() -> flywheelShooter.isAtTarget(50)),
+            .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
         Commands.parallel(
             index.setControl(
                 () ->
@@ -243,12 +243,40 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             intakeWheels.setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(-8))));
   }
 
+  public Command shootAuto() {
+    double voltNormal = 12.0;
+    double voltReverse = -12.0;
+
+    return Commands.sequence(
+            this.shootOnTheMove(
+                    this.getVirtualTarget(),
+                    ArmRequestFactory.interpolateTarget()
+                        .withDistance(() -> this.getVirtualDistance())
+                        .withTolerance(Constants.ARM_TOLERANCE),
+                    FlyWheelRequestFactory.interpolateRPM()
+                        .withDistance(() -> this.getVirtualDistance())
+                        .withTolerance(Constants.FLYWHEEL_TOLERANCE),
+                    voltNormal)
+                .withTimeout(3),
+            this.shootOnTheMove(
+                    this.getVirtualTarget(),
+                    ArmRequestFactory.interpolateTarget()
+                        .withDistance(() -> this.getVirtualDistance())
+                        .withTolerance(Constants.ARM_TOLERANCE),
+                    FlyWheelRequestFactory.interpolateRPM()
+                        .withDistance(() -> this.getVirtualDistance())
+                        .withTolerance(Constants.FLYWHEEL_TOLERANCE),
+                    voltReverse)
+                .withTimeout(0.5))
+        .repeatedly();
+  }
+
   public Command EatAutoAngle(double angle, double tolerance, intakeMODE mode, double voltage) {
 
     Intake intake = getIntake();
     FlyWheel intakeWheels = getFlyWheelsIntake();
 
-    return Commands.sequence(
+    return Commands.parallel(
         intake.toAngle(angle, mode, tolerance), intakeWheels.spinAtVoltage(voltage));
   }
 
