@@ -45,11 +45,23 @@ public class IndexerSparkMax implements IndexerIO {
 
     config.absoluteEncoder.inverted(IndexerConstants.kEncoderInverted);
 
+    optimizeCANBus(config);
+
     rollers.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     indexMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
     rollers.setCANTimeout(0);
     indexMotor.setCANTimeout(0);
+  }
+
+  public void optimizeCANBus(SparkMaxConfig config) {
+    config
+        .signals
+        .primaryEncoderPositionPeriodMs(500)
+        .primaryEncoderVelocityPeriodMs(500)
+        .analogPositionPeriodMs(500)
+        .analogVelocityPeriodMs(500)
+        .absoluteEncoderPositionPeriodMs(500);
   }
 
   @Override
