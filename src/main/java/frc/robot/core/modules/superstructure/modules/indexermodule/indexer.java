@@ -29,6 +29,7 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
             .request(IndexerRequestFactory.idle())
             .telemetry(new IndexerTelemetry()));
 
+    registerTelemetry(new IndexerTelemetry());
     this.setDefaultCommand(runRequest(() -> IndexerRequestFactory.idle()));
   }
 

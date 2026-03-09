@@ -22,7 +22,7 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
     FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
 
     configMotor();
-    optimizeCANBus();
+    // optimizeCANBus();
   }
 
   public void configMotor() {

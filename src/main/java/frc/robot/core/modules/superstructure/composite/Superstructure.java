@@ -244,9 +244,6 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
   }
 
   public Command shootAuto() {
-    double voltNormal = 12.0;
-    double voltReverse = -12.0;
-
     return Commands.sequence(
             this.shootOnTheMove(
                     this.getVirtualTarget(),
@@ -256,7 +253,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                     FlyWheelRequestFactory.interpolateRPM()
                         .withDistance(() -> this.getVirtualDistance())
                         .withTolerance(Constants.FLYWHEEL_TOLERANCE),
-                    voltNormal)
+                    12)
                 .withTimeout(3),
             this.shootOnTheMove(
                     this.getVirtualTarget(),
@@ -266,7 +263,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                     FlyWheelRequestFactory.interpolateRPM()
                         .withDistance(() -> this.getVirtualDistance())
                         .withTolerance(Constants.FLYWHEEL_TOLERANCE),
-                    voltReverse)
+                    -12)
                 .withTimeout(0.5))
         .repeatedly();
   }
