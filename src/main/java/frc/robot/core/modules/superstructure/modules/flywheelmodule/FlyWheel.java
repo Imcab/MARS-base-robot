@@ -104,4 +104,7 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
 
   @Override
   public void absolutePeriodic(FlyWheelInputs inputs) {}
+
+  @Override
+  public void simulationPeriodic() {}
 }

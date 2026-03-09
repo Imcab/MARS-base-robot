@@ -126,4 +126,7 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
       }
     }
   }
+
+  @Override
+  public void simulationPeriodic() {}
 }

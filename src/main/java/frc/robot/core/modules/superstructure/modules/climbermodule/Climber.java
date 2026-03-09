@@ -76,4 +76,7 @@ public class Climber extends ModularSubsystem<ClimberInputs, ClimberIO> implemen
 
   @Override
   public void absolutePeriodic(ClimberInputs inputs) {}
+
+  @Override
+  public void simulationPeriodic() {}
 }

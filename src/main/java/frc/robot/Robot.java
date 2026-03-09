@@ -27,7 +27,7 @@ public class Robot extends TimedRobot {
 
     Environment.setMode(Manifest.CURRENT_MODE);
 
-    if(Manifest.HAS_MARS_GCS){
+    if (Manifest.HAS_MARS_GCS) {
       TerminalGCS.initNetworkStream();
 
       TerminalGCS.bootSequence();
@@ -37,14 +37,14 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
 
-    if(Manifest.HAS_MARS_GCS){
+    if (Manifest.HAS_MARS_GCS) {
       TerminalGCS.printModuleSummary();
     }
 
-    if(Environment.getMode() == RunMode.REAL){
+    if (Environment.getMode() == RunMode.REAL) {
       CameraServer.startAutomaticCapture();
     }
-    
+
     NetworkIO.set("System", "IO", Environment.getMode().name());
     NetworkIO.set("System", "isOnSim", RobotBase.isSimulation());
 
@@ -57,11 +57,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     m_robotContainer.updateNodes();
 
-    if(Manifest.HAS_MARS_GCS){
+    if (Manifest.HAS_MARS_GCS) {
       TerminalGCS.updatePeriodic();
     }
-
-    
   }
 
   @Override
