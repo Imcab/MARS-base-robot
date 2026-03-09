@@ -31,7 +31,6 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> implements 
             .request(IntakeRequestFactory.idle())
             .telemetry(new IntakeTelemetry()));
 
-    registerTelemetry(new IntakeTelemetry());
     this.setDefaultCommand(runRequest(() -> IntakeRequestFactory.idle()));
   }
 
@@ -54,24 +53,33 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> implements 
 
   public static class IntakeTelemetry extends Telemetry<IntakeInputs> {
 
+    private static final String APPLIED_VOLTS_KEY = CommonTables.APPLIED_KEY + Terminology.VOLTS;
+
+    private String lastSentHex = "";
+    private String lastSentMessage = "";
+
     @Override
     public void telemeterize(IntakeInputs data, ActionStatus lastStatus) {
+
       NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.DEGREES_KEY, data.position);
       NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TARGET_KEY, data.targetAngle);
       NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
-      NetworkIO.set(
-          KeyManager.INTAKE_KEY, CommonTables.APPLIED_KEY + Terminology.VOLTS, data.appliedVolts);
+      NetworkIO.set(KeyManager.INTAKE_KEY, APPLIED_VOLTS_KEY, data.appliedVolts);
 
       if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INTAKE_KEY);
-        NetworkIO.set(
-            KeyManager.INTAKE_KEY,
-            CommonTables.PAYLOAD_HEX_KEY,
-            lastStatus.getPayload().colorHex());
-        NetworkIO.set(
-            KeyManager.INTAKE_KEY,
-            CommonTables.PAYLOAD_MESSAGE_KEY,
-            lastStatus.getPayload().message());
+        String currentHex = lastStatus.getPayload().colorHex();
+        String currentMessage = lastStatus.getPayload().message();
+
+        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
+
+          NetworkIO.set(
+              KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INTAKE_KEY);
+          NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
+          NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
+
+          lastSentHex = currentHex;
+          lastSentMessage = currentMessage;
+        }
       }
     }
   }

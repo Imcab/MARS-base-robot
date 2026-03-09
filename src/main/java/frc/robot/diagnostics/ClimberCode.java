@@ -9,12 +9,12 @@ import com.stzteam.mars.diagnostics.StatusCode;
 import edu.wpi.first.wpilibj.util.Color;
 
 public enum ClimberCode implements StatusCode {
-  IDLE(Severity.OK, DiagnosticPattern.breathing(Color.kDarkGreen)),
+  IDLE(Severity.OK, DiagnosticPattern.solid(Color.kDarkGreen)),
 
-  CLIMBING(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kYellow)),
+  CLIMBING(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
   VOLTAGE(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
 
-  DOWN(Severity.WARNING, DiagnosticPattern.blinkSlow(Color.kOrange));
+  DOWN(Severity.WARNING, DiagnosticPattern.solid(Color.kOrange));
 
   private final Severity severity;
   private final DiagnosticPattern pattern;
