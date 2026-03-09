@@ -24,6 +24,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "DepotToHub"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "Shoot"
