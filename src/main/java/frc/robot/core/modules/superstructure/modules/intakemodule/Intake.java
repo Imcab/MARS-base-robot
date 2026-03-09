@@ -83,4 +83,7 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> implements 
       }
     }
   }
+
+  @Override
+  public void simulationPeriodic() {}
 }

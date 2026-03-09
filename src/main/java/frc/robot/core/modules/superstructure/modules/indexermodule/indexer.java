@@ -74,4 +74,7 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
 
   @Override
   public void absolutePeriodic(IndexerInputs inputs) {}
+
+  @Override
+  public void simulationPeriodic() {}
 }
