@@ -22,6 +22,7 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
     FlyWheelsConfigurator = intakeFlyWheels.getConfigurator();
 
     configMotor();
+    optimizeCANBus();
   }
 
   public void configMotor() {
@@ -42,6 +43,22 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
 
     FlyWheelsConfigurator.refresh(motorConfigs);
     FlyWheelsConfigurator.apply(motorConfigs);
+  }
+
+  public void optimizeCANBus() {
+
+    //50 hz = 20ms
+    intakeFlyWheels.getMotorVoltage().setUpdateFrequency(50);
+    intakeFlyWheels.getVelocity().setUpdateFrequency(50);
+
+    intakeFlyWheels.getPosition().setUpdateFrequency(0);
+    intakeFlyWheels.getClosedLoopError().setUpdateFrequency(0);
+    intakeFlyWheels.getClosedLoopDerivativeOutput().setUpdateFrequency(0);
+    intakeFlyWheels.getClosedLoopProportionalOutput().setUpdateFrequency(0);
+    intakeFlyWheels.getClosedLoopIntegratedOutput().setUpdateFrequency(0);
+
+    intakeFlyWheels.optimizeBusUtilization();
+    
   }
 
   @Override
