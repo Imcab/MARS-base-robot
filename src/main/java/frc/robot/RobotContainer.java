@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.stzteam.features.limelight.LimelightConfig;
 import com.stzteam.features.limelight.LimelightDriver;
 import com.stzteam.features.limelight.LimelightNode;
@@ -15,8 +13,6 @@ import com.stzteam.mars.operator.ControllerOI;
 import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 import com.stzteam.mars.test.TestRoutine;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.Manifest;
@@ -33,6 +29,7 @@ import frc.robot.configuration.Manifest.VisualizerBuilder;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
+import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.configuration.bindings.TestBindings;
@@ -42,10 +39,8 @@ import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
-import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
 public class RobotContainer implements IRobotContainer {
 
@@ -53,14 +48,6 @@ public class RobotContainer implements IRobotContainer {
   public final ControllerOI operator;
 
   public final CommandSwerveDrivetrain drivetrain;
-
-  public SendableChooser<Command> chooser = new SendableChooser<>();
-  public PathPlannerAuto eatAuto;
-  public PathPlannerAuto AutoCenter;
-  public PathPlannerAuto autoForeward;
-  public PathPlannerAuto elipse;
-  public PathPlannerAuto bumpPost;
-  public PathPlannerAuto depotAuto;
 
   public final Arm arm;
   public final Turret turret;
@@ -77,41 +64,8 @@ public class RobotContainer implements IRobotContainer {
 
   public final Superstructure superstructure;
 
-  public final TestBindings tests;
-
-  public enum ZonasSalida {
-    IZQUIERDA_AMP,
-    CENTRO_SPEAKER,
-    DERECHA_SOURCE;
-  }
-
-  public void configureAutos() {
-    NamedCommands.registerCommand(
-        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
-    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
-    NamedCommands.registerCommand(
-        "IntakeUp",
-        superstructure
-            .getIntake()
-            .setControl(() -> IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2)));
-
-    NamedCommands.registerCommand("Shoot", superstructure.shootAuto().withTimeout(8));
-
-    eatAuto = new PathPlannerAuto("EatAuto1");
-    AutoCenter = new PathPlannerAuto("AutoCenter");
-    autoForeward = new PathPlannerAuto("New Auto");
-    elipse = new PathPlannerAuto("elipse");
-    bumpPost = new PathPlannerAuto("EatPost-auto");
-    depotAuto = new PathPlannerAuto("DepotAuto");
-
-    chooser.setDefaultOption("EatAuto", eatAuto);
-    chooser.addOption("AutoCenter", AutoCenter);
-    chooser.addOption("test1Forward", autoForeward);
-    chooser.addOption("Elipse", elipse);
-    chooser.addOption("Post", bumpPost);
-
-    SmartDashboard.putData("AutoSelector", chooser);
-  }
+  public final TestBindings test;
+  public final AutoBindings autoCommand;
 
   public RobotContainer() {
 
@@ -190,11 +144,13 @@ public class RobotContainer implements IRobotContainer {
 
     OperatorBindings.create(operator, superstructure).withNodes(gamePieceViz, trajetorySim).bind();
 
-    tests = TestBindings.create(superstructure);
+    this.test = TestBindings.create(superstructure);
 
-    tests.bind();
+    test.bind();
 
-    configureAutos();
+    this.autoCommand = AutoBindings.create(superstructure);
+
+    autoCommand.bind();
   }
 
   @Override
@@ -210,11 +166,11 @@ public class RobotContainer implements IRobotContainer {
 
   @Override
   public Command getAutonomousCommand() {
-    return chooser.getSelected();
+    return autoCommand.get();
   }
 
   @Override
   public TestRoutine getTestRoutine() {
-    return tests.getSelected();
+    return test.getSelected();
   }
 }

@@ -119,7 +119,7 @@
   "reversed": false,
   "folder": "BumpToOutPost",
   "idealStartingState": {
-    "velocity": 0,
+    "velocity": 2.0,
     "rotation": -58.86353240945011
   },
   "useDefaultConstraints": false
