@@ -20,7 +20,7 @@
         "y": 0.6006292134786304
       },
       "prevControl": {
-        "x": 1.7165967688246382,
+        "x": 1.716596768824638,
         "y": 0.6054238708264803
       },
       "nextControl": null,
@@ -45,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "PracticePaths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

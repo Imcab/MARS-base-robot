@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3286404494435917,
-        "y": 0.7738764045006759
+        "x": 0.932,
+        "y": 5.961
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0318202247244903,
-        "y": 1.2120898876467436
+        "x": 1.605078651685393,
+        "y": 5.9611011235955065
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3286404494435917,
-        "y": 6.226067415731414
+        "x": 3.3273595505617974,
+        "y": 5.105056179775281
       },
       "prevControl": {
-        "x": 3.143921348319996,
-        "y": 6.2566404494392795
-      },
-      "nextControl": {
-        "x": 1.5240515921127287,
-        "y": 6.195895333581507
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.3286404494435917,
-        "y": 0.7738764045006759
-      },
-      "prevControl": {
-        "x": 1.6967977528143774,
-        "y": 1.4057191011298897
+        "x": 2.3273595505617974,
+        "y": 5.105056179775281
       },
       "nextControl": null,
       "isLocked": false,
@@ -61,7 +45,7 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "PracticePaths",
+  "folder": "Depot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

@@ -12,7 +12,7 @@ public class Constants {
 
   public static final double INTAKE_TOLERANCE = 2;
   public static final double TURRET_TOLERANCE = 4;
-  public static final double FLYWHEEL_TOLERANCE = 70;
+  public static final double FLYWHEEL_TOLERANCE = 250;
   public static final double ARM_TOLERANCE = 2;
 
   public static final double kSimLoopPeriod = 0.004;
