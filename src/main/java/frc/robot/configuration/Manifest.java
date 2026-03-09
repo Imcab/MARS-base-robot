@@ -78,6 +78,8 @@ public class Manifest {
   public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
   public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
+  public static final boolean HAS_MARS_GCS = false;
+
   public static final boolean HAS_DRIVETRAIN = true;
 
   public static final boolean HAS_VISUALS = true;
