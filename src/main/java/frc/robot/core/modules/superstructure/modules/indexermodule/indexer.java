@@ -29,7 +29,6 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
             .request(IndexerRequestFactory.idle())
             .telemetry(new IndexerTelemetry()));
 
-    registerTelemetry(new IndexerTelemetry());
     this.setDefaultCommand(runRequest(() -> IndexerRequestFactory.idle()));
   }
 
@@ -57,15 +56,15 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
 
       if (lastStatus != null && lastStatus.code != null) {
         NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INDEX_KEY);
+        NetworkIO.set(
+            KeyManager.INDEX_KEY,
+            CommonTables.PAYLOAD_MESSAGE_KEY,
+            lastStatus.getPayload().message());
 
         String currentHex = lastStatus.getPayload().colorHex();
 
         if (!currentHex.equals(lastSentHex)) {
           NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
-          NetworkIO.set(
-              KeyManager.INDEX_KEY,
-              CommonTables.PAYLOAD_MESSAGE_KEY,
-              lastStatus.getPayload().message());
 
           lastSentHex = currentHex;
         }
