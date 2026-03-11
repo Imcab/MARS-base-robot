@@ -34,15 +34,19 @@ public class AutoBindings implements Binding {
 
   private void registerAutoCommands() {
     NamedCommands.registerCommand(
-        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
-    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
+        "Angle->Eat_4.5",
+        superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
+
+    NamedCommands.registerCommand("Eat_5", superstructure.EatAutoWheels(-10).withTimeout(5));
+
+    NamedCommands.registerCommand("Shoot_6", superstructure.shootAuto().withTimeout(6));
+    NamedCommands.registerCommand("Shoot_10", superstructure.shootAuto().withTimeout(10));
+
     NamedCommands.registerCommand(
         "IntakeUp",
         superstructure
             .getIntake()
             .setControl(() -> IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2)));
-
-    NamedCommands.registerCommand("Shoot", superstructure.shootAuto().withTimeout(8));
   }
 
   @Override
