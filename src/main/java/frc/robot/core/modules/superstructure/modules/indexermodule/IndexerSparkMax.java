@@ -40,8 +40,7 @@ public class IndexerSparkMax implements IndexerIO {
     config
         .idleMode(IdleMode.kBrake)
         .inverted(IndexerConstants.kMotorInverted)
-        .smartCurrentLimit(IndexerConstants.SmartCurrentLimit)
-        .voltageCompensation(IndexerConstants.VoltageCompesation);
+        .smartCurrentLimit(IndexerConstants.SmartCurrentLimit);
 
     config.absoluteEncoder.inverted(IndexerConstants.kEncoderInverted);
 

@@ -25,7 +25,7 @@ public class IntakeTest extends TestRoutine {
   public Command getRoutineCommand() {
     return Commands.sequence(
         run(
-            IntakeRequestFactory.setAngle().withAngle(-130).Tolerance(2).withMode(intakeMODE.kDOWN),
+            IntakeRequestFactory.setAngle().withAngle(-120).Tolerance(2).withMode(intakeMODE.kDOWN),
             intake),
         waitFor(() -> intake.isAtTarget(2), 2.0),
         assertLessThan(

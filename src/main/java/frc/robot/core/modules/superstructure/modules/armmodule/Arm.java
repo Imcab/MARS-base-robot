@@ -58,7 +58,8 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
     @Override
     public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
 
-      NetworkIO.set(KeyManager.ARM_KEY, "Position", data.position);
+      NetworkIO.set(KeyManager.ARM_KEY, "Angle", data.position);
+      NetworkIO.set(KeyManager.ARM_KEY, "TrageAngle", data.targetAngle);
 
       if (lastStatus != null && lastStatus.code != null) {
         String currentHex = lastStatus.getPayload().colorHex();

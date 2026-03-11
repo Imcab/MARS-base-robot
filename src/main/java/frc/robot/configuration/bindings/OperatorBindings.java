@@ -13,8 +13,10 @@ import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.Trajector
 import frc.robot.configuration.constants.Constants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
+import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 
 public class OperatorBindings implements Binding {
 
@@ -53,22 +55,42 @@ public class OperatorBindings implements Binding {
     // ---------------------------------------------------------------
 
     // ----- Botones (a,b,x,y) -----
-    /*
-    buttons.bottom().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bajar el intake (a)
-    .withAngle(-130)
-    .Tolerance(Constants.INTAKE_TOLERANCE)
-    .withMode(intakeMODE.kDOWN)));
 
-    buttons.top().whileTrue(intake.setControl(()-> IntakeRequestFactory.setAngle() //Bubir el intake (y)
-    .withAngle(-10)
-    .Tolerance(Constants.INTAKE_TOLERANCE)
-    .withMode(intakeMODE.kUP)));    */
+    buttons
+        .bottom()
+        .whileTrue(
+            superstructure
+                .getIntake()
+                .setControl(
+                    () ->
+                        IntakeRequestFactory.setAngle() // Bajar el intake (a)
+                            .withAngle(-125)
+                            .Tolerance(Constants.INTAKE_TOLERANCE)
+                            .withMode(intakeMODE.kDOWN)));
+    /*
+    buttons
+        .top()
+        .whileTrue(
+            superstructure
+                .getIntake()
+                .setControl(
+                    () ->
+                        IntakeRequestFactory.setAngle() // Bubir el intake (y)
+                            .withAngle(-10)
+                            .Tolerance(Constants.INTAKE_TOLERANCE)
+                            .withMode(intakeMODE.kUP)));*/
 
     buttons.right().whileTrue(superstructure.eatCommand()); // Comer fuels
 
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
+    
+
+    pov.up()
+        .whileTrue(
+            superstructure.ShootAngleTest(
+                () -> superstructure.getAngle(), () -> superstructure.getRPM()));
 
     triggers
         .right()
@@ -83,7 +105,6 @@ public class OperatorBindings implements Binding {
                     .withDistance(() -> superstructure.getVirtualDistance())
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                 12));
-
     triggers
         .right()
         .and(bumpers.right())
@@ -114,8 +135,8 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50),
+                ArmRequestFactory.setAngle().withAngle(-35).withMode(ArmMODE.kUP),
+                FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
                 -12));
 
     // --------------------------------------------------------------- MANDO
