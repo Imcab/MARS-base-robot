@@ -54,6 +54,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
 
+  private double GravityFactor = 9.80665;
+
   private final Field2d field = new Field2d();
   public final String limelightName = "limelight";
 
@@ -90,6 +92,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -122,6 +125,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -163,6 +167,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -276,13 +281,15 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
 
   private void updateLimeVision() {
     LimelightHelpers.SetRobotOrientation(
-        limelightName, this.getPigeon2().getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
+        limelightName, this.getPigeon2().getRotation2d().getDegrees(), 0, 15, 0, 0, 0);
     LimelightHelpers.PoseEstimate mt2 =
         LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
 
     if (mt2 == null || mt2.tagCount == 0) return;
 
-    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) return;
+    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 90) return;
+
+    if (Math.abs(this.getPigeon2().getAccelerationX().getValueAsDouble() * GravityFactor) >= 3 || Math.abs(this.getPigeon2().getAccelerationY().getValueAsDouble() * GravityFactor) >= 3) return;
 
     NetworkIO.set("Chasis", "Mt2", mt2.pose);
 
