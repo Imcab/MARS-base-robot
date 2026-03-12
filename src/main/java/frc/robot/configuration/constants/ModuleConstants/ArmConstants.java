@@ -30,5 +30,5 @@ public class ArmConstants {
   public static final double kArmMassKg = 3.0; // 3 kg de peso
 
   public static final double kMinAngleRads = Units.degreesToRadians(0);
-  public static final double kMaxAngleRads = Units.degreesToRadians(-40);
+  public static final double kMaxAngleRads = Units.degreesToRadians(-30);
 }
