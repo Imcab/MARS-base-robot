@@ -17,9 +17,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "EatToHub"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "EatToHub"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Angle->Eat_4.5"
+                }
+              }
+            ]
           }
         }
       ]

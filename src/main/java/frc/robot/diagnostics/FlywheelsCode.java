@@ -12,7 +12,9 @@ public enum FlywheelsCode implements StatusCode {
   IDLE(Severity.OK, DiagnosticPattern.solid(Color.kDarkGreen)),
   ON_TARGET(Severity.OK, DiagnosticPattern.solid(Color.kFirstBlue)),
   MOVING_TO_RPM(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
-  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple));
+  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple)),
+  MANUAL_Control(Severity.WARNING, DiagnosticPattern.solid(Color.kBrown));
+  ;
 
   private final Severity severity;
   private final DiagnosticPattern pattern;
