@@ -14,7 +14,7 @@ public enum ArmCode implements StatusCode {
 
   MOVING_TO_ANGLE(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
   MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple)),
-
+  MANUAL_CONTROL(Severity.WARNING, DiagnosticPattern.solid(Color.kBrown)),
   OUT_OF_RANGE(Severity.ERROR, DiagnosticPattern.solid(Color.kOrange));
 
   private final Severity severity;

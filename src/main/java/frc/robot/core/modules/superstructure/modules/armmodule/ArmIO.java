@@ -29,4 +29,6 @@ public interface ArmIO extends IO<ArmIO.ArmInputs> {
   public void applyOutput(@Unit(value = "Volts", group = "Arm") double volts);
 
   public void setPosition(@Unit(value = "Degrees", group = "Arm") double angle, ArmMODE mode);
+
+  public void setSpeed(@Unit(value = "DutyCycle", group = "Turret") double speed);
 }
