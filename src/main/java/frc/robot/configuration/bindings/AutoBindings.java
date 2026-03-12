@@ -23,6 +23,8 @@ public class AutoBindings implements Binding {
   public PathPlannerAuto autoForeward;
   public PathPlannerAuto bumpPost;
   public PathPlannerAuto depotAuto;
+  public PathPlannerAuto depotBusters;
+  public PathPlannerAuto test;
 
   private AutoBindings(Superstructure s) {
     this.superstructure = s;
@@ -55,14 +57,14 @@ public class AutoBindings implements Binding {
   public void bind() {
     registerAutoCommands();
 
-    AutoCenter = new PathPlannerAuto("AutoCenter");
-    autoForeward = new PathPlannerAuto("New Auto");
     bumpPost = new PathPlannerAuto("EatPost-auto");
     depotAuto = new PathPlannerAuto("DepotAuto");
+    depotBusters = new PathPlannerAuto("BotBusters");
+    test = new PathPlannerAuto("Test");
 
     chooser.setDefaultOption("Post", bumpPost);
-    chooser.addOption("AutoCenter", AutoCenter);
-    chooser.addOption("test1Forward", autoForeward);
+    chooser.addOption("DepotAuto", depotBusters);
+    chooser.addOption("Test", test);
 
     SmartDashboard.putData("AutoSelector", chooser);
   }

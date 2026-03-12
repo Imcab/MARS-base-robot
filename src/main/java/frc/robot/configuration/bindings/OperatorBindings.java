@@ -80,7 +80,7 @@ public class OperatorBindings implements Binding {
                             .withAngle(-125)
                             .Tolerance(Constants.INTAKE_TOLERANCE)
                             .withMode(intakeMODE.kDOWN)));
-    /*
+
     buttons
         .top()
         .whileTrue(
@@ -91,7 +91,7 @@ public class OperatorBindings implements Binding {
                         IntakeRequestFactory.setAngle() // Bubir el intake (y)
                             .withAngle(-10)
                             .Tolerance(Constants.INTAKE_TOLERANCE)
-                            .withMode(intakeMODE.kUP)));*/
+                            .withMode(intakeMODE.kUP)));
 
     buttons.right().whileTrue(superstructure.eatCommand()); // Comer fuels
 
@@ -137,8 +137,8 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(-25).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-4000).withTolerance(50),
+                ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
+                FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
                 12));
 
     triggers
@@ -147,7 +147,7 @@ public class OperatorBindings implements Binding {
         .whileTrue(
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
-                ArmRequestFactory.setAngle().withAngle(-35).withMode(ArmMODE.kUP),
+                ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
                 -12));
 
