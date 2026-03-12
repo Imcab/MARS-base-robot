@@ -8,6 +8,7 @@ import com.stzteam.mars.models.containers.Binding;
 import com.stzteam.mars.operator.ControllerOI;
 import com.stzteam.mars.services.nodes.Node;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.Constants;
@@ -23,6 +24,8 @@ public class OperatorBindings implements Binding {
 
   private final ControllerOI operator;
   private final Superstructure superstructure;
+
+  private final double DEADBAND = 0.1;
 
   private Node<GamePieceMsg> gamePieceViz;
   private Node<TrajectoryMsg> trajectoryNode;
@@ -51,6 +54,13 @@ public class OperatorBindings implements Binding {
     var rightStick = operator.getRightStick();
     var triggers = operator.getAnalogTriggers();
     var pov = operator.getDPadTriggers();
+
+    Trigger rightStickXTrigger =
+        new Trigger(() -> Math.abs(rightStick.x().getAsDouble()) > DEADBAND);
+    Trigger rightStickYTrigger =
+        new Trigger(() -> Math.abs(rightStick.y().getAsDouble()) > DEADBAND);
+    Trigger leftStickXTrigger = new Trigger(() -> Math.abs(leftStick.x().getAsDouble()) > DEADBAND);
+    Trigger leftStickYTrigger = new Trigger(() -> Math.abs(leftStick.y().getAsDouble()) > DEADBAND);
 
     // TODO: Terminar los bindings del operador
 
@@ -88,11 +98,11 @@ public class OperatorBindings implements Binding {
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
-
+    /*
     pov.up()
         .whileTrue(
             superstructure.ShootAngleTest(
-                () -> superstructure.getAngle(), () -> superstructure.getRPM()));
+                () -> superstructure.getAngle(), () -> superstructure.getRPM()));*/
 
     triggers
         .right()
@@ -141,19 +151,25 @@ public class OperatorBindings implements Binding {
                 FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
                 -12));
 
-    superstructure
-        .getTurret()
-        .setDefaultCommand(
+    rightStickXTrigger
+        .and(pov.right())
+        .whileTrue(
             superstructure
                 .getTurret()
-                .setControl(() -> TurretRequestFactory.manualControl().joystick(leftStick.x())));
+                .setControl(() -> TurretRequestFactory.manualControl().joystick(rightStick.x())));
+    rightStickYTrigger
+        .and(pov.right())
+        .whileTrue(
+            superstructure
+                .getFlywheelShooter()
+                .setControl(() -> FlyWheelRequestFactory.manualShoot().getStick(rightStick.y())));
 
-    superstructure
-        .getArm()
-        .setDefaultCommand(
+    leftStickYTrigger
+        .and(pov.left())
+        .whileTrue(
             superstructure
                 .getArm()
-                .setControl(() -> ArmRequestFactory.manualControl().joystick(rightStick.y())));
+                .setControl(() -> ArmRequestFactory.manualControl().joystick(leftStick.y())));
 
     // --------------------------------------------------------------- MANDO
     // ---------------------------------------------------------------

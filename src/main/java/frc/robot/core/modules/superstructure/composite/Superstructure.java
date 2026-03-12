@@ -290,7 +290,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                         .withDistance(() -> this.getVirtualDistance())
                         .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                     12)
-                .withTimeout(3),
+                .withTimeout(5),
             this.shootOnTheMove(
                     this.getVirtualTarget(),
                     ArmRequestFactory.interpolateTarget()
@@ -300,7 +300,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                         .withDistance(() -> this.getVirtualDistance())
                         .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                     -12)
-                .withTimeout(0.5))
+                .withTimeout(0.8))
         .repeatedly();
   }
 

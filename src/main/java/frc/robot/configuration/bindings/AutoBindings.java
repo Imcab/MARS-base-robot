@@ -38,9 +38,11 @@ public class AutoBindings implements Binding {
         superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
 
     NamedCommands.registerCommand("Eat_5", superstructure.EatAutoWheels(-10).withTimeout(5));
+    NamedCommands.registerCommand("Eat_3.5", superstructure.EatAutoWheels(-10).withTimeout(3.5));
 
     NamedCommands.registerCommand("Shoot_6", superstructure.shootAuto().withTimeout(6));
     NamedCommands.registerCommand("Shoot_10", superstructure.shootAuto().withTimeout(10));
+    NamedCommands.registerCommand("Shoot_13", superstructure.shootAuto().withTimeout(12));
 
     NamedCommands.registerCommand(
         "IntakeUp",

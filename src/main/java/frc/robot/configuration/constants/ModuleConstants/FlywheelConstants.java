@@ -19,7 +19,7 @@ public class FlywheelConstants {
     public static final double StatorCurrentLimit = 120;
     public static final boolean StatorCurrentLimitEnable = true;
 
-    public static final double kRPMTolerance = 100;
+    public static final double kRPMTolerance = 50;
 
     public static final double kS = 0;
     public static final double kV = 0.124;
