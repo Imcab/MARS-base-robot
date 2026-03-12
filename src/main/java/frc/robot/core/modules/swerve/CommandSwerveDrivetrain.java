@@ -18,6 +18,7 @@ import com.stzteam.features.posefinder.ICommandSwerveDrivetrain;
 import com.stzteam.features.posefinder.PoseFinder;
 import com.stzteam.forgemini.io.NetworkIO;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -54,6 +55,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
   private double m_lastSimTime;
 
   private final Field2d field = new Field2d();
+  public final String limelightName = "limelight";
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -193,10 +195,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
               new PIDConstants(5.0, 0.0, 0.0) // PID de Rotación
               ),
           config,
-          () -> {
-            var alliance = DriverStation.getAlliance();
-            return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-          },
+          () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
           this);
     } catch (Exception e) {
       DriverStation.reportError("Fallo al configurar PathPlanner: " + e.getMessage(), true);
@@ -245,7 +244,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
     if (m_sysIdRoutineToApply == null) {
       return Commands.none();
     }
-
+ 
     return m_sysIdRoutineToApply.dynamic(direction);
   }
 
@@ -271,6 +270,23 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
     }
 
     field.setRobotPose(getState().Pose);
+
+    updateLimeVision();
+  }
+
+  private void updateLimeVision() {
+    LimelightHelpers.SetRobotOrientation(
+        limelightName, this.getPigeon2().getRotation2d().getDegrees(), 0, 0, 0, 0, 0);
+    LimelightHelpers.PoseEstimate mt2 =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+
+    if (mt2 == null || mt2.tagCount == 0) return;
+
+    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 720) return;
+
+    NetworkIO.set("Chasis", "Mt2", mt2.pose);
+
+    addVisionMeasurement(mt2.pose, mt2.timestampSeconds, VecBuilder.fill(.3, .3, 9999999));
   }
 
   public double getDistanceToTag() {
