@@ -39,6 +39,22 @@ public interface FlyWheelRequest extends Request<FlyWheelInputs, FlyWheelIO> {
     }
   }
 
+  @CreateCommand(name = "manual")
+  public static class manualShoot implements FlyWheelRequest {
+    private DoubleSupplier stick;
+
+    public manualShoot getStick(DoubleSupplier stick) {
+      this.stick = stick;
+      return this;
+    }
+
+    @Override
+    public ActionStatus apply(FlyWheelInputs parameters, FlyWheelIO actor) {
+      actor.setSpeed(stick.getAsDouble());
+      return ActionStatus.of(FlywheelsCode.MANUAL_Control, "Manual");
+    }
+  }
+
   @CreateCommand(name = "dutyCycle")
   public static class moveSpeed implements FlyWheelRequest {
     double speed;
