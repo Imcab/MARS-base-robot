@@ -37,6 +37,26 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
     }
   }
 
+  @CreateCommand(name = "manualControl")
+  public static class manualControl implements TurretRequest {
+    private DoubleSupplier stick;
+
+    public manualControl joystick(DoubleSupplier stick) {
+      this.stick = stick;
+      return this;
+    }
+
+    @Override
+    public ActionStatus apply(TurretInputs data, TurretIO actor) {
+      if (data.angle.getDegrees() < 90 && data.angle.getDegrees() > -90) {
+        actor.setSpeed(stick.getAsDouble() * 0.5);
+      } else {
+        actor.setSpeed(0);
+      }
+      return ActionStatus.of(TurretCode.MANUAL_CONTROL, "Manual");
+    }
+  }
+
   @CreateCommand(name = "voltageCommand")
   public static class SysIdOpenLoop implements TurretRequest {
     private double m_volts = 0;

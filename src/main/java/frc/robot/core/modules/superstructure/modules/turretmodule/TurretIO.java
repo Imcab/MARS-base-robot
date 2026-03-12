@@ -51,6 +51,8 @@ public interface TurretIO extends IO<TurretInputs> {
 
   public void setPosition(@Unit(value = "Rotations", group = "Turret") Rotation2d angle);
 
+  public void setSpeed(@Unit(value = "DutyCycle", group = "Turret") double speed);
+
   public void setPositionWithFF(
       @Unit(value = "Rotations", group = "Turret") Rotation2d angle,
       @Unit(value = "Volts", group = "Turret") double arbFFVolts);

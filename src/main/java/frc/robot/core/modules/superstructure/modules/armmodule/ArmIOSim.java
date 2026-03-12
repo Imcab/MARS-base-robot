@@ -72,4 +72,7 @@ public class ArmIOSim implements ArmIO {
     isClosedLoop = true;
     this.currentTargetAngle = angle;
   }
+
+  @Override
+  public void setSpeed(double speed) {}
 }

@@ -14,7 +14,8 @@ public enum TurretCode implements StatusCode {
 
   RESET(Severity.OK, DiagnosticPattern.solid(Color.kDarkSalmon)),
   TRACKING(Severity.WARNING, DiagnosticPattern.solid(Color.kYellow)),
-  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple));
+  MANUAL_OVERRIDE(Severity.WARNING, DiagnosticPattern.solid(Color.kPurple)),
+  MANUAL_CONTROL(Severity.WARNING, DiagnosticPattern.solid(Color.kBrown));
 
   private final Severity severity;
   private final DiagnosticPattern pattern;
