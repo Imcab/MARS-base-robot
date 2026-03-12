@@ -19,6 +19,7 @@ public class TurretIOSim implements TurretIO {
   private final ProfiledPIDController simController;
 
   private double appliedVolts = 0.0;
+  private double speed = 0;
   private boolean isClosedLoop = false;
   private Rotation2d currentTargetAngle = new Rotation2d();
 
@@ -82,6 +83,9 @@ public class TurretIOSim implements TurretIO {
   public void stop() {
     setVoltage(0.0);
   }
+
+  @Override
+  public void setSpeed(double speed) {}
 
   @Override
   public void resetEnc() {}

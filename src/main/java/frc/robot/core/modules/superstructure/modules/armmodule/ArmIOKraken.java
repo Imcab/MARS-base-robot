@@ -108,4 +108,9 @@ public class ArmIOKraken implements ArmIO {
         break;
     }
   }
+
+  @Override
+  public void setSpeed(double speed) {
+    turretAngulator.set(speed);
+  }
 }

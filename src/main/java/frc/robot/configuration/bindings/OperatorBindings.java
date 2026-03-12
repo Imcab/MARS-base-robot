@@ -17,6 +17,7 @@ import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken
 import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
+import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 
 public class OperatorBindings implements Binding {
 
@@ -46,6 +47,8 @@ public class OperatorBindings implements Binding {
     var buttons = operator.getActionButtons();
     var bumpers = operator.getBumpers();
     // var driverSystem = operator.getSystemTriggers();
+    var leftStick = operator.getLeftStick();
+    var rightStick = operator.getRightStick();
     var triggers = operator.getAnalogTriggers();
     var pov = operator.getDPadTriggers();
 
@@ -85,7 +88,6 @@ public class OperatorBindings implements Binding {
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
-    
 
     pov.up()
         .whileTrue(
@@ -138,6 +140,20 @@ public class OperatorBindings implements Binding {
                 ArmRequestFactory.setAngle().withAngle(-35).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
                 -12));
+
+    superstructure
+        .getTurret()
+        .setDefaultCommand(
+            superstructure
+                .getTurret()
+                .setControl(() -> TurretRequestFactory.manualControl().joystick(leftStick.x())));
+
+    superstructure
+        .getArm()
+        .setDefaultCommand(
+            superstructure
+                .getArm()
+                .setControl(() -> ArmRequestFactory.manualControl().joystick(rightStick.y())));
 
     // --------------------------------------------------------------- MANDO
     // ---------------------------------------------------------------
