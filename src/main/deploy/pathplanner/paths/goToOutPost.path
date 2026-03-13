@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.307688888888889,
-        "y": 2.7292444444444435
+        "x": 5.629255555555557,
+        "y": 2.534355555555554
       },
       "isLocked": false,
       "linkedName": null
@@ -28,7 +28,12 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5966804979253086,
+      "rotationDegrees": 136.774
+    }
+  ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
@@ -62,7 +67,7 @@
   "folder": "BumpToOutPost",
   "idealStartingState": {
     "velocity": 2.0,
-    "rotation": 38.328
+    "rotation": 136.774
   },
   "useDefaultConstraints": false
 }

@@ -93,6 +93,7 @@ public class OperatorBindings implements Binding {
 
     buttons.right().whileTrue(superstructure.eatCommand()); // Comer fuels
 
+    buttons.left().whileTrue(superstructure.getFlywheelShooter().spinAtVoltage(-12));
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
