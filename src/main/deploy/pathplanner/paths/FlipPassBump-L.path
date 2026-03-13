@@ -1,0 +1,100 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.053,
+        "y": 5.604
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.803002900561462,
+        "y": 5.605204272526432
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.5603854848635645,
+        "y": 5.419770425939834
+      },
+      "prevControl": {
+        "x": 4.310556776421873,
+        "y": 5.410517510812364
+      },
+      "nextControl": {
+        "x": 4.8102141933052565,
+        "y": 5.429023341067304
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.314885252259103,
+        "y": 6.267226917361075
+      },
+      "prevControl": {
+        "x": 6.1281495238873855,
+        "y": 5.503189774461222
+      },
+      "nextControl": {
+        "x": 6.529142820085021,
+        "y": 7.143870832233767
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.778,
+        "y": 7.041855116550803
+      },
+      "prevControl": {
+        "x": 7.396532931264142,
+        "y": 6.86393468087035
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.43754220121538384,
+      "maxWaypointRelativePos": 1.6853477380148507,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.29013493140432
+  },
+  "reversed": false,
+  "folder": "FlipBotBusters",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -144.14940081065376
+  },
+  "useDefaultConstraints": true
+}
