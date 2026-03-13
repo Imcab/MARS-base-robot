@@ -62,8 +62,6 @@ public class OperatorBindings implements Binding {
     Trigger leftStickXTrigger = new Trigger(() -> Math.abs(leftStick.x().getAsDouble()) > DEADBAND);
     Trigger leftStickYTrigger = new Trigger(() -> Math.abs(leftStick.y().getAsDouble()) > DEADBAND);
 
-    // TODO: Terminar los bindings del operador
-
     // --------------------------------------------------------------- MANDO
     // ---------------------------------------------------------------
 
@@ -95,6 +93,7 @@ public class OperatorBindings implements Binding {
 
     buttons.right().whileTrue(superstructure.eatCommand()); // Comer fuels
 
+    buttons.left().whileTrue(superstructure.getFlywheelShooter().spinAtVoltage(-12));
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
@@ -138,7 +137,7 @@ public class OperatorBindings implements Binding {
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
+                FlyWheelRequestFactory.setRPM().toRPM(-3500).withTolerance(50),
                 12));
 
     triggers
@@ -148,7 +147,7 @@ public class OperatorBindings implements Binding {
             superstructure.shootOnTheMove(
                 new Translation2d(0.863, 4.003),
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-2500).withTolerance(50),
+                FlyWheelRequestFactory.setRPM().toRPM(-3500).withTolerance(50),
                 -12));
 
     rightStickXTrigger

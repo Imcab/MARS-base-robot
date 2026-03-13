@@ -30,9 +30,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "EatFuel-L"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "EatFuel-L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eat_5"
+                }
+              }
+            ]
           }
         },
         {

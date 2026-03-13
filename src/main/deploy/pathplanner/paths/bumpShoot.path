@@ -3,57 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.082,
-        "y": 5.569
+        "x": 6.067755555555557,
+        "y": 5.448
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.529138289095855,
-        "y": 5.509872455683064
+        "x": 5.514893844651413,
+        "y": 5.388872455683065
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.976835433273311,
-        "y": 5.569
+        "x": 4.353,
+        "y": 5.4479444444444445
       },
       "prevControl": {
-        "x": 5.313461164152784,
-        "y": 5.5962985132809075
+        "x": 4.689625730879473,
+        "y": 5.475242957725352
       },
       "nextControl": {
-        "x": 4.709404576769763,
-        "y": 5.547312814148481
+        "x": 4.085569143496452,
+        "y": 5.426257258592925
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.098964578229055,
-        "y": 5.569
+        "x": 2.666944444444445,
+        "y": 5.340755555555555
       },
       "prevControl": {
-        "x": 4.34870671328163,
-        "y": 5.580351915229665
-      },
-      "nextControl": {
-        "x": 3.8284688752796785,
-        "y": 5.556704740775025
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.1222605805639256,
-        "y": 4.823854171608746
-      },
-      "prevControl": {
-        "x": 3.374262831272036,
-        "y": 4.819608128572675
+        "x": 2.918946695152555,
+        "y": 5.336509512519484
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,11 +48,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.35651586765698334,
-      "maxWaypointRelativePos": 1.95,
+      "minWaypointRelativePos": 0.19255583126550294,
+      "maxWaypointRelativePos": 1.5,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
+        "maxVelocity": 1.6,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -88,13 +72,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -1.4144232114023565
+    "rotation": -31.607502246248895
   },
   "reversed": false,
   "folder": "BotBusters",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 59.28016387207279
+    "rotation": -55.352
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
