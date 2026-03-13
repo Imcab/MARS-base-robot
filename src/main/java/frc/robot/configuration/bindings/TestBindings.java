@@ -14,6 +14,7 @@ import frc.tests.IndexerTest;
 import frc.tests.IntakeTest;
 import frc.tests.IntakeWheelsTest;
 import frc.tests.InterpolateTest;
+import frc.tests.ShooterRMPtest;
 import frc.tests.ShooterWheelsVoltage;
 import frc.tests.TurretTest;
 
@@ -41,6 +42,7 @@ public class TestBindings implements Binding {
     tests.addOption("InterTest", new InterpolateTest(s));
     tests.addOption("IntakeWheels Test", new IntakeWheelsTest(s.getFlyWheelsIntake()));
     tests.addOption("ShooterVoltage Test", new ShooterWheelsVoltage(s.getFlywheelShooter()));
+    tests.addOption("ShooterRMP Test", new ShooterRMPtest(s.getFlywheelShooter()));
 
     SmartDashboard.putData("TestRoutines", tests);
   }

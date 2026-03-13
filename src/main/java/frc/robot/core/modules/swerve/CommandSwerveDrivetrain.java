@@ -76,6 +76,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
 
   private final PoseFinder finder;
 
+  private int lastIMUMode = -1;
+
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
    *
@@ -270,26 +272,58 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
                     allianceColor == Alliance.Red
                         ? kRedAlliancePerspectiveRotation
                         : kBlueAlliancePerspectiveRotation);
-                m_hasAppliedOperatorPerspective = true;
+                if (!m_hasAppliedOperatorPerspective) {
+                  seedFieldCentric();
+                }
               });
     }
 
     field.setRobotPose(getState().Pose);
 
+    configureLimelightIMU();
+    updateLimelightOrientation();
     updateLimeVision();
   }
 
+  private void configureLimelightIMU() {
+    int targetMode = DriverStation.isDisabled() ? 1 : 4;
+
+    if (targetMode != lastIMUMode) {
+      LimelightHelpers.SetIMUMode(limelightName, targetMode);
+      lastIMUMode = targetMode;
+      System.out.println("Switched Limelight IMU to Mode: " + targetMode);
+    }
+  }
+
+  private void updateLimelightOrientation() {
+    double robotYaw = getState().Pose.getRotation().getDegrees();
+    double robotPitch = getPigeon2().getPitch().getValueAsDouble();
+    double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+
+    double robotYawRate = Units.radiansToDegrees(getState().Speeds.omegaRadiansPerSecond);
+
+    LimelightHelpers.SetRobotOrientation_NoFlush(
+        limelightName, robotYaw, robotYawRate, robotPitch, 0, robotRoll, 0);
+
+    LimelightHelpers.Flush();
+  }
+
   private void updateLimeVision() {
-    LimelightHelpers.SetRobotOrientation(
-        limelightName, this.getPigeon2().getRotation2d().getDegrees(), 0, 15, 0, 0, 0);
+
     LimelightHelpers.PoseEstimate mt2 =
         LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
 
+    if (!LimelightHelpers.getTV(limelightName)) {
+      return;
+    }
+
     if (mt2 == null || mt2.tagCount == 0) return;
 
-    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 90) return;
+    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 85) return;
 
-    if (Math.abs(this.getPigeon2().getAccelerationX().getValueAsDouble() * GravityFactor) >= 3 || Math.abs(this.getPigeon2().getAccelerationY().getValueAsDouble() * GravityFactor) >= 3) return;
+    if (Math.abs(this.getPigeon2().getAccelerationX().getValueAsDouble() * GravityFactor) >= 2.5
+        || Math.abs(this.getPigeon2().getAccelerationY().getValueAsDouble() * GravityFactor) >= 2.5)
+      return;
 
     NetworkIO.set("Chasis", "Mt2", mt2.pose);
 
