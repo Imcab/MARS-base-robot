@@ -1,0 +1,56 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FlipAlignToBump-L"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "FlipPassBump-L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Angle->Eat_4.5"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FlipEatFuel-L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FlipbumpShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot_10"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

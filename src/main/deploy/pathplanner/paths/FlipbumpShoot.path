@@ -1,0 +1,105 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.082,
+        "y": 5.569
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.681483146067414,
+        "y": 5.543269662921348
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.906966292134831,
+        "y": 5.569
+      },
+      "prevControl": {
+        "x": 5.385943820224719,
+        "y": 5.584033707865169
+      },
+      "nextControl": {
+        "x": 4.638789584800453,
+        "y": 5.560582715184184
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.6840449438202247,
+        "y": 5.329258426966292
+      },
+      "prevControl": {
+        "x": 3.9693932584269653,
+        "y": 5.400595505617978
+      },
+      "nextControl": {
+        "x": 3.4213546117676916,
+        "y": 5.263585843953158
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.756662921348314,
+        "y": 4.86047191011236
+      },
+      "prevControl": {
+        "x": 3.123539325842696,
+        "y": 5.064292134831461
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.2721991701245043,
+      "rotationDegrees": -129.1053487933439
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.253101736972697,
+      "maxWaypointRelativePos": 1.95,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 178.87148092440495
+  },
+  "reversed": false,
+  "folder": "FlipBotBusters",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -123.38874652887117
+  },
+  "useDefaultConstraints": true
+}
