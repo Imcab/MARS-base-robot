@@ -33,7 +33,7 @@ public class Constants {
     RPM_MAP.put(2.88109361, -2895.0);
     RPM_MAP.put(3.79530137, -2900.0);
     RPM_MAP.put(4.39056989, -3080.0);
-    RPM_MAP.put(4.92660358, -3600.0);
+    RPM_MAP.put(4.92660358, -3150.0);
   }
 
   static {
