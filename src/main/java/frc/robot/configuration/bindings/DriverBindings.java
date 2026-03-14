@@ -18,6 +18,8 @@ public class DriverBindings implements Binding {
 
   private final ControllerOI driver;
 
+  public double alllianceFactor;
+
   private DriverBindings(CommandSwerveDrivetrain drivetrain, ControllerOI driver) {
     this.drivetrain = drivetrain;
     this.driver = driver;
@@ -41,12 +43,12 @@ public class DriverBindings implements Binding {
             () ->
                 SwerveRequestFactory.driveFieldCentric()
                     .withVelocityX(
-                        -driverLeftStick.y().getAsDouble()
+                        driverLeftStick.y().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
                             * SwerveConstants.MaxSpeed
                             * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
                             * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))
                     .withVelocityY(
-                        -driverLeftStick.x().getAsDouble()
+                        driverLeftStick.x().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
                             * SwerveConstants.MaxSpeed
                             * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
                             * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))

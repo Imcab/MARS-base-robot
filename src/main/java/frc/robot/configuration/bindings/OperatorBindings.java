@@ -75,7 +75,7 @@ public class OperatorBindings implements Binding {
                 .setControl(
                     () ->
                         IntakeRequestFactory.setAngle() // Bajar el intake (a)
-                            .withAngle(-125)
+                            .withAngle(-138)
                             .Tolerance(Constants.INTAKE_TOLERANCE)
                             .withMode(intakeMODE.kDOWN)));
 
@@ -97,11 +97,6 @@ public class OperatorBindings implements Binding {
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
-    /*
-    pov.up()
-        .whileTrue(
-            superstructure.ShootAngleTest(
-                () -> superstructure.getAngle(), () -> superstructure.getRPM()));*/
 
     triggers
         .right()
@@ -130,6 +125,8 @@ public class OperatorBindings implements Binding {
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                 -12));
 
+    triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, 0, -2500));
+
     triggers
         .left()
         .and(bumpers.right().negate())
@@ -149,26 +146,18 @@ public class OperatorBindings implements Binding {
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-3500).withTolerance(50),
                 -12));
+
+    triggers.left().and(buttons.left()).whileTrue(superstructure.shoot(-45, -25, -2500));
+    triggers.left().and(buttons.right()).whileTrue(superstructure.shoot(45, -25, -2500));
 
     rightStickXTrigger
         .and(pov.right())
         .whileTrue(
             superstructure
                 .getTurret()
-                .setControl(() -> TurretRequestFactory.manualControl().joystick(rightStick.x())));
-    rightStickYTrigger
-        .and(pov.right())
-        .whileTrue(
-            superstructure
-                .getFlywheelShooter()
-                .setControl(() -> FlyWheelRequestFactory.manualShoot().getStick(rightStick.y())));
+                .setControl(() -> TurretRequestFactory.manualControl().joystick(leftStick.x())));
 
-    leftStickYTrigger
-        .and(pov.left())
-        .whileTrue(
-            superstructure
-                .getArm()
-                .setControl(() -> ArmRequestFactory.manualControl().joystick(leftStick.y())));
+    leftStickYTrigger.and(pov.left()).whileTrue(superstructure.manualShoot(rightStick.y()));
 
     // --------------------------------------------------------------- MANDO
     // ---------------------------------------------------------------

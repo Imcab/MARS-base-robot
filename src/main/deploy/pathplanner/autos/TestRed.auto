@@ -7,7 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Test"
+            "pathName": "TestRed"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot_10"
           }
         }
       ]
