@@ -270,15 +270,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
               allianceColor -> {
                 setOperatorPerspectiveForward(
                     allianceColor == Alliance.Red
-                        ? kRedAlliancePerspectiveRotation
+                        ? kBlueAlliancePerspectiveRotation
                         : kBlueAlliancePerspectiveRotation);
-                /*
-                if (!m_hasAppliedOperatorPerspective) {
-                  seedFieldCentric();
-                }*/
-                // TODO: ROJO
-
-                m_hasAppliedOperatorPerspective = true; // TODO: AZUL
+                m_hasAppliedOperatorPerspective = true; 
               });
     }
 

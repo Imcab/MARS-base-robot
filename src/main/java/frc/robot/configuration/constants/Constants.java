@@ -20,7 +20,8 @@ public class Constants {
   public static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
   public static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
 
-  public static final Translation3d HUB_LOCATION = new Translation3d(4.63, 4.10, 1.9);
+  public static final Translation3d HUB_LOCATION =
+      new Translation3d(12.038, 4.10, 1.9); // TODO: x Azul - 4.630 ---  x Rojo - 12.038
 
   public static final InterpolatingDoubleTreeMap INTERPOLATION_MAP =
       new InterpolatingDoubleTreeMap();

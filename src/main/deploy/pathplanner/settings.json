@@ -5,10 +5,12 @@
   "pathFolders": [
     "AutoCenter",
     "BotBusters",
+    "BumpToDepot",
     "BumpToOutPost",
     "Depot",
     "EatPaths",
-    "BumpToDepot",
+    "FlipPost",
+    "FlipBusters",
     "PracticePaths",
     "ShootAlliance"
   ],

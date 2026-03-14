@@ -10,6 +10,7 @@ import com.stzteam.forgemini.io.Tunable;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.multimodules.CompositeSubsystem;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -31,6 +32,7 @@ import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequest;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
+import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
 import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
 import java.util.function.DoubleSupplier;
 
@@ -138,19 +140,32 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                     .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)));
   }
 
-  public Command shoot() {
+  public Command shoot(double turretAngle, double armAngle, double shooterRPM) {
     FlyWheel flywheelShooter = getFlywheelShooter();
     Indexer index = getIndexer();
+    Turret turret = getTurret();
+    Arm arm = getArm();
+    FlyWheel intakeWheels = getFlyWheelsIntake();
 
     return Commands.sequence(
         Commands.parallel(
                 flywheelShooter.runRequest(
                     () ->
                         FlyWheelRequestFactory.setRPM()
-                            .toRPM(-3000)
-                            .withTolerance(Constants.FLYWHEEL_TOLERANCE)))
+                            .toRPM(shooterRPM)
+                            .withTolerance(Constants.FLYWHEEL_TOLERANCE)),
+                turret.setControl(
+                    () ->
+                        TurretRequestFactory.position()
+                            .withTargetAngle(Rotation2d.fromDegrees(turretAngle))),
+                arm.setControl(
+                    () -> ArmRequestFactory.setAngle().withAngle(armAngle).withMode(ArmMODE.kUP)))
             .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
-        index.setControl(() -> IndexerRequestFactory.moveVoltage().withIndex(8)));
+        Commands.parallel(
+            index.setControl(
+                () -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)),
+            intakeWheels.setControl(
+                () -> FlyWheelRequestFactory.moveVoltage().withVolts(intakeVolts))));
   }
 
   public Command eatCommand() {
@@ -302,6 +317,21 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                     -12)
                 .withTimeout(0.8))
         .repeatedly();
+  }
+
+  public Command manualShoot(DoubleSupplier stick) {
+    FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
+    Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+    Intake intake = getSubsystem(KeyManager.INTAKE_KEY);
+
+    return Commands.parallel(
+        flywheelShooter.setControl(() -> FlyWheelRequestFactory.manualShoot().getStick(stick)),
+        index.setControl(
+            () ->
+                IndexerRequestFactory.moveVoltage()
+                    .withRollers(-stick.getAsDouble())
+                    .withIndex(-stick.getAsDouble())),
+        intake.setControl(() -> IntakeRequestFactory.moveVoltage().withVolts(stick.getAsDouble())));
   }
 
   public Command EatAutoAngle(double angle, double tolerance, intakeMODE mode, double voltage) {

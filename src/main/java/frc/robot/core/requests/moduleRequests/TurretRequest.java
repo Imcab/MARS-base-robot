@@ -13,14 +13,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
-import frc.robot.helpers.AllianceUtil;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -135,13 +131,13 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
       Translation2d target = targetSupplier.get();
 
       double chassisOmega = rotationSupplier.getAsDouble();
-
+      /*
       Optional<Alliance> alliance = DriverStation.getAlliance();
       if (alliance.isPresent()) {
         if (alliance.get() == Alliance.Red) {
           target = AllianceUtil.flip(targetSupplier.get());
         }
-      }
+      }*/
 
       Translation2d currentTarget = target;
 
