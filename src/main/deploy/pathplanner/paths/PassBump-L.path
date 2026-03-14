@@ -16,44 +16,44 @@
     },
     {
       "anchor": {
-        "x": 4.529560255978689,
-        "y": 5.569771013045473
+        "x": 5.453855555555554,
+        "y": 5.72
       },
       "prevControl": {
-        "x": 4.279731547536997,
-        "y": 5.5605180979180036
+        "x": 5.204026847113862,
+        "y": 5.71074708487253
       },
       "nextControl": {
-        "x": 4.779388964420379,
-        "y": 5.579023928172943
+        "x": 5.703684263997246,
+        "y": 5.72925291512747
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.212130507909344,
-        "y": 6.463094394225152
+        "x": 6.486766666666667,
+        "y": 7.153222222222222
       },
       "prevControl": {
-        "x": 6.025394779537627,
-        "y": 5.699057251325299
+        "x": 6.116477777777779,
+        "y": 7.094566666666666
       },
       "nextControl": {
-        "x": 6.426388075735262,
-        "y": 7.339738309097844
+        "x": 6.830640100653368,
+        "y": 7.207693441630966
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.804238358155716,
-        "y": 7.0374251669633985
+        "x": 7.929,
+        "y": 7.436
       },
       "prevControl": {
-        "x": 7.422771289419859,
-        "y": 6.859504731282946
+        "x": 7.917593528525698,
+        "y": 7.186260350748012
       },
       "nextControl": null,
       "isLocked": false,
@@ -64,11 +64,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.43754220121538384,
-      "maxWaypointRelativePos": 1.6853477380148507,
+      "minWaypointRelativePos": 0.42282878411910796,
+      "maxWaypointRelativePos": 0.7801488833746919,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 1.8,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -94,7 +94,7 @@
   "folder": "BotBusters",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 61.16292344818539
+    "rotation": 33.669
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

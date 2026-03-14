@@ -11,24 +11,20 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
 import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
 
-@MARSTest(name = "ShooterVoltage Test")
-public class ShooterWheelsVoltage extends TestRoutine {
-  FlyWheel wv;
+@MARSTest(name = "ShooterRMPtest")
+public class ShooterRMPtest extends TestRoutine {
+  FlyWheel s;
 
-  public ShooterWheelsVoltage(FlyWheel wv) {
-    this.wv = wv;
+  public ShooterRMPtest(FlyWheel s) {
+    this.s = s;
   }
 
   @Override
   public Command getRoutineCommand() {
-
     return Commands.sequence(
-        wv.setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(-12)),
-        delay(6),
-        wv.setControl(() -> FlyWheelRequestFactory.idleOutake()),
-        delay(2),
-        wv.setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(12)),
-        delay(3),
-        wv.setControl(() -> FlyWheelRequestFactory.idleOutake()));
+        run(FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50), s),
+        waitFor(() -> s.isAtTarget(50), 2.0),
+        delay(4),
+        run(FlyWheelRequestFactory.idleOutake(), s));
   }
 }

@@ -139,8 +139,8 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
 
     @Override
     public ActionStatus apply(ArmInputs data, ArmIO actor) {
-      if (data.position > -40 && data.position < 0) {
-        actor.setSpeed(stick.getAsDouble() * 0.5);
+      if (data.position > -30 && data.position < 10) {
+        actor.setSpeed(stick.getAsDouble() * 0.3);
       } else {
         actor.setSpeed(0);
       }
