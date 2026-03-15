@@ -42,8 +42,10 @@
     "TurretInputs.appliedVolts": "Volts",
     "TurretIO.setPosition(angle)": "Rotations",
     "Turret.distanceTo": "Meters",
+    "TurretIO.setSpeed(speed)": "DutyCycle",
     "TurretIO.setPositionWithFF(arbFFVolts)": "Volts",
     "TurretIO.setVoltage(volts)": "Volts",
+    "ArmIO.setSpeed(speed)": "DutyCycle",
     "TurretInputs.targetAngle": "Rotations"
   }
 }

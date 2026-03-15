@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.473758065388369,
-        "y": 5.7202638049763275
+        "x": 3.5732667617689007,
+        "y": 4.067346647646221
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.940356357809675,
-        "y": 5.716079273350829
+        "x": 3.1721683309557767,
+        "y": 4.054407988587732
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9338577658958305,
-        "y": 5.7202638049763275
+        "x": 2.227646219686162,
+        "y": 4.067346647646221
       },
       "prevControl": {
-        "x": 3.153101580530194,
-        "y": 5.840397687559772
+        "x": 2.680499286733238,
+        "y": 4.080285306704707
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 33.669
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "BotBusters",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 0.0

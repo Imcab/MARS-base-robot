@@ -4,13 +4,8 @@
 
 package frc.robot;
 
-import com.stzteam.features.limelight.LimelightConfig;
-import com.stzteam.features.limelight.LimelightDriver;
-import com.stzteam.features.limelight.LimelightNode;
-import com.stzteam.features.limelight.LimelightNode.LimelightMsg;
 import com.stzteam.mars.models.containers.IRobotContainer;
 import com.stzteam.mars.operator.ControllerOI;
-import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,7 +28,6 @@ import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.configuration.bindings.TestBindings;
-import frc.robot.configuration.constants.ModuleConstants.VisionConstants;
 import frc.robot.core.modules.superstructure.composite.Superstructure;
 import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
@@ -55,8 +49,6 @@ public class RobotContainer implements IRobotContainer {
   public final FlyWheel flywheelIntake;
   public final Intake intake;
   public final Indexer index;
-
-  private final Node<LimelightMsg> limelightNode;
 
   private final Node<VisualizerMsg> virtualRobot;
   private final Node<TrajectoryMsg> trajetorySim;
@@ -97,7 +89,7 @@ public class RobotContainer implements IRobotContainer {
             this.index,
             this.flywheelShooter,
             this.flywheelIntake);
-
+    /*
     LimelightConfig config =
         new LimelightConfig()
             .withMaxValidDistanceMeters(VisionConstants.MAX_VALID_DISTANCE_METERS)
@@ -106,8 +98,8 @@ public class RobotContainer implements IRobotContainer {
             .withRotationStdDev(VisionConstants.ROTATION_STD_DEV)
             .withDefaultStdDevs(VisionConstants.DEFAULT_STD_DEVS)
             .withSingleTagBaseStdDev(VisionConstants.SINGLE_TAG_BASE_STD_DEV)
-            .withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);
-
+            .withSingleTagDistanceMultiplier(VisionConstants.SINGLE_TAG_DISTANCE_MULTIPLIER);*/
+    /*
     this.limelightNode =
         !Manifest.HAS_LIMELIGHT
             ? new FallbackNode<>()
@@ -120,7 +112,7 @@ public class RobotContainer implements IRobotContainer {
                   if (msg.validPose) {
                     drivetrain.addVisionMeasurement(msg.botPose, msg.timestamp, msg.stdDevs);
                   }
-                });
+                });*/
 
     this.virtualRobot =
         VisualizerBuilder.buildNode(
@@ -156,7 +148,7 @@ public class RobotContainer implements IRobotContainer {
   @Override
   public void updateNodes() {
 
-    limelightNode.periodic();
+    // limelightNode.periodic();
 
     virtualRobot.periodic();
     // trajetorySim.periodic();

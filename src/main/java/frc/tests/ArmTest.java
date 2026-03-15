@@ -26,12 +26,12 @@ public class ArmTest extends TestRoutine {
     return Commands.sequence(
         run(
             ArmRequestFactory.setAngle()
-                .withAngle(-40)
+                .withAngle(-30)
                 .withMode(ArmMODE.kUP)
                 .withTolerance(Constants.ARM_TOLERANCE),
             a),
         waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
-        assertLessThan(calculateError(-40, a.getState().position), 2, "Error es muy alto"),
+        assertLessThan(calculateError(-30, a.getState().position), 2, "Error es muy alto"),
         delay(1),
         run(
             ArmRequestFactory.setAngle()

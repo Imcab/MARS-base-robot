@@ -127,4 +127,24 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
           ArmCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(volts));
     }
   }
+
+  @CreateCommand(name = "armManualControl")
+  public static class manualControl implements ArmRequest {
+    private DoubleSupplier stick;
+
+    public manualControl joystick(DoubleSupplier stick) {
+      this.stick = stick;
+      return this;
+    }
+
+    @Override
+    public ActionStatus apply(ArmInputs data, ArmIO actor) {
+      if (data.position > -30 && data.position < 10) {
+        actor.setSpeed(stick.getAsDouble() * 0.3);
+      } else {
+        actor.setSpeed(0);
+      }
+      return ActionStatus.of(ArmCode.MANUAL_CONTROL, "Manual");
+    }
+  }
 }

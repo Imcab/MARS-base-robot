@@ -13,14 +13,10 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
 import frc.robot.diagnostics.TurretCode;
-import frc.robot.helpers.AllianceUtil;
-import java.util.Optional;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -34,6 +30,26 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
       actor.stop();
       data.targetAngle = data.angle;
       return ActionStatus.of(TurretCode.IDLE, "Idle");
+    }
+  }
+
+  @CreateCommand(name = "manualControl")
+  public static class manualControl implements TurretRequest {
+    private DoubleSupplier stick;
+
+    public manualControl joystick(DoubleSupplier stick) {
+      this.stick = stick;
+      return this;
+    }
+
+    @Override
+    public ActionStatus apply(TurretInputs data, TurretIO actor) {
+      if (data.angle.getDegrees() < 90 && data.angle.getDegrees() > -90) {
+        actor.setSpeed(stick.getAsDouble() * 0.5);
+      } else {
+        actor.setSpeed(0);
+      }
+      return ActionStatus.of(TurretCode.MANUAL_CONTROL, "Manual");
     }
   }
 
@@ -115,13 +131,13 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
       Translation2d target = targetSupplier.get();
 
       double chassisOmega = rotationSupplier.getAsDouble();
-
+      /*
       Optional<Alliance> alliance = DriverStation.getAlliance();
       if (alliance.isPresent()) {
         if (alliance.get() == Alliance.Red) {
           target = AllianceUtil.flip(targetSupplier.get());
         }
-      }
+      }*/
 
       Translation2d currentTarget = target;
 

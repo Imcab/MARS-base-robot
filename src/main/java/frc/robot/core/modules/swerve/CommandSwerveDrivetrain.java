@@ -13,11 +13,11 @@ import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
-import com.stzteam.features.limelight.LimelightHelpers;
 import com.stzteam.features.posefinder.ICommandSwerveDrivetrain;
 import com.stzteam.features.posefinder.PoseFinder;
 import com.stzteam.forgemini.io.NetworkIO;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -36,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.constants.ModuleConstants.TunerConstants.TunerSwerveDrivetrain;
+import frc.robot.helpers.LimelightHelpers;
 import frc.robot.helpers.SysIdRoutineManager;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -53,7 +54,10 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
   private Notifier m_simNotifier = null;
   private double m_lastSimTime;
 
+  private double GravityFactor = 9.80665;
+
   private final Field2d field = new Field2d();
+  public final String limelightName = "limelight";
 
   /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
   private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
@@ -72,6 +76,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
 
   private final PoseFinder finder;
 
+  private int lastIMUMode = -1;
+
   /**
    * Constructs a CTRE SwerveDrivetrain using the specified constants.
    *
@@ -88,6 +94,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -120,6 +127,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -161,6 +169,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
       startSimThread();
     }
 
+    LimelightHelpers.SetIMUMode(limelightName, 4);
     this.sysIdManager = new SysIdRoutineManager(this);
     this.m_sysIdRoutineToApply = sysIdManager.getSelected();
 
@@ -193,10 +202,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
               new PIDConstants(5.0, 0.0, 0.0) // PID de Rotación
               ),
           config,
-          () -> {
-            var alliance = DriverStation.getAlliance();
-            return alliance.isPresent() && alliance.get() == DriverStation.Alliance.Red;
-          },
+          () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
           this);
     } catch (Exception e) {
       DriverStation.reportError("Fallo al configurar PathPlanner: " + e.getMessage(), true);
@@ -264,13 +270,62 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
               allianceColor -> {
                 setOperatorPerspectiveForward(
                     allianceColor == Alliance.Red
-                        ? kRedAlliancePerspectiveRotation
+                        ? kBlueAlliancePerspectiveRotation
                         : kBlueAlliancePerspectiveRotation);
-                m_hasAppliedOperatorPerspective = true;
+                m_hasAppliedOperatorPerspective = true; 
               });
     }
 
     field.setRobotPose(getState().Pose);
+
+    configureLimelightIMU();
+    updateLimelightOrientation();
+    updateLimeVision();
+  }
+
+  private void configureLimelightIMU() {
+    int targetMode = DriverStation.isDisabled() ? 1 : 4;
+
+    if (targetMode != lastIMUMode) {
+      LimelightHelpers.SetIMUMode(limelightName, targetMode);
+      lastIMUMode = targetMode;
+      System.out.println("Switched Limelight IMU to Mode: " + targetMode);
+    }
+  }
+
+  private void updateLimelightOrientation() {
+    double robotYaw = getState().Pose.getRotation().getDegrees();
+    double robotPitch = getPigeon2().getPitch().getValueAsDouble();
+    double robotRoll = getPigeon2().getRoll().getValueAsDouble();
+
+    double robotYawRate = Units.radiansToDegrees(getState().Speeds.omegaRadiansPerSecond);
+
+    LimelightHelpers.SetRobotOrientation_NoFlush(
+        limelightName, robotYaw, robotYawRate, robotPitch, 0, robotRoll, 0);
+
+    LimelightHelpers.Flush();
+  }
+
+  private void updateLimeVision() {
+
+    LimelightHelpers.PoseEstimate mt2 =
+        LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(limelightName);
+
+    if (!LimelightHelpers.getTV(limelightName)) {
+      return;
+    }
+
+    if (mt2 == null || mt2.tagCount == 0) return;
+
+    if (Math.abs(this.getPigeon2().getAngularVelocityZWorld().getValueAsDouble()) > 85) return;
+
+    if (Math.abs(this.getPigeon2().getAccelerationX().getValueAsDouble() * GravityFactor) >= 2.5
+        || Math.abs(this.getPigeon2().getAccelerationY().getValueAsDouble() * GravityFactor) >= 2.5)
+      return;
+
+    NetworkIO.set("Chasis", "Mt2", mt2.pose);
+
+    addVisionMeasurement(mt2.pose, mt2.timestampSeconds, VecBuilder.fill(.3, .3, 9999999));
   }
 
   public double getDistanceToTag() {

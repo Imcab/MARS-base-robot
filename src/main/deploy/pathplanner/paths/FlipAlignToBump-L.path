@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.473758065388369,
-        "y": 5.7202638049763275
+        "x": 3.5164319061956997,
+        "y": 5.604442794527748
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.940356357809675,
-        "y": 5.716079273350829
+        "x": 3.078523227691784,
+        "y": 5.640396032294165
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9338577658958305,
-        "y": 5.7202638049763275
+        "x": 3.0528794974123916,
+        "y": 5.604442794527748
       },
       "prevControl": {
-        "x": 3.153101580530194,
-        "y": 5.840397687559772
+        "x": 3.3028765863688734,
+        "y": 5.6032363479748994
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 33.669
+    "rotation": -146.3492222166306
   },
   "reversed": false,
-  "folder": "BotBusters",
+  "folder": "FlipBotBusters",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.64515064824712
   },
   "useDefaultConstraints": true
 }

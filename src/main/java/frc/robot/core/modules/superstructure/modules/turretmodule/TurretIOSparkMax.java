@@ -107,6 +107,11 @@ public class TurretIOSparkMax implements TurretIO {
   }
 
   @Override
+  public void setSpeed(double speed) {
+    m_motor.set(speed);
+  }
+
+  @Override
   public void stop() {
     m_motor.stopMotor();
   }

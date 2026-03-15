@@ -11,15 +11,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "PassBump"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Angle->Eat"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "PassBump"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Angle->Eat_4.5"
+                }
+              }
+            ]
           }
         },
         {
@@ -30,6 +37,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "EatFuel"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eat_5"
                 }
               }
             ]
@@ -44,7 +57,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot"
+            "name": "Shoot_10"
           }
         }
       ]

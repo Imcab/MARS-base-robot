@@ -23,6 +23,11 @@ public class AutoBindings implements Binding {
   public PathPlannerAuto autoForeward;
   public PathPlannerAuto bumpPost;
   public PathPlannerAuto depotAuto;
+  public PathPlannerAuto depotBusters;
+  public PathPlannerAuto testRed;
+  public PathPlannerAuto testBlue;
+  public PathPlannerAuto FlipBusters;
+  public PathPlannerAuto FlipPost;
 
   private AutoBindings(Superstructure s) {
     this.superstructure = s;
@@ -34,29 +39,41 @@ public class AutoBindings implements Binding {
 
   private void registerAutoCommands() {
     NamedCommands.registerCommand(
-        "Angle->Eat", superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
-    NamedCommands.registerCommand("Eat", superstructure.EatAutoWheels(-10));
+        "Angle->Eat_4.5",
+        superstructure.EatAutoAngle(-140, 4, intakeMODE.kDOWN, -10).withTimeout(4.5));
+
+    NamedCommands.registerCommand("Eat_5", superstructure.EatAutoWheels(-10).withTimeout(5));
+    NamedCommands.registerCommand("Eat_3.5", superstructure.EatAutoWheels(-10).withTimeout(3.5));
+
+    NamedCommands.registerCommand("Shoot_6", superstructure.shootAuto().withTimeout(6));
+    NamedCommands.registerCommand("Shoot_10", superstructure.shootAuto().withTimeout(10));
+    NamedCommands.registerCommand("Shoot_13", superstructure.shootAuto().withTimeout(12));
+
     NamedCommands.registerCommand(
         "IntakeUp",
         superstructure
             .getIntake()
             .setControl(() -> IntakeRequestFactory.setAngle().withAngle(-10).Tolerance(2)));
-
-    NamedCommands.registerCommand("Shoot", superstructure.shootAuto().withTimeout(8));
   }
 
   @Override
   public void bind() {
     registerAutoCommands();
 
-    AutoCenter = new PathPlannerAuto("AutoCenter");
-    autoForeward = new PathPlannerAuto("New Auto");
     bumpPost = new PathPlannerAuto("EatPost-auto");
     depotAuto = new PathPlannerAuto("DepotAuto");
+    depotBusters = new PathPlannerAuto("BotBusters");
+    testRed = new PathPlannerAuto("TestRed");
+    testBlue = new PathPlannerAuto("TestBlue");
+    FlipBusters = new PathPlannerAuto("FlipBusters");
+    FlipPost = new PathPlannerAuto("FlipEatPostAuto");
 
     chooser.setDefaultOption("Post", bumpPost);
-    chooser.addOption("AutoCenter", AutoCenter);
-    chooser.addOption("test1Forward", autoForeward);
+    chooser.addOption("DepotAuto", depotBusters);
+    chooser.addOption("TestRed", testRed);
+    chooser.addOption("TestBlue", testBlue);
+    chooser.addOption("FlipBuster", FlipBusters);
+    chooser.addOption("FlipPost", FlipPost);
 
     SmartDashboard.putData("AutoSelector", chooser);
   }

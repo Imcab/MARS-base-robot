@@ -12,7 +12,7 @@ public class Constants {
 
   public static final double INTAKE_TOLERANCE = 2;
   public static final double TURRET_TOLERANCE = 4;
-  public static final double FLYWHEEL_TOLERANCE = 250;
+  public static final double FLYWHEEL_TOLERANCE = 50;
   public static final double ARM_TOLERANCE = 2;
 
   public static final double kSimLoopPeriod = 0.004;
@@ -20,7 +20,8 @@ public class Constants {
   public static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
   public static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
 
-  public static final Translation3d HUB_LOCATION = new Translation3d(4.63, 4.10, 1.9);
+  public static final Translation3d HUB_LOCATION =
+      new Translation3d(12.038, 4.10, 1.9); // TODO: x Azul - 4.630 ---  x Rojo - 12.038
 
   public static final InterpolatingDoubleTreeMap INTERPOLATION_MAP =
       new InterpolatingDoubleTreeMap();
@@ -28,18 +29,18 @@ public class Constants {
   public static final InterpolatingDoubleTreeMap RPM_MAP = new InterpolatingDoubleTreeMap();
 
   static {
-    RPM_MAP.put(2.03329389, -2350.0);
-    RPM_MAP.put(2.59498157, -2488.0);
-    RPM_MAP.put(2.88109361, -2695.0);
-    RPM_MAP.put(3.79530137, -2800.0);
-    RPM_MAP.put(4.39056989, -2980.0);
-    RPM_MAP.put(4.92660358, -3500.0);
+    RPM_MAP.put(2.03329389, -2650.0);
+    RPM_MAP.put(2.59498157, -2700.0);
+    RPM_MAP.put(2.88109361, -2895.0);
+    RPM_MAP.put(3.79530137, -2900.0);
+    RPM_MAP.put(4.39056989, -3080.0);
+    RPM_MAP.put(4.92660358, -3150.0);
   }
 
   static {
-    INTERPOLATION_MAP.put(2.03329389, 0.0);
-    INTERPOLATION_MAP.put(2.59498157, 0.0);
-    INTERPOLATION_MAP.put(2.80519751, 0.0);
+    INTERPOLATION_MAP.put(2.03329389, -0.0);
+    INTERPOLATION_MAP.put(2.59498157, -0.0);
+    INTERPOLATION_MAP.put(2.80519751, -0.0);
     INTERPOLATION_MAP.put(3.79530137, -12.45);
     INTERPOLATION_MAP.put(4.39056989, -13.0);
     INTERPOLATION_MAP.put(4.92660358, -14.0);

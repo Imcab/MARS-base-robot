@@ -11,12 +11,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "PassBump-L"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -29,7 +23,26 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Angle->Eat"
+                  "name": "Angle->Eat_4.5"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "EatFuel-L"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eat_5"
                 }
               }
             ]
@@ -39,6 +52,12 @@
           "type": "path",
           "data": {
             "pathName": "bumpShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot_10"
           }
         }
       ]

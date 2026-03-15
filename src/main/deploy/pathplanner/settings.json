@@ -5,14 +5,18 @@
   "pathFolders": [
     "AutoCenter",
     "BotBusters",
+    "BumpToDepot",
     "BumpToOutPost",
     "Depot",
     "EatPaths",
-    "BumpToDepot",
+    "FlipPost",
+    "FlipBusters",
     "PracticePaths",
     "ShootAlliance"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "New Folder"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

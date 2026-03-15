@@ -5,13 +5,19 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "FlipAlignToBump-L"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "depot"
+                  "pathName": "FlipPassBump-L"
                 }
               },
               {
@@ -24,9 +30,21 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "FlipEatFuel-L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "FlipbumpShoot"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Shoot_13"
+            "name": "Shoot_10"
           }
         }
       ]

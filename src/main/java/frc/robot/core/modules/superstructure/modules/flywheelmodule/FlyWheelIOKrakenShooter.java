@@ -20,7 +20,6 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO {
   private TalonFXConfigurator leaderConfigurator, followerConfigurator;
 
   private VelocityVoltage velocityRequest;
-
   private double velocityTarget;
 
   public FlyWheelIOKrakenShooter() {

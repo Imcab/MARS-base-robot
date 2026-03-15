@@ -49,7 +49,7 @@ public class IntakeIOKraken implements IntakeIO {
 
     var slot0Configs = config.Slot0;
 
-    slot0Configs.kS = 0.9; // Add 0.25 V output to overcome static friction
+    slot0Configs.kS = 1.6; // Add 0.25 V output to overcome static friction
     slot0Configs.kV = 4.1; // A velocity target of 1 rps results in 0.12 V output
     slot0Configs.kA = 1; // An acceleration of 1 rps/s requires 0.01 V output
     slot0Configs.kP = 18; // A position error of 2.5 rotations results in 12 V output
