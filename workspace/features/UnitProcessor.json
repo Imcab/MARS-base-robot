@@ -1,0 +1,20 @@
+{
+  "featureId": "UnitProcessor",
+  "name": "Unit Processor",
+  "version": "1.0.3",
+  "groupId": "com.stzteam.features.unitprocessor",
+  "author": "STZ-Robotics",
+  "description": "Annotation processor for Units.",
+  "marsCoreRequired": ">=1.6.0",
+  "mavenUrls": [
+    "https://imcab.github.io/UnitProcessor/maven/"
+  ],
+  "javaDependencies": [
+    {
+      "groupId": "com.stzteam.features.unitprocessor",
+      "artifactId": "UnitProcessor",
+      "version": "1.0.3",
+      "isProcessor": true
+    }
+  ]
+}
