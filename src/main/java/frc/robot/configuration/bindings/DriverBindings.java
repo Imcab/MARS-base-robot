@@ -41,14 +41,14 @@ public class DriverBindings implements Binding {
     drivetrain.setDefaultCommand(
         drivetrain.applyRequest(
             () ->
-                SwerveRequestFactory.driveFieldCentric()
+                SwerveRequestFactory.driveFieldCentric() // TODO: MODO ACTUAL - AZUL
                     .withVelocityX(
-                        driverLeftStick.y().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
+                        -driverLeftStick.y().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
                             * SwerveConstants.MaxSpeed
                             * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
                             * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))
                     .withVelocityY(
-                        driverLeftStick.x().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
+                        -driverLeftStick.x().getAsDouble() // TODO: Rojo Positivo - Azul Negativo
                             * SwerveConstants.MaxSpeed
                             * (driverBumpers.right().getAsBoolean() ? 0.5 : 1.0)
                             * (driverBumpers.left().getAsBoolean() ? 0.2 : 1.0))

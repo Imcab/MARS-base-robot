@@ -5,9 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TestRed"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "TestRed"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "JustAngle"
+                }
+              }
+            ]
           }
         },
         {
