@@ -20,8 +20,8 @@ public class Constants {
   public static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
   public static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
 
-  public static final Translation3d HUB_LOCATION =
-      new Translation3d(12.038, 4.10, 1.9); // TODO: x Azul - 4.630 ---  x Rojo - 12.038
+  public static final Translation3d HUB_LOCATION = // TODO: HUB ACTUAL - AZUL
+      new Translation3d(4.630, 4.10, 1.9); // TODO: x Azul - 4.630 ---  x Rojo - 12.038
 
   public static final InterpolatingDoubleTreeMap INTERPOLATION_MAP =
       new InterpolatingDoubleTreeMap();
@@ -38,11 +38,11 @@ public class Constants {
   }
 
   static {
-    INTERPOLATION_MAP.put(2.03329389, -0.0);
-    INTERPOLATION_MAP.put(2.59498157, -0.0);
-    INTERPOLATION_MAP.put(2.80519751, -0.0);
-    INTERPOLATION_MAP.put(3.79530137, -12.45);
-    INTERPOLATION_MAP.put(4.39056989, -13.0);
-    INTERPOLATION_MAP.put(4.92660358, -14.0);
+    INTERPOLATION_MAP.put(2.03329389, -8.0);
+    INTERPOLATION_MAP.put(2.59498157, -8.0);
+    INTERPOLATION_MAP.put(2.80519751, -8.0);
+    INTERPOLATION_MAP.put(3.79530137, -18.45);
+    INTERPOLATION_MAP.put(4.39056989, -15.0);
+    INTERPOLATION_MAP.put(4.92660358, -16.0);
   }
 }
