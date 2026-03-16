@@ -4,7 +4,11 @@
   "version": "1.0.0",
   "groupId": "com.stzteam.features.posefinder",
   "author": "STZ-Robotics",
+  "category": "Odometry & Auto",
   "description": "A PoseFinder using pathplanner compatible with CTRE Swerve",
+  "iconUrl": "https://raw.githubusercontent.com/Imcab/CTREPoseFinderFeature/main/featureIcon/icon.png",
+  "docsUrl": "",
+  "wpilibYear": "2026",
   "marsCoreRequired": ">=1.6.0",
   "mavenUrls": [
     "https://imcab.github.io/CTREPoseFinderFeature/maven/"
@@ -13,7 +17,9 @@
     {
       "groupId": "com.stzteam.features.posefinder",
       "artifactId": "MARSPoseFinderCTRESwerve",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "isProcessor": false
     }
-  ]
+  ],
+  "installedVersion": null
 }
