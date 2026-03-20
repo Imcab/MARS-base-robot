@@ -55,7 +55,7 @@ deploy {
         }
     }
 }
-
+    
 def deployArtifact = deploy.targets.roborio.artifacts.frcJava
 
 // Set to true to use debug for all targets including JNI, which will drastically impact
@@ -66,19 +66,19 @@ wpi.java.debugJni = false
 def includeDesktopSupport = true
 
 def parsedFeatures = []
-def featuresDir = file("$projectDir/features")
+def featuresDir = file("$projectDir/workspace/features")
 if (featuresDir.exists()) {
     featuresDir.listFiles().each { f ->
         if (f.name.endsWith(".json")) {
             try {
                 parsedFeatures.add(new JsonSlurper().parseText(f.text))
             } catch (Exception e) {
-                println "[MARS WARNING] Empty or corrupted feature: ${f.name}"
+                println "[MARS] WARNING: Empty or corrupted feature: ${f.name}"
             }
         }
     }
 }
-
+    
 repositories {
     mavenCentral()
     
@@ -148,10 +148,7 @@ jar {
     
     exclude 'frc/robot/configuration/advantageScope/preferences/**'
 
-    exclude 'mars_terminal/**'
-    exclude 'mars-alloy/**'
-    exclude 'mars-logtool/**'
-    exclude 'features/**'
+    exclude 'workspace/**'
     exclude 'vendordeps/**'
 
     from { 
@@ -191,7 +188,7 @@ task generateBuildConstants {
             branch = 'git rev-parse --abbrev-ref HEAD'.execute().text.trim()
             commitDate = 'git show -s --format=%cd --date=iso HEAD'.execute().text.trim()
         } catch (Exception e) {
-            println "Advertencia: No se pudo obtener la info de Git. ¿Tienes commits hechos?"
+            println "Cannot read git info"
         }
         
         constantsFile.text = """package frc.robot;
@@ -205,26 +202,6 @@ public final class BuildConstants {
     public static final String GIT_DATE = "${commitDate}";
 }
 """
-    }
-}
-
-task syncMarsVersion {
-    doLast {
-
-        def vendorDepFile = file('vendordeps/Mars.json')
-        def projectFile = file('mars-project.json')
-
-        if (vendorDepFile.exists() && projectFile.exists()) {
-            def vendorJson = new JsonSlurper().parseText(vendorDepFile.text)
-            def projectJson = new JsonSlurper().parseText(projectFile.text)
-
-            if (projectJson.marsVersion != vendorJson.version) {
-                projectJson.marsVersion = vendorJson.version
-                
-                projectFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(projectJson))
-                println "[STZ-Robotics] Getting mars version: ${vendorJson.version}"
-            }
-        }
     }
 }
 
@@ -251,9 +228,8 @@ spotless {
 }
 
 compileJava.dependsOn generateBuildConstants
-compileJava.dependsOn syncMarsVersion
 compileJava.dependsOn spotlessApply
 
-apply from: 'gradle-features/voice-announcer.gradle'
-apply from: 'gradle-features/ascii-logo.gradle'
-apply from : 'gradle-features/todo-hunter.gradle'
+apply from: 'workspace/build/voice-announcer.gradle'
+apply from: 'workspace/build/ascii-logo.gradle'
+apply from : 'workspace/build/todo-hunter.gradle'

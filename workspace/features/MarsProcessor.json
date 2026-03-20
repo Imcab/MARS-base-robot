@@ -1,0 +1,25 @@
+{
+  "featureId": "MarsProcessor",
+  "name": "Mars Processor Feature",
+  "version": "1.0.5",
+  "groupId": "com.stzteam.features.marsprocessor",
+  "author": "STZ-Robotics",
+  "category": "Processor",
+  "description": "Feature to process Mars environment data.",
+  "iconUrl": "https://raw.githubusercontent.com/Imcab/MarsProcessor/main/featureIcon/icon.png",
+  "docsUrl": "",
+  "wpilibYear": "2026",
+  "marsCoreRequired": ">=1.6.0",
+  "mavenUrls": [
+    "https://imcab.github.io/MarsProcessor/maven/"
+  ],
+  "javaDependencies": [
+    {
+      "groupId": "com.stzteam.features.marsprocessor",
+      "artifactId": "MarsProcessor",
+      "version": "1.0.5",
+      "isProcessor": true
+    }
+  ],
+  "installedVersion": null
+}

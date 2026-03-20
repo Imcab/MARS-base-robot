@@ -18,6 +18,8 @@ public interface FlyWheelIO extends IO<FlyWheelInputs> {
     @Unit(value = "Volts", group = "FlyWheel")
     public double appliedVolts = 0;
 
+    FlyWheelIO a = new FlyWheelIOFallback();
+
     @Unit(value = "RPM", group = "FlyWheel")
     public double targetRPM = 0;
 
