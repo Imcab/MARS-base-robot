@@ -22,9 +22,10 @@ public class FlywheelConstants {
     public static final double kRPMTolerance = 50;
 
     public static final double kS = 0;
-    public static final double kV = 0.124;
-    public static final double kP = 2.5;
+    public static final double kV = 0.12765427;
+    public static final double kP = 0.5;
     public static final double kI = 0;
+
     public static final double kD = 0;
 
     // ----------------------------------------- FOR SIM //-----------------------------------------

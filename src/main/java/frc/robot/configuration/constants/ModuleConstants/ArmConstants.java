@@ -14,11 +14,11 @@ public class ArmConstants {
   public static final int currentLimit = 60;
   public static final InvertedValue invertedValue = InvertedValue.CounterClockwise_Positive;
 
-  public static final double kP = 48;
+  public static final double kP = 50;
   public static final double kI = 0;
-  public static final double kD = 0.5;
+  public static final double kD = 0.3;
 
-  public static final double kS = 1.6;
+  public static final double kS = 1.9;
   public static final double kV = 0;
   public static final double kA = 0;
 

@@ -24,7 +24,7 @@ public class ShooterRMPtest extends TestRoutine {
     return Commands.sequence(
         run(FlyWheelRequestFactory.setRPM().toRPM(-3000).withTolerance(50), s),
         waitFor(() -> s.isAtTarget(50), 2.0),
-        delay(4),
+        delay(5),
         run(FlyWheelRequestFactory.idleOutake(), s));
   }
 }

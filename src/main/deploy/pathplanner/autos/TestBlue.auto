@@ -19,6 +19,12 @@
                 "data": {
                   "name": "JustAngle"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot_10"
+                }
               }
             ]
           }

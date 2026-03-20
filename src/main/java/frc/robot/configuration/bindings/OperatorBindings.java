@@ -127,6 +127,11 @@ public class OperatorBindings implements Binding {
 
     triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, 0, -2500));
 
+    pov.up()
+        .whileTrue(
+            superstructure.ShootAngleTest(
+                () -> superstructure.getAngle(), () -> superstructure.getRPM()));
+
     triggers
         .left()
         .and(bumpers.right().negate())
