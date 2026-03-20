@@ -24,6 +24,10 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private final IRobotContainer m_robotContainer;
   public final String limelightName = "limelight";
+  private double matchTime;
+  private double teleopTimeElapsed;
+  private int shiftTimer;
+  private String currentShift = "ESPERANDO...";
 
   public Robot() {
 
@@ -62,6 +66,42 @@ public class Robot extends TimedRobot {
     if (Manifest.HAS_MARS_GCS) {
       TerminalGCS.updatePeriodic();
     }
+
+    matchTime = Math.round(DriverStation.getMatchTime());
+    teleopTimeElapsed = 135.0 - matchTime; // TODO: Cambiar a 140 en match real
+
+    if (DriverStation.isTeleop()) {
+      if (matchTime > 130 & matchTime <= 140) {
+        currentShift = "TRANSITION SHIFT";
+        shiftTimer = 5 - (int) (teleopTimeElapsed % 5); // TODO: Cambiar a 10 en match real
+      } else if (matchTime > 105 & matchTime <= 130) {
+        currentShift = "SHIFT 1";
+        shiftTimer = 30 - (int) (teleopTimeElapsed % 30); // TODO: Cambiar a 25 en match real
+      } else if (matchTime > 80 & matchTime <= 105) {
+        currentShift = "SHIFT 2";
+        shiftTimer = 25 - (int) (teleopTimeElapsed % 25);
+      } else if (matchTime > 55 & matchTime <= 80) {
+        currentShift = "SHIFT 3";
+        shiftTimer = 25 - (int) (teleopTimeElapsed % 25);
+      } else if (matchTime > 30 & matchTime <= 55) {
+        currentShift = "SHIFT 4";
+        shiftTimer = 25 - (int) (teleopTimeElapsed % 25);
+      } else if (matchTime > 0 & matchTime <= 30) {
+        currentShift = "END GAME";
+        shiftTimer = 30 - (int) (teleopTimeElapsed % 30);
+      }
+    } else if (DriverStation.isAutonomous()) {
+      currentShift = "AUTO SHIFT";
+    }
+
+    int minutes = (int) (matchTime / 60);
+    int seconds = (int) (matchTime % 60);
+    String formattedTime = String.format("%d:%02d", minutes, seconds);
+
+    NetworkIO.set("MatchData", "Match Time", formattedTime);
+    NetworkIO.set("MatchData", "Shift Time", shiftTimer);
+    NetworkIO.set("MatchData", "Raw Time", matchTime);
+    NetworkIO.set("MatchData", "SHIFT", currentShift);
   }
 
   @Override
