@@ -38,7 +38,7 @@ import java.util.function.DoubleSupplier;
 
 public class Superstructure extends CompositeSubsystem<SuperstructureData, SuperstructureIO> {
 
-  private static final double NOMINAL_FUEL_VELOCITY_MPS = 18.0;
+  private static final double NOMINAL_FUEL_VELOCITY_MPS = 8.5;
   private static final double intakeVolts = -5;
 
   @Tunable public double RPMTest = -3500;
@@ -179,23 +179,16 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
 
   public Command clearFuel() {
     FlyWheel intakeFlyWheel = getFlyWheelsIntake();
+    FlyWheel shooterWheel = getFlywheelShooter();
     Indexer index = getIndexer();
 
     return Commands.parallel(
         intakeFlyWheel.spinAtVoltage(-intakeVolts),
-        Commands.sequence(
-                index
-                    .setControl(
-                        () -> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12))
-                    .withTimeout(1.5),
-                index
-                    .setControl(
-                        () -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12))
-                    .withTimeout(1.5))
-            .repeatedly());
+        index.setControl(() -> IndexerRequestFactory.moveVoltage().withRollers(-12).withIndex(-12)),
+        shooterWheel.spinAtVoltage(12));
   }
 
-  public Command ShootAngleTest(DoubleSupplier armAngle, DoubleSupplier rpm) {
+  public Command ShootAngleTest(DoubleSupplier armAngle, DoubleSupplier rpm, double speed) {
     Turret turret = getTurret();
     FlyWheel flywheelShooter = getFlywheelShooter();
     Indexer index = getIndexer();
@@ -224,7 +217,7 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
             .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
         Commands.parallel(
             index.setControl(
-                () -> IndexerRequestFactory.moveVoltage().withRollers(12).withIndex(12)),
+                () -> IndexerRequestFactory.moveVoltage().withRollers(speed).withIndex(12)),
             intakeWheels.setControl(
                 () -> FlyWheelRequestFactory.moveVoltage().withVolts(intakeVolts))));
   }
@@ -248,6 +241,32 @@ public class Superstructure extends CompositeSubsystem<SuperstructureData, Super
                             .withTarget(() -> turretTarget)
                             .withTolerance(Constants.TURRET_TOLERANCE)
                             .withChassisOmega(() -> turret.getRobotSpeeds().omegaRadiansPerSecond)),
+                arm.setControl(() -> armRequest),
+                flywheelShooter.runRequest(() -> shooterRequest))
+            .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),
+        Commands.parallel(
+            index.setControl(
+                () ->
+                    IndexerRequestFactory.moveVoltage()
+                        .withRollers(voltIndex)
+                        .withIndex(voltIndex)),
+            intakeWheels.setControl(() -> FlyWheelRequestFactory.moveVoltage().withVolts(-10))));
+  }
+
+  public Command shootNoTurret(
+      double turretAngle, ArmRequest armRequest, FlyWheelRequest shooterRequest, double voltIndex) {
+    Turret turret = getSubsystem(KeyManager.TURRET_KEY);
+    Arm arm = getSubsystem(KeyManager.ARM_KEY);
+    FlyWheel flywheelShooter = getSubsystem(KeyManager.FLYWHEEL_OUTAKE_KEY);
+    Indexer index = getSubsystem(KeyManager.INDEX_KEY);
+    FlyWheel intakeWheels = getFlyWheelsIntake();
+
+    return Commands.sequence(
+        Commands.parallel(
+                turret.setControl(
+                    () ->
+                        TurretRequestFactory.position()
+                            .withTargetAngle(Rotation2d.fromDegrees(turretAngle))),
                 arm.setControl(() -> armRequest),
                 flywheelShooter.runRequest(() -> shooterRequest))
             .until(() -> flywheelShooter.isAtTarget(Constants.FLYWHEEL_TOLERANCE)),

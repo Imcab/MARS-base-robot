@@ -24,6 +24,8 @@ public class OperatorBindings implements Binding {
 
   private final ControllerOI operator;
   private final Superstructure superstructure;
+  private final Translation2d PassBLUE = new Translation2d(0.863, 4.003);
+  private final Translation2d PassRED = new Translation2d(15.91, 4.23);
 
   private final double DEADBAND = 0.1;
 
@@ -101,6 +103,8 @@ public class OperatorBindings implements Binding {
     triggers
         .right()
         .and(bumpers.right().negate())
+        .and(pov.down().negate())
+        .and(pov.up().negate())
         .whileTrue(
             superstructure.shootOnTheMove(
                 superstructure.getVirtualTarget(),
@@ -125,21 +129,42 @@ public class OperatorBindings implements Binding {
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                 -12));
 
-    triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, 0, -2500));
+    triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, 0, -3900));
 
+    triggers
+        .right()
+        .and(pov.down())
+        .whileTrue(
+            superstructure.shootNoTurret(
+                0,
+                ArmRequestFactory.interpolateTarget()
+                    .withDistance(() -> superstructure.getVirtualDistance())
+                    .withTolerance(Constants.ARM_TOLERANCE),
+                FlyWheelRequestFactory.interpolateRPM()
+                    .withDistance(() -> superstructure.getVirtualDistance())
+                    .withTolerance(Constants.FLYWHEEL_TOLERANCE),
+                -12));
+    /*
     pov.up()
+        .and(bumpers.right().negate())
         .whileTrue(
             superstructure.ShootAngleTest(
-                () -> superstructure.getAngle(), () -> superstructure.getRPM()));
+                () -> superstructure.getAngle(), () -> superstructure.getRPM(), 12));*/
+
+    pov.up()
+        .and(bumpers.right())
+        .whileTrue(
+            superstructure.ShootAngleTest(
+                () -> superstructure.getAngle(), () -> superstructure.getRPM(), -12));
 
     triggers
         .left()
         .and(bumpers.right().negate())
         .whileTrue(
             superstructure.shootOnTheMove(
-                new Translation2d(0.863, 4.003),
+                PassRED, // TODO: Pase actual - ALIANZA ROJA
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-3500).withTolerance(50),
+                FlyWheelRequestFactory.setRPM().toRPM(-3900).withTolerance(50),
                 12));
 
     triggers
@@ -147,13 +172,13 @@ public class OperatorBindings implements Binding {
         .and(bumpers.right())
         .whileTrue(
             superstructure.shootOnTheMove(
-                new Translation2d(0.863, 4.003),
+                PassRED, // TODO: Pase actual - ALIANZA ROJA
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
-                FlyWheelRequestFactory.setRPM().toRPM(-3500).withTolerance(50),
+                FlyWheelRequestFactory.setRPM().toRPM(-3900).withTolerance(50),
                 -12));
 
-    triggers.left().and(buttons.left()).whileTrue(superstructure.shoot(-45, -25, -2500));
-    triggers.left().and(buttons.right()).whileTrue(superstructure.shoot(45, -25, -2500));
+    triggers.left().and(buttons.left()).whileTrue(superstructure.shoot(-80, -25, -3900));
+    triggers.left().and(buttons.right()).whileTrue(superstructure.shoot(80, -25, -3900));
 
     rightStickXTrigger
         .and(pov.right())

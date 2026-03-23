@@ -38,7 +38,7 @@ public class IndexerSparkMax implements IndexerIO {
     indexMotor.setCANTimeout(250);
 
     config
-        .idleMode(IdleMode.kBrake)
+        .idleMode(IdleMode.kCoast)
         .inverted(IndexerConstants.kMotorInverted)
         .smartCurrentLimit(IndexerConstants.SmartCurrentLimit);
 

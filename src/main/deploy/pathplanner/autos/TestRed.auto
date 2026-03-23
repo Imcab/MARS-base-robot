@@ -13,12 +13,6 @@
                 "data": {
                   "pathName": "TestRed"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "JustAngle"
-                }
               }
             ]
           }
@@ -26,7 +20,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Shoot_10"
+            "name": "JustAngle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot_6"
           }
         }
       ]
