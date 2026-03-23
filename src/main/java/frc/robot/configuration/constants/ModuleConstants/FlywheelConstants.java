@@ -32,7 +32,7 @@ public class FlywheelConstants {
     public static final double kGearing = 1;
     public static final double kMOI = 0.002;
     // ----------------------------------------- FOR SIM //-----------------------------------------
-    public static double idleVoltage = -1.5;
+    public static double idleVoltage = -1;
   }
 
   public class IntakeWheelsConstants {

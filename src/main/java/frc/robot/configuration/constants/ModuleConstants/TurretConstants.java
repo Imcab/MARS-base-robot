@@ -83,5 +83,5 @@ public class TurretConstants {
 
   // Volts por rad/s de velocidad angular del chasis, para compensar la inercia del robot al girar y
   // evitar que el turret se quede atrás
-  public static double kChassisAngularCompensator = 0.5;
+  public static double kChassisAngularCompensator = 0;
 }
