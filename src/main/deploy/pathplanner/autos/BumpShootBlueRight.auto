@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "AlignToBump-L"
+            "pathName": "AlignToBumpBR-BLUE"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "PassBump-L"
+            "pathName": "PassBumpBR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "JustAngle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "IntakeDownBR"
           }
         },
         {
@@ -23,16 +35,28 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "EatToHub"
+                  "pathName": "EatFuelBR"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Angle->Eat_4.5"
+                  "name": "Eat_5"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "goToOutPostBR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot_10"
           }
         }
       ]

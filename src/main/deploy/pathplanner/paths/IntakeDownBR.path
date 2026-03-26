@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.473758065388369,
-        "y": 5.7202638049763275
+        "x": 6.135,
+        "y": 2.413
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.940356357809675,
-        "y": 5.716079273350829
+        "x": 5.988582930249217,
+        "y": 0.6220083338611262
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9338577658958305,
-        "y": 5.7202638049763275
+        "x": 8.157573642356674,
+        "y": 0.8815031853778477
       },
       "prevControl": {
-        "x": 3.153101580530194,
-        "y": 5.840397687559772
+        "x": 7.070409073527034,
+        "y": 0.7942974713006028
       },
       "nextControl": null,
       "isLocked": false,
@@ -41,14 +41,14 @@
     "unlimited": false
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 33.669
+    "velocity": 2.0,
+    "rotation": -90.0
   },
   "reversed": false,
-  "folder": "BotBusters",
+  "folder": "Bump-ShootRight",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -59.094
   },
   "useDefaultConstraints": true
 }

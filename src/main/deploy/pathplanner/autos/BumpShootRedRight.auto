@@ -7,7 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FlipAlignToBump"
+            "pathName": "AlignToBumpBR-RED"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PassBumpBR"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "JustAngle"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "IntakeDownBR"
           }
         },
         {
@@ -17,13 +35,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "FlipPassBump"
+                  "pathName": "EatFuelBR"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Angle->Eat_4.5"
+                  "name": "Eat_5"
                 }
               }
             ]
@@ -32,13 +50,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "FlipEatFuel"
+            "pathName": "goToOutPostBR"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "FlipShoot"
+            "name": "Shoot_10"
           }
         }
       ]

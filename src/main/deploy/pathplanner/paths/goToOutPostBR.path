@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.032,
-        "y": 2.502
+        "x": 6.145,
+        "y": 2.545
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.112967189728957,
-        "y": 2.5405848787446508
+        "x": 5.575740370898715,
+        "y": 2.50627817403709
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.9873038516405135,
-        "y": 2.502
+        "x": 2.637711111111112,
+        "y": 2.670777777777778
       },
       "prevControl": {
-        "x": 4.49191155492154,
-        "y": 2.450014265335236
-      },
-      "nextControl": {
-        "x": 3.5365505680801856,
-        "y": 2.5484375403825097
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.331155492154065,
-        "y": 3.45922967189729
-      },
-      "prevControl": {
-        "x": 2.5769900142653355,
-        "y": 2.7993580599144083
+        "x": 2.9651497860199716,
+        "y": 2.6570328102710414
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,18 +30,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.85,
-      "rotationDegrees": -135.785
+      "waypointRelativePos": 0.8571428571428493,
+      "rotationDegrees": 133.092
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.23767724510465096,
-      "maxWaypointRelativePos": 1.4044564483457074,
+      "minWaypointRelativePos": 0.137744767049293,
+      "maxWaypointRelativePos": 0.6914247130317306,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -77,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 49.457
   },
   "reversed": false,
-  "folder": "FlipPost",
+  "folder": "Bump-ShootRight",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -135.785
+    "velocity": 0.0,
+    "rotation": 133.092
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

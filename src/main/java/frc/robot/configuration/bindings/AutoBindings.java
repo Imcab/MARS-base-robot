@@ -19,15 +19,14 @@ public class AutoBindings implements Binding {
   private final Superstructure superstructure;
 
   public SendableChooser<Command> chooser = new SendableChooser<>();
-  public PathPlannerAuto AutoCenter;
-  public PathPlannerAuto autoForeward;
-  public PathPlannerAuto bumpPost;
-  public PathPlannerAuto depotAuto;
-  public PathPlannerAuto depotBusters;
-  public PathPlannerAuto testRed;
-  public PathPlannerAuto testBlue;
-  public PathPlannerAuto FlipBusters;
-  public PathPlannerAuto FlipPost;
+  public PathPlannerAuto bumpBlueR;
+  public PathPlannerAuto bumpBlueL;
+
+  public PathPlannerAuto bumpRedR;
+  public PathPlannerAuto bumpRedL;
+
+  public PathPlannerAuto centerRed;
+  public PathPlannerAuto centerBlue;
 
   private AutoBindings(Superstructure s) {
     this.superstructure = s;
@@ -63,20 +62,23 @@ public class AutoBindings implements Binding {
   public void bind() {
     registerAutoCommands();
 
-    bumpPost = new PathPlannerAuto("EatPost-auto");
-    depotAuto = new PathPlannerAuto("DepotAuto");
-    depotBusters = new PathPlannerAuto("BotBusters");
-    testRed = new PathPlannerAuto("TestRed");
-    testBlue = new PathPlannerAuto("TestBlue");
-    FlipBusters = new PathPlannerAuto("FlipBusters");
-    FlipPost = new PathPlannerAuto("FlipEatPostAuto");
+    bumpBlueR = new PathPlannerAuto("BumpShootBlueRight");
+    bumpBlueL = new PathPlannerAuto("BumpShootBlueLeft");
 
-    chooser.setDefaultOption("Post", bumpPost);
-    chooser.addOption("DepotAuto", depotBusters);
-    chooser.addOption("TestRed", testRed);
-    chooser.addOption("TestBlue", testBlue);
-    chooser.addOption("FlipBuster", FlipBusters);
-    chooser.addOption("FlipPost", FlipPost);
+    bumpRedR = new PathPlannerAuto("BumpShootRedRight");
+    bumpRedL = new PathPlannerAuto("BumpShootRedLeft");
+
+    centerRed = new PathPlannerAuto("CenterRed");
+    centerBlue = new PathPlannerAuto("CenterBlue");
+
+    chooser.setDefaultOption("ShootBlueRight", bumpBlueR);
+    chooser.addOption("ShootBlueLeft", bumpBlueL);
+
+    chooser.setDefaultOption("ShootRedRight", bumpRedR);
+    chooser.addOption("ShootRedLeft", bumpRedL);
+
+    chooser.addOption("CenterRed", centerRed);
+    chooser.addOption("CenterBlue", centerBlue);
 
     SmartDashboard.putData("AutoSelector", chooser);
   }
