@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.804,
-        "y": 7.037
+        "x": 6.463,
+        "y": 5.425
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.852168539325843,
-        "y": 6.480842696629213
+        "x": 5.578758915834522,
+        "y": 5.425905848787448
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.804,
-        "y": 4.666842696629215
+        "x": 2.6999940983660036,
+        "y": 5.425
       },
       "prevControl": {
-        "x": 7.8419775280898865,
-        "y": 5.084674157303371
-      },
-      "nextControl": {
-        "x": 7.755646283159928,
-        "y": 4.134851670554709
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 6.394853932584268,
-        "y": 4.666842696629215
-      },
-      "prevControl": {
-        "x": 7.203182375696526,
-        "y": 4.687224719101125
+        "x": 3.3986816875243484,
+        "y": 5.425905848787448
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,18 +30,18 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9510373443983156,
-      "rotationDegrees": 89.75881373964302
+      "waypointRelativePos": 0.8400852878464731,
+      "rotationDegrees": -126.749
     }
   ],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.375682382133968,
+      "minWaypointRelativePos": 0.1701553004726481,
+      "maxWaypointRelativePos": 0.7832545577312436,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -77,13 +61,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 178.89829388479365
+    "rotation": -38.64338172917837
   },
   "reversed": false,
-  "folder": "ShootAlliance",
+  "folder": "bump-ShootLeft",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.36925123040614
+    "rotation": -126.749
   },
   "useDefaultConstraints": true
 }

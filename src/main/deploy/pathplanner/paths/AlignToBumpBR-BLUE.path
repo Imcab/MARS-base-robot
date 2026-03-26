@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5164319061956997,
-        "y": 5.604442794527748
+        "x": 3.5732667617689007,
+        "y": 2.0618544935805994
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.078523227691784,
-        "y": 5.640396032294165
+        "x": 3.0807943165888463,
+        "y": 2.0826195674253185
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.0528794974123916,
-        "y": 5.604442794527748
+        "x": 3.2242324154981343,
+        "y": 2.413002222564838
       },
       "prevControl": {
-        "x": 3.3028765863688734,
-        "y": 5.6032363479748994
+        "x": 3.2175878178515127,
+        "y": 2.1630905395203786
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -146.3492222166306
+    "rotation": -59.8752039038051
   },
   "reversed": false,
-  "folder": "FlipBotBusters",
+  "folder": "Bump-ShootRight",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.64515064824712
+    "rotation": -0.08619777372525807
   },
   "useDefaultConstraints": true
 }
