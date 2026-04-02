@@ -85,6 +85,8 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
       NetworkIO.set(key, APPLIED_VOLTS_KEY, data.appliedVolts);
       NetworkIO.set(key, TARGET_RPM_KEY, data.targetRPM);
 
+      NetworkIO.set(key, "Current", data.current);
+
       if (lastStatus != null && lastStatus.code != null) {
         String currentHex = lastStatus.getPayload().colorHex();
         String currentMessage = lastStatus.getPayload().message();

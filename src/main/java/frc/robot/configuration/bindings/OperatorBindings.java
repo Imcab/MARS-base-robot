@@ -95,7 +95,6 @@ public class OperatorBindings implements Binding {
 
     buttons.right().whileTrue(superstructure.eatCommand()); // Comer fuels
 
-    buttons.left().whileTrue(superstructure.getFlywheelShooter().spinAtVoltage(-12));
     // ----- Botones (a,b,x,y) -----
 
     bumpers.left().whileTrue(superstructure.clearFuel());
@@ -129,7 +128,7 @@ public class OperatorBindings implements Binding {
                     .withTolerance(Constants.FLYWHEEL_TOLERANCE),
                 -12));
 
-    triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, 0, -3900));
+    triggers.right().and(pov.up()).whileTrue(superstructure.shoot(0, -21.6, -3580));
 
     triggers
         .right()
@@ -162,7 +161,7 @@ public class OperatorBindings implements Binding {
         .and(bumpers.right().negate())
         .whileTrue(
             superstructure.shootOnTheMove(
-                PassRED, // TODO: Pase actual - ALIANZA ROJA
+                PassRED, // TODO: Pase actual - ALIANZA ROJO
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-3900).withTolerance(50),
                 12));
@@ -172,7 +171,7 @@ public class OperatorBindings implements Binding {
         .and(bumpers.right())
         .whileTrue(
             superstructure.shootOnTheMove(
-                PassRED, // TODO: Pase actual - ALIANZA ROJA
+                PassRED, // TODO: Pase actual - ALIANZA ROJO
                 ArmRequestFactory.setAngle().withAngle(-30).withMode(ArmMODE.kUP),
                 FlyWheelRequestFactory.setRPM().toRPM(-3900).withTolerance(50),
                 -12));

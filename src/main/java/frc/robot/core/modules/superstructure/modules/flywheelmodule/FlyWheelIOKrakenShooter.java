@@ -75,6 +75,8 @@ public class FlyWheelIOKrakenShooter implements FlyWheelIO {
     inputs.appliedVolts = leaderShooter.getMotorVoltage().getValueAsDouble();
     inputs.targetRPM = leaderShooter.getPosition().getTimestamp().getLatency();
     inputs.targetRPM = this.velocityTarget;
+
+    inputs.current = leaderShooter.getStatorCurrent().getValueAsDouble();
   }
 
   @Override

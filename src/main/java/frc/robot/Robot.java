@@ -68,15 +68,15 @@ public class Robot extends TimedRobot {
     }
 
     matchTime = Math.round(DriverStation.getMatchTime());
-    teleopTimeElapsed = 135.0 - matchTime; // TODO: Cambiar a 140 en match real
+    teleopTimeElapsed = 145.0 - matchTime;
 
     if (DriverStation.isTeleop()) {
       if (matchTime > 130 & matchTime <= 140) {
         currentShift = "TRANSITION SHIFT";
-        shiftTimer = 5 - (int) (teleopTimeElapsed % 5); // TODO: Cambiar a 10 en match real
+        shiftTimer = 10 - (int) (teleopTimeElapsed % 10);
       } else if (matchTime > 105 & matchTime <= 130) {
         currentShift = "SHIFT 1";
-        shiftTimer = 30 - (int) (teleopTimeElapsed % 30); // TODO: Cambiar a 25 en match real
+        shiftTimer = 25 - (int) (teleopTimeElapsed % 25);
       } else if (matchTime > 80 & matchTime <= 105) {
         currentShift = "SHIFT 2";
         shiftTimer = 25 - (int) (teleopTimeElapsed % 25);

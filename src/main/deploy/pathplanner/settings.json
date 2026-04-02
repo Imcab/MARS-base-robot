@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Bump-ShootRight",
+    "CenterDepost",
     "bump-ShootLeft"
   ],
   "autoFolders": [],

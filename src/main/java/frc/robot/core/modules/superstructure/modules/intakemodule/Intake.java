@@ -66,6 +66,8 @@ public class Intake extends ModularSubsystem<IntakeInputs, IntakeIO> implements 
       NetworkIO.set(KeyManager.INTAKE_KEY, CommonTables.TIMESTAMP_KEY, data.timestamp);
       NetworkIO.set(KeyManager.INTAKE_KEY, APPLIED_VOLTS_KEY, data.appliedVolts);
 
+      NetworkIO.set(KeyManager.INTAKE_KEY, "Current", data.current);
+
       if (lastStatus != null && lastStatus.code != null) {
         String currentHex = lastStatus.getPayload().colorHex();
         String currentMessage = lastStatus.getPayload().message();

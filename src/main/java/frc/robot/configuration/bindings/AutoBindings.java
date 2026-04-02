@@ -28,6 +28,8 @@ public class AutoBindings implements Binding {
   public PathPlannerAuto centerRed;
   public PathPlannerAuto centerBlue;
 
+  public PathPlannerAuto centerDepostRed;
+
   private AutoBindings(Superstructure s) {
     this.superstructure = s;
   }
@@ -45,8 +47,10 @@ public class AutoBindings implements Binding {
         superstructure.getIntake().toAngle(-140, intakeMODE.kDOWN, 4).withTimeout(1.2));
 
     NamedCommands.registerCommand("Eat_5", superstructure.EatAutoWheels(-10).withTimeout(5));
+    NamedCommands.registerCommand("Eat_4.5", superstructure.EatAutoWheels(-10).withTimeout(4.5));
     NamedCommands.registerCommand("Eat_3.5", superstructure.EatAutoWheels(-10).withTimeout(3.5));
 
+    NamedCommands.registerCommand("Shoot_4", superstructure.shootAuto().withTimeout(4));
     NamedCommands.registerCommand("Shoot_6", superstructure.shootAuto().withTimeout(6));
     NamedCommands.registerCommand("Shoot_10", superstructure.shootAuto().withTimeout(10));
     NamedCommands.registerCommand("Shoot_13", superstructure.shootAuto().withTimeout(12));
@@ -71,6 +75,8 @@ public class AutoBindings implements Binding {
     centerRed = new PathPlannerAuto("CenterRed");
     centerBlue = new PathPlannerAuto("CenterBlue");
 
+    centerDepostRed = new PathPlannerAuto("CenterDepostRed");
+
     chooser.setDefaultOption("ShootBlueRight", bumpBlueR);
     chooser.addOption("ShootBlueLeft", bumpBlueL);
 
@@ -79,6 +85,8 @@ public class AutoBindings implements Binding {
 
     chooser.addOption("CenterRed", centerRed);
     chooser.addOption("CenterBlue", centerBlue);
+
+    chooser.addOption("CenterDepostRed", centerDepostRed);
 
     SmartDashboard.putData("AutoSelector", chooser);
   }

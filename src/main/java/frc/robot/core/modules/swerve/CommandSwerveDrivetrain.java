@@ -281,6 +281,40 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain
     configureLimelightIMU();
     updateLimelightOrientation();
     updateLimeVision();
+
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "DriveCurrent_0",
+        getModule(0).getDriveMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "DriveCurrent_1",
+        getModule(1).getDriveMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "DriveCurrent_2",
+        getModule(2).getDriveMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "DriveCurrent_3",
+        getModule(3).getDriveMotor().getStatorCurrent().getValueAsDouble());
+
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "SteerCurrent_0",
+        getModule(0).getSteerMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "SteerCurrent_1",
+        getModule(1).getSteerMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "SteerCurrent_2",
+        getModule(2).getSteerMotor().getStatorCurrent().getValueAsDouble());
+    NetworkIO.set(
+        KeyManager.SWERVE_KEY,
+        "SteerCurrent_3",
+        getModule(3).getSteerMotor().getStatorCurrent().getValueAsDouble());
   }
 
   private void configureLimelightIMU() {

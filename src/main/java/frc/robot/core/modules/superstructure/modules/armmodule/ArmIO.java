@@ -24,6 +24,8 @@ public interface ArmIO extends IO<ArmIO.ArmInputs> {
 
     @Unit(value = "Degrees", group = "Arm")
     public double targetAngle = 0;
+
+    public double current = 0;
   }
 
   public void applyOutput(@Unit(value = "Volts", group = "Arm") double volts);

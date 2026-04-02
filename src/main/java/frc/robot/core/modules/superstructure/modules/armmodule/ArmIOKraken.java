@@ -87,6 +87,8 @@ public class ArmIOKraken implements ArmIO {
     inputs.rotation = Rotation2d.fromRotations(rotorPosRotations);
 
     inputs.timestamp = rotorPosSignal.getTimestamp().getLatency();
+
+    inputs.current = turretAngulator.getStatorCurrent().getValueAsDouble();
   }
 
   @Override

@@ -3,45 +3,56 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.145,
-        "y": 2.545
+        "x": 2.564051355206847,
+        "y": 4.520199714693296
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.575740370898715,
-        "y": 2.50627817403709
+        "x": 2.4217261055667634,
+        "y": 4.934236804564944
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.637711111111112,
-        "y": 2.670777777777778
+        "x": 1.6583452211159786,
+        "y": 5.891697574893047
       },
       "prevControl": {
-        "x": 2.9651497860199716,
-        "y": 2.6570328102710414
+        "x": 1.9255435955585152,
+        "y": 5.731378550227524
+      },
+      "nextControl": {
+        "x": 1.4439719896878427,
+        "y": 6.020321513749929
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.765577746080315,
+        "y": 6.021084165477926
+      },
+      "prevControl": {
+        "x": 1.11492154066277,
+        "y": 5.969329529244012
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.8571428571428493,
-      "rotationDegrees": 133.092
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.137744767049293,
-      "maxWaypointRelativePos": 0.6914247130317306,
+      "minWaypointRelativePos": 0.8264686022957445,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -61,13 +72,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 49.457
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "Bump-ShootRight",
+  "folder": "CenterDepost",
   "idealStartingState": {
-    "velocity": 0.4,
-    "rotation": 133.092
+    "velocity": 0,
+    "rotation": 0.0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

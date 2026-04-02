@@ -77,5 +77,7 @@ public class FlyWheelIOKrakenIntake implements FlyWheelIO {
   public void updateInputs(FlyWheelInputs inputs) {
     inputs.appliedVolts = intakeFlyWheels.getMotorVoltage().getValueAsDouble();
     inputs.velocityRPM = intakeFlyWheels.getVelocity().getValueAsDouble();
+
+    inputs.current = intakeFlyWheels.getStatorCurrent().getValueAsDouble();
   }
 }

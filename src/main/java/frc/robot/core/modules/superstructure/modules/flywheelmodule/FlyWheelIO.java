@@ -25,6 +25,8 @@ public interface FlyWheelIO extends IO<FlyWheelInputs> {
 
     @Unit(value = "RPM", group = "FlyWheel")
     public double velocityRPM = 0;
+
+    public double current = 0;
   }
 
   public void applyOutput(@Unit(value = "Volts", group = "FlyWheel") double volts);

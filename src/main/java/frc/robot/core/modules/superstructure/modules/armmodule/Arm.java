@@ -60,6 +60,7 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
 
       NetworkIO.set(KeyManager.ARM_KEY, "Angle", data.position);
       NetworkIO.set(KeyManager.ARM_KEY, "TrageAngle", data.targetAngle);
+      NetworkIO.set(KeyManager.ARM_KEY, "Current", data.current);
 
       if (lastStatus != null && lastStatus.code != null) {
         String currentHex = lastStatus.getPayload().colorHex();

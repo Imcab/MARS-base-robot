@@ -25,6 +25,8 @@ public interface IndexerIO extends IO<IndexerIO.IndexerInputs> {
 
     @Unit(value = "RPM", group = "Indexer")
     public double velocityIndex = 0;
+
+    public double current = 0;
   }
 
   public void applyOutput(
