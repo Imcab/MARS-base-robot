@@ -54,6 +54,8 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
       NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_INDEX_KEY, data.velocityIndex);
       NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_ROLL_KEY, data.velocityRoll);
 
+      NetworkIO.set(KeyManager.INDEX_KEY, "Current", data.current);
+
       if (lastStatus != null && lastStatus.code != null) {
         NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INDEX_KEY);
         NetworkIO.set(

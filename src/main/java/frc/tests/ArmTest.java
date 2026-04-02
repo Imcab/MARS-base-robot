@@ -31,7 +31,7 @@ public class ArmTest extends TestRoutine {
                 .withTolerance(Constants.ARM_TOLERANCE),
             a),
         waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
-        assertLessThan(calculateError(-30, a.getState().position), 2, "Error es muy alto"),
+        assertLessThan(calculateError(-40, a.getState().position), 2, "Error es muy alto"),
         delay(1),
         run(
             ArmRequestFactory.setAngle()
@@ -40,11 +40,11 @@ public class ArmTest extends TestRoutine {
                 .withTolerance(Constants.ARM_TOLERANCE),
             a),
         waitFor(() -> a.isAtTarget(Constants.ARM_TOLERANCE), 2),
-        assertLessThan(calculateError(-20, a.getState().position), 2, "Error es muy alto"),
+        assertLessThan(calculateError(-30, a.getState().position), 2, "Error es muy alto"),
         delay(1),
         run(
             ArmRequestFactory.setAngle()
-                .withAngle(0)
+                .withAngle(-8)
                 .withMode(ArmMODE.kDOWN)
                 .withTolerance(Constants.ARM_TOLERANCE),
             a),

@@ -111,6 +111,8 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
       NetworkIO.set(table, VELOCITY_RPS_KEY, data.velocityRPS);
       NetworkIO.set(table, LATENCY_MS_KEY, (Timer.getFPGATimestamp() - data.timestamp) * 1000);
 
+      NetworkIO.set(table, "Current0", data.current);
+
       if (lastStatus != null && lastStatus.getPayload() != null) {
         String currentHex = lastStatus.getPayload().colorHex();
         String currentMessage = lastStatus.getPayload().message();

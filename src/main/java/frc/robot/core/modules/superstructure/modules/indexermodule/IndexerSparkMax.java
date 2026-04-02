@@ -70,6 +70,8 @@ public class IndexerSparkMax implements IndexerIO {
 
     inputs.appliedVoltsIndex = indexMotor.getAppliedOutput() * indexMotor.getBusVoltage();
     inputs.velocityRoll = indexEncoder.getVelocity();
+
+    inputs.current = indexMotor.getOutputCurrent();
   }
 
   @Override

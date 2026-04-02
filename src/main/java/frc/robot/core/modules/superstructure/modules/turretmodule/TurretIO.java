@@ -33,6 +33,8 @@ public interface TurretIO extends IO<TurretInputs> {
     public Pose2d robotPose = new Pose2d();
     public ChassisSpeeds robotSpeed = new ChassisSpeeds();
 
+    public double current = 0;
+
     @Override
     public TurretInputs snapshot() {
       TurretInputs clone = new TurretInputs();

@@ -80,6 +80,8 @@ public class TurretIOSparkMax implements TurretIO {
     inputs.targetAngle = this.currentTargetAngle;
     inputs.velocityRPS = m_encoder.getVelocity();
     inputs.appliedVolts = m_motor.getAppliedOutput() * m_motor.getBusVoltage();
+
+    inputs.current = m_motor.getOutputCurrent();
   }
 
   @Override

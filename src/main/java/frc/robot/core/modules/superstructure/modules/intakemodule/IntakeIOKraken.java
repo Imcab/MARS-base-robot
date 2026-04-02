@@ -122,5 +122,7 @@ public class IntakeIOKraken implements IntakeIO {
     inputs.position = Units.rotationsToDegrees(rotorPosRotations);
 
     inputs.timestamp = rotorPosSignal.getTimestamp().getLatency();
+
+    inputs.current = angulator.getStatorCurrent().getValueAsDouble();
   }
 }

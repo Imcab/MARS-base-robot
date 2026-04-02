@@ -23,6 +23,8 @@ public interface IntakeIO extends IO<IntakeIO.IntakeInputs> {
 
     @Unit(value = "Volts", group = "Intake")
     public double appliedVolts = 0;
+
+    public double current = 0;
   }
 
   public void setPosition(@Unit(value = "Degrees", group = "Intake") double Angle, intakeMODE mode);
