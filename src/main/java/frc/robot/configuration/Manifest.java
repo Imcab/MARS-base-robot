@@ -4,7 +4,6 @@
 
 package frc.robot.configuration;
 
-import com.stzteam.mars.builder.Builder;
 import com.stzteam.mars.builder.Environment;
 import com.stzteam.mars.builder.Environment.RunMode;
 import com.stzteam.mars.builder.Injector;
@@ -12,7 +11,6 @@ import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.operator.ControllerOI;
 import com.stzteam.mars.operator.PS5OI;
 import com.stzteam.mars.operator.XboxOI;
-import com.stzteam.mars.services.nodes.FallbackNode;
 import com.stzteam.mars.services.nodes.Node;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -69,7 +67,7 @@ public class Manifest {
   private static final int DRIVER_PORT = 0;
   private static final int OPERATOR_PORT = 1;
 
-  public static final RunMode CURRENT_MODE = RunMode.REAL; // TODO: Modo actual - REAL
+  public static final RunMode CURRENT_MODE = RunMode.SIM;
 
   static {
     Environment.setMode(CURRENT_MODE);
@@ -78,7 +76,7 @@ public class Manifest {
   public static final ControllerType DRIVER_CONTROLLER = ControllerType.XBOX;
   public static final ControllerType OPERATOR_CONTROLLER = ControllerType.XBOX;
 
-  public static final boolean HAS_MARS_GCS = false;
+  public static final boolean HAS_MARS_GCS = true;
 
   public static final boolean HAS_DRIVETRAIN = true;
 
@@ -113,53 +111,41 @@ public class Manifest {
     }
   }
 
-  public static class VisualizerBuilder {
-    public static Node<VisualizerMsg> buildNode(
-        DoubleSupplier turretAngleSupplier,
-        DoubleSupplier hoodAngleSupplier,
-        DoubleSupplier intakeAngleSupplier,
-        Consumer<VisualizerMsg> topicPublisher) {
+  public static Node<VisualizerMsg> buildVisualizerNode(
+      DoubleSupplier turretAngleSupplier,
+      DoubleSupplier hoodAngleSupplier,
+      DoubleSupplier intakeAngleSupplier,
+      Consumer<VisualizerMsg> topicPublisher) {
 
-      if (!HAS_VISUALS) {
-        return new FallbackNode<>();
-      }
-
-      return new VisualizerNode(
-          KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY,
-          turretAngleSupplier,
-          hoodAngleSupplier,
-          intakeAngleSupplier,
-          topicPublisher);
-    }
+    return Injector.createNode(
+        HAS_VISUALS,
+        () ->
+            new VisualizerNode(
+                KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY,
+                turretAngleSupplier,
+                hoodAngleSupplier,
+                intakeAngleSupplier,
+                topicPublisher));
   }
 
-  public static class TrajectoryBuilder {
-    public static Node<TrajectoryMsg> buildNode(
-        Supplier<Pose2d> poseSupplier,
-        DoubleSupplier turretSupplier,
-        DoubleSupplier velocitySupplier,
-        Consumer<TrajectoryMsg> publisher) {
+  public static Node<TrajectoryMsg> buildTrajectoryNode(
+      CommandSwerveDrivetrain dt, Turret turret, Arm arm, Consumer<TrajectoryMsg> publisher) {
 
-      if (!HAS_TRAJ_VISUAL) {
-        return new FallbackNode<>();
-      }
-
-      return new TrajectoryNode(
-          KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY,
-          poseSupplier,
-          turretSupplier,
-          velocitySupplier,
-          publisher);
-    }
+    return Injector.createNode(
+        HAS_TRAJ_VISUAL,
+        () ->
+            new TrajectoryNode(
+                KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY,
+                () -> dt.getState().Pose,
+                turret::getDegrees,
+                () -> arm.getState().position,
+                publisher));
   }
 
-  public static class GamePieceBuilder {
-    public static Node<GamePieceMsg> buildNode(Consumer<GamePieceMsg> publisher) {
-
-      if (!HAS_FUEL_VISUAL) return new FallbackNode<>();
-
-      return new GamePieceNode(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, publisher);
-    }
+  public static Node<GamePieceMsg> buildGamePieceNode(Consumer<GamePieceMsg> publisher) {
+    return Injector.createNode(
+        HAS_FUEL_VISUAL,
+        () -> new GamePieceNode(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY, publisher));
   }
 
   public static class ControlsBuilder {
@@ -191,131 +177,58 @@ public class Manifest {
     }
   }
 
-  public static class FlywheelShooterBuilder implements Builder<FlyWheel> {
+  public static FlyWheel buildFlywheelShooter() {
+    FlyWheelIO io =
+        Injector.createIO(
+            HAS_SHOOTER_WHEELS,
+            FlyWheelIOFallback::new,
+            FlyWheelIOKrakenShooter::new,
+            FlyWheelIOSim::new);
 
-    private FlywheelShooterBuilder() {}
-
-    public static FlywheelShooterBuilder create() {
-      return new FlywheelShooterBuilder();
-    }
-
-    @Override
-    public FlyWheel buildModule() {
-      FlyWheelIO io =
-          Injector.createIO(
-              HAS_SHOOTER_WHEELS,
-              FlyWheelIOFallback::new,
-              FlyWheelIOKrakenShooter::new,
-              FlyWheelIOSim::new);
-
-      return new FlyWheel(io, KeyManager.FLYWHEEL_OUTAKE_KEY, idleMode.outakeIDLE);
-    }
+    return new FlyWheel(io, KeyManager.FLYWHEEL_OUTAKE_KEY, idleMode.outakeIDLE);
   }
 
-  public static class FlywheelIntakeBuilder implements Builder<FlyWheel> {
+  public static FlyWheel buildFlywheelIntake() {
+    FlyWheelIO io =
+        Injector.createIO(
+            HAS_INTAKE_WHEELS,
+            FlyWheelIOFallback::new,
+            FlyWheelIOKrakenIntake::new,
+            FlyWheelIOSim::new);
 
-    private FlywheelIntakeBuilder() {}
-
-    public static FlywheelIntakeBuilder create() {
-      return new FlywheelIntakeBuilder();
-    }
-
-    @Override
-    public FlyWheel buildModule() {
-      FlyWheelIO io =
-          Injector.createIO(
-              HAS_INTAKE_WHEELS,
-              FlyWheelIOFallback::new,
-              FlyWheelIOKrakenIntake::new,
-              FlyWheelIOSim::new);
-
-      return new FlyWheel(io, KeyManager.FLYWHEEL_INTAKE_KEY, idleMode.intakeIDLE);
-    }
+    return new FlyWheel(io, KeyManager.FLYWHEEL_INTAKE_KEY, idleMode.intakeIDLE);
   }
 
-  public static class ArmBuilder implements Builder<Arm> {
-
-    private ArmBuilder() {}
-
-    public static ArmBuilder create() {
-      return new ArmBuilder();
-    }
-
-    @Override
-    public Arm buildModule() {
-      ArmIO io = Injector.createIO(HAS_ARM, ArmIOFallback::new, ArmIOKraken::new, ArmIOSim::new);
-      return new Arm(io);
-    }
+  public static Arm buildArm() {
+    ArmIO io = Injector.createIO(HAS_ARM, ArmIOFallback::new, ArmIOKraken::new, ArmIOSim::new);
+    return new Arm(io);
   }
 
-  public static class IntakeBuilder implements Builder<Intake> {
-
-    private IntakeBuilder() {}
-
-    public static IntakeBuilder create() {
-      return new IntakeBuilder();
-    }
-
-    @Override
-    public Intake buildModule() {
-      IntakeIO io =
-          Injector.createIO(
-              HAS_INTAKE, IntakeIOFallback::new, IntakeIOKraken::new, IntakeIOSim::new);
-      return new Intake(io);
-    }
+  public static Intake buildIntake() {
+    IntakeIO io =
+        Injector.createIO(HAS_INTAKE, IntakeIOFallback::new, IntakeIOKraken::new, IntakeIOSim::new);
+    return new Intake(io);
   }
 
-  public static class IndexerBuilder implements Builder<Indexer> {
-
-    private IndexerBuilder() {}
-
-    public static IndexerBuilder create() {
-      return new IndexerBuilder();
-    }
-
-    @Override
-    public Indexer buildModule() {
-      IndexerIO io =
-          Injector.createIO(
-              HAS_INDEXER, IndexerIOFallback::new, IndexerSparkMax::new, IndexerIOSim::new);
-      return new Indexer(io);
-    }
+  public static Indexer buildIndexer() {
+    IndexerIO io =
+        Injector.createIO(
+            HAS_INDEXER, IndexerIOFallback::new, IndexerSparkMax::new, IndexerIOSim::new);
+    return new Indexer(io);
   }
 
-  public static class TurretBuilder implements Builder<Turret> {
-
-    private CommandSwerveDrivetrain drivetrain;
-
-    private TurretBuilder() {}
-
-    public static TurretBuilder create() {
-      return new TurretBuilder();
+  public static Turret buildTurret(CommandSwerveDrivetrain dt) {
+    if (HAS_TURRET && dt == null) {
+      throw new IllegalStateException("Falta el Drivetrain en la Torreta.");
     }
 
-    public TurretBuilder withDrivetrain(CommandSwerveDrivetrain dt) {
-      this.drivetrain = dt;
-      return this;
-    }
+    TurretIO io =
+        Injector.createIO(
+            HAS_TURRET, TurretIOFallback::new, TurretIOSparkMax::new, TurretIOSim::new);
 
-    @Override
-    public Turret buildModule() {
-      if (HAS_TURRET) {
-        if (this.drivetrain == null) {
-          throw new IllegalStateException(
-              "Falta el Drivetrain en la Torreta. Usa .withDrivetrain()");
-        }
-      }
+    Supplier<Pose2d> pose = (dt != null) ? () -> dt.getState().Pose : () -> Pose2d.kZero;
+    Supplier<ChassisSpeeds> speeds = (dt != null) ? dt::getChassisSpeeds : ChassisSpeeds::new;
 
-      TurretIO io =
-          Injector.createIO(
-              HAS_TURRET, TurretIOFallback::new, TurretIOSparkMax::new, TurretIOSim::new);
-
-      Supplier<Pose2d> poseSupplier =
-          (this.drivetrain != null) ? () -> this.drivetrain.getState().Pose : () -> Pose2d.kZero;
-      Supplier<ChassisSpeeds> speedsSupplier =
-          (this.drivetrain != null) ? this.drivetrain::getChassisSpeeds : () -> new ChassisSpeeds();
-
-      return new Turret(io, poseSupplier, speedsSupplier);
-    }
+    return new Turret(io, pose, speeds);
   }
 }

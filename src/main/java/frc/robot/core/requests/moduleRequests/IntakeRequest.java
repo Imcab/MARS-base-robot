@@ -10,10 +10,10 @@ import com.stzteam.features.marsprocessor.RequestFactory;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 import edu.wpi.first.math.MathUtil;
+import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIO.IntakeInputs;
 import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
-import frc.robot.diagnostics.IntakeCode;
 
 @RequestFactory
 public interface IntakeRequest extends Request<IntakeInputs, IntakeIO> {
@@ -23,7 +23,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO> {
     @Override
     public ActionStatus apply(IntakeInputs data, IntakeIO actor) {
       actor.stopAll();
-      return ActionStatus.of(IntakeCode.IDLE, "Idle");
+      return ActionStatus.of(Intake.IDLE, "Idle");
     }
   }
 
@@ -32,7 +32,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO> {
     @Override
     public ActionStatus apply(IntakeInputs data, IntakeIO actor) {
       actor.resetPosition();
-      return ActionStatus.of(IntakeCode.RESET, "Reseted");
+      return ActionStatus.of(Intake.RESET, "Reseted");
     }
   }
 
@@ -69,10 +69,10 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO> {
       boolean isAtTarget = MathUtil.isNear(angle, parameters.position, tolerance);
 
       if (isAtTarget) {
-        return ActionStatus.of(IntakeCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
+        return ActionStatus.of(Intake.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
       } else {
         return ActionStatus.of(
-            IntakeCode.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));
+            Intake.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));
       }
     }
   }
@@ -90,7 +90,7 @@ public interface IntakeRequest extends Request<IntakeInputs, IntakeIO> {
     public ActionStatus apply(IntakeInputs parameters, IntakeIO actor) {
       actor.applyOutput(voltage);
       return ActionStatus.of(
-          IntakeCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(voltage));
+          Intake.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(voltage));
     }
   }
 }

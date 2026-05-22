@@ -8,7 +8,8 @@ import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.features.unitprocessor.Unit;
 import com.stzteam.forgemini.io.NetworkIO;
-import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.diagnostics.ModuleColorCode;
+import com.stzteam.mars.diagnostics.StatusColorCode.Severity;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.Telemetry;
 import com.stzteam.mars.models.singlemodule.ModularSubsystem;
@@ -18,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
@@ -29,6 +31,21 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
 
   private final Supplier<Pose2d> poseSupplier;
   private final Supplier<ChassisSpeeds> speedSupplier;
+
+  public static final ModuleColorCode IDLE =
+      ModuleColorCode.solid("IDLE", Severity.OK, Color.kDarkGreen, "Torreta en reposo");
+  public static final ModuleColorCode LOCKED =
+      ModuleColorCode.solid("LOCKED", Severity.OK, Color.kFirstBlue, "Torreta bloqueada");
+  public static final ModuleColorCode RESET =
+      ModuleColorCode.solid("RESET", Severity.OK, Color.kDarkSalmon, "Torreta reseteada");
+  public static final ModuleColorCode TRACKING =
+      ModuleColorCode.solid("TRACKING", Severity.WARNING, Color.kYellow, "Torreta en seguimiento");
+  public static final ModuleColorCode MANUAL_OVERRIDE =
+      ModuleColorCode.solid(
+          "MANUAL_OVERRIDE", Severity.WARNING, Color.kPurple, "Torreta en control manual");
+  public static final ModuleColorCode MANUAL_CONTROL =
+      ModuleColorCode.solid(
+          "MANUAL_CONTROL", Severity.WARNING, Color.kBrown, "Control manual: %.2fV");
 
   public Turret(TurretIO io, Supplier<Pose2d> pose, Supplier<ChassisSpeeds> speeds) {
     super(
@@ -97,11 +114,8 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
     private static final String VELOCITY_RPS_KEY = CommonTables.VELOCITY_KEY + Terminology.RPS;
     private static final String LATENCY_MS_KEY = CommonTables.LATENCY_KEY + Terminology.MS;
 
-    private String lastSentHex = "";
-    private String lastSentMessage = "";
-
     @Override
-    public void telemeterize(TurretInputs data, ActionStatus lastStatus) {
+    public void telemeterize(TurretInputs data) {
 
       String table = KeyManager.TURRET_KEY;
 
@@ -110,22 +124,6 @@ public class Turret extends ModularSubsystem<TurretInputs, TurretIO> implements 
       NetworkIO.set(table, TARGET_ANGLE_DEG_KEY, data.targetAngle.getDegrees());
       NetworkIO.set(table, VELOCITY_RPS_KEY, data.velocityRPS);
       NetworkIO.set(table, LATENCY_MS_KEY, (Timer.getFPGATimestamp() - data.timestamp) * 1000);
-
-      NetworkIO.set(table, "Current0", data.current);
-
-      if (lastStatus != null && lastStatus.getPayload() != null) {
-        String currentHex = lastStatus.getPayload().colorHex();
-        String currentMessage = lastStatus.getPayload().message();
-
-        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
-          NetworkIO.set(table, CommonTables.PAYLOAD_NAME_KEY, table);
-          NetworkIO.set(table, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
-          NetworkIO.set(table, CommonTables.PAYLOAD_HEX_KEY, currentHex);
-
-          lastSentHex = currentHex;
-          lastSentMessage = currentMessage;
-        }
-      }
     }
   }
 

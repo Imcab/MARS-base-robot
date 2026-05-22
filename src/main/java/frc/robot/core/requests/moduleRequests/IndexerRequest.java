@@ -9,9 +9,9 @@ import com.stzteam.features.marsprocessor.CreateCommand;
 import com.stzteam.features.marsprocessor.RequestFactory;
 import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
+import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
-import frc.robot.diagnostics.IndexerCode;
 
 @RequestFactory
 public interface IndexerRequest extends Request<IndexerInputs, IndexerIO> {
@@ -21,7 +21,7 @@ public interface IndexerRequest extends Request<IndexerInputs, IndexerIO> {
     @Override
     public ActionStatus apply(IndexerInputs parameters, IndexerIO actor) {
       actor.applyOutput(0, 0);
-      return ActionStatus.of(IndexerCode.IDLE, StatusCodes.IDLE_STATUS);
+      return ActionStatus.of(Indexer.IDLE, StatusCodes.IDLE_STATUS);
     }
   }
 
@@ -44,7 +44,7 @@ public interface IndexerRequest extends Request<IndexerInputs, IndexerIO> {
     @Override
     public ActionStatus apply(IndexerInputs parameters, IndexerIO actor) {
       actor.applyOutput(rollerVolts, indexVolts);
-      return ActionStatus.of(IndexerCode.VOLTAGE, StatusCodes.voltsOf(rollerVolts));
+      return ActionStatus.of(Indexer.VOLTAGE, StatusCodes.voltsOf(rollerVolts));
     }
   }
 

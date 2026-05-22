@@ -1,9 +1,9 @@
 gradle.buildFinished { buildResult ->
     if (buildResult.failure == null) {
         
-        def c1 = "\u001B[31m" // Rojo
-        def c2 = "\u001B[38;5;208m" // Naranja
-        def c3 = "\u001B[33m" // Amarillo
+        def c1 = "\u001B[31m"
+        def c2 = "\u001B[38;5;208m"
+        def c3 = "\u001B[33m"
         def reset = "\u001B[0m"
         def bold = "\u001B[1m"
 

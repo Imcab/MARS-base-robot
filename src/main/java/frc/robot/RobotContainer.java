@@ -11,16 +11,8 @@ import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.configuration.Manifest;
-import frc.robot.configuration.Manifest.ArmBuilder;
 import frc.robot.configuration.Manifest.ControlsBuilder;
 import frc.robot.configuration.Manifest.DrivetrainBuilder;
-import frc.robot.configuration.Manifest.FlywheelIntakeBuilder;
-import frc.robot.configuration.Manifest.FlywheelShooterBuilder;
-import frc.robot.configuration.Manifest.IndexerBuilder;
-import frc.robot.configuration.Manifest.IntakeBuilder;
-import frc.robot.configuration.Manifest.TrajectoryBuilder;
-import frc.robot.configuration.Manifest.TurretBuilder;
-import frc.robot.configuration.Manifest.VisualizerBuilder;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.visualizer.VisualizerNode.VisualizerMsg;
@@ -74,12 +66,12 @@ public class RobotContainer implements IRobotContainer {
 
     this.drivetrain = DrivetrainBuilder.buildModule();
 
-    this.turret = TurretBuilder.create().withDrivetrain(drivetrain).buildModule();
-    this.arm = ArmBuilder.create().buildModule();
-    this.intake = IntakeBuilder.create().buildModule();
-    this.index = IndexerBuilder.create().buildModule();
-    this.flywheelShooter = FlywheelShooterBuilder.create().buildModule();
-    this.flywheelIntake = FlywheelIntakeBuilder.create().buildModule();
+    this.turret = Manifest.buildTurret(drivetrain);
+    this.arm = Manifest.buildArm();
+    this.intake = Manifest.buildIntake();
+    this.index = Manifest.buildIndexer();
+    this.flywheelShooter = Manifest.buildFlywheelShooter();
+    this.flywheelIntake = Manifest.buildFlywheelIntake();
 
     this.superstructure =
         Manifest.SuperstructureBuilder.superBuild(
@@ -115,21 +107,21 @@ public class RobotContainer implements IRobotContainer {
                 });*/
 
     this.virtualRobot =
-        VisualizerBuilder.buildNode(
+        Manifest.buildVisualizerNode(
             turret::getDegrees,
             () -> arm.getState().position,
             () -> intake.getState().position,
             msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.COMPONENTS_KEY));
 
     this.trajetorySim =
-        TrajectoryBuilder.buildNode(
-            () -> drivetrain.getState().Pose,
-            turret::getDegrees,
-            () -> arm.getState().position,
+        Manifest.buildTrajectoryNode(
+            drivetrain,
+            turret,
+            arm,
             msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.TRAJECTORY_KEY));
 
     this.gamePieceViz =
-        Manifest.GamePieceBuilder.buildNode(
+        Manifest.buildGamePieceNode(
             msg -> msg.telemeterize(KeyManager.VISUALIZER_KEY + KeyManager.GAMEPIECE_KEY));
 
     DriverBindings.create(drivetrain, driver).bind();

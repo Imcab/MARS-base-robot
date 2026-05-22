@@ -7,11 +7,13 @@ package frc.robot.core.modules.superstructure.modules.flywheelmodule;
 import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.features.dictionary.Dictionary.CommonTables.Terminology;
 import com.stzteam.forgemini.io.NetworkIO;
-import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.diagnostics.ModuleColorCode;
+import com.stzteam.mars.diagnostics.StatusColorCode.Severity;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.Telemetry;
 import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheelIO.FlyWheelInputs;
 import frc.robot.core.requests.moduleRequests.FlyWheelCommands;
@@ -30,6 +32,20 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
   }
 
   public idleMode mode;
+
+  public static final ModuleColorCode IDLE =
+      ModuleColorCode.solid("IDLE", Severity.OK, Color.kDarkGreen, "Flywheel en reposo");
+  public static final ModuleColorCode ON_TARGET =
+      ModuleColorCode.solid("ON_TARGET", Severity.OK, Color.kFirstBlue, "En objetivo: %.2f RPM");
+  public static final ModuleColorCode MOVING_TO_RPM =
+      ModuleColorCode.solid(
+          "MOVING_TO_RPM", Severity.WARNING, Color.kYellow, "Moviendo a %.2f RPM");
+  public static final ModuleColorCode MANUAL_OVERRIDE =
+      ModuleColorCode.solid(
+          "MANUAL_OVERRIDE", Severity.WARNING, Color.kPurple, "Flywheel en control manual");
+  public static final ModuleColorCode MANUAL_CONTROL =
+      ModuleColorCode.solid(
+          "MANUAL_CONTROL", Severity.WARNING, Color.kBrown, "Control manual: %.2fV");
 
   public FlyWheel(FlyWheelIO io, String key, idleMode mode) {
     super(
@@ -71,36 +87,18 @@ public class FlyWheel extends ModularSubsystem<FlyWheelInputs, FlyWheelIO>
 
     String key;
 
-    private String lastSentHex = "";
-    private String lastSentMessage = "";
-
     public FlyWheelTelemetry(String key) {
       this.key = key;
     }
 
     @Override
-    public void telemeterize(FlyWheelInputs data, ActionStatus lastStatus) {
+    public void telemeterize(FlyWheelInputs data) {
 
       NetworkIO.set(key, VELOCITY_RPM_KEY, data.velocityRPM);
       NetworkIO.set(key, APPLIED_VOLTS_KEY, data.appliedVolts);
       NetworkIO.set(key, TARGET_RPM_KEY, data.targetRPM);
 
       NetworkIO.set(key, "Current", data.current);
-
-      if (lastStatus != null && lastStatus.code != null) {
-        String currentHex = lastStatus.getPayload().colorHex();
-        String currentMessage = lastStatus.getPayload().message();
-
-        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
-
-          NetworkIO.set(key, CommonTables.PAYLOAD_NAME_KEY, key);
-          NetworkIO.set(key, CommonTables.PAYLOAD_HEX_KEY, currentHex);
-          NetworkIO.set(key, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
-
-          lastSentHex = currentHex;
-          lastSentMessage = currentMessage;
-        }
-      }
     }
   }
 

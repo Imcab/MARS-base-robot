@@ -11,10 +11,10 @@ import com.stzteam.mars.diagnostics.ActionStatus;
 import com.stzteam.mars.requests.Request;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.configuration.constants.Constants;
+import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
-import frc.robot.diagnostics.ArmCode;
 import java.util.function.DoubleSupplier;
 
 @RequestFactory
@@ -25,7 +25,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
     @Override
     public ActionStatus apply(ArmInputs parameters, ArmIO actor) {
       actor.applyOutput(0);
-      return ActionStatus.of(ArmCode.IDLE, StatusCodes.IDLE_STATUS);
+      return ActionStatus.of(Arm.IDLE, StatusCodes.IDLE_STATUS);
     }
   }
 
@@ -51,7 +51,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
 
       if (anguloDeseado == null) {
         actor.applyOutput(0);
-        return ActionStatus.of(ArmCode.OUT_OF_RANGE, StatusCodes.ARM_TABULATED_ERROR);
+        return ActionStatus.of(Arm.OUT_OF_RANGE, StatusCodes.ARM_TABULATED_ERROR);
       }
 
       actor.setPosition(anguloDeseado.doubleValue(), mode);
@@ -60,11 +60,10 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
       boolean isLocked = MathUtil.isNear(parameters.targetAngle, parameters.position, tolerance);
 
       if (isLocked) {
-        return ActionStatus.of(ArmCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
+        return ActionStatus.of(Arm.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
       } else {
         return ActionStatus.of(
-            ArmCode.MOVING_TO_ANGLE,
-            StatusCodes.TARGET_STATUS + StatusCodes.angleOf(parameters.targetAngle));
+            Arm.MOVING, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(parameters.targetAngle));
       }
     }
   }
@@ -102,10 +101,9 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
       boolean isLocked = MathUtil.isNear(angle, parameters.position, tolerance);
 
       if (isLocked) {
-        return ActionStatus.of(ArmCode.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
+        return ActionStatus.of(Arm.ON_TARGET, StatusCodes.TARGETREACHED_STATUS);
       } else {
-        return ActionStatus.of(
-            ArmCode.MOVING_TO_ANGLE, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));
+        return ActionStatus.of(Arm.MOVING, StatusCodes.TARGET_STATUS + StatusCodes.angleOf(angle));
       }
     }
   }
@@ -123,8 +121,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
     public ActionStatus apply(ArmInputs parameters, ArmIO actor) {
       actor.applyOutput(volts);
       // Avisamos que el PID está apagado y estamos en manual
-      return ActionStatus.of(
-          ArmCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(volts));
+      return ActionStatus.of(Arm.MANUAL, StatusCodes.MANUAL_STATUS + StatusCodes.voltsOf(volts));
     }
   }
 
@@ -144,7 +141,7 @@ public interface ArmRequest extends Request<ArmInputs, ArmIO> {
       } else {
         actor.setSpeed(0);
       }
-      return ActionStatus.of(ArmCode.MANUAL_CONTROL, "Manual");
+      return ActionStatus.of(Arm.MANUAL, "Manual");
     }
   }
 }

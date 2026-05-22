@@ -14,9 +14,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.configuration.constants.ModuleConstants.TurretConstants;
+import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO;
 import frc.robot.core.modules.superstructure.modules.turretmodule.TurretIO.TurretInputs;
-import frc.robot.diagnostics.TurretCode;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
@@ -29,7 +29,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
     public ActionStatus apply(TurretInputs data, TurretIO actor) {
       actor.stop();
       data.targetAngle = data.angle;
-      return ActionStatus.of(TurretCode.IDLE, "Idle");
+      return ActionStatus.of(Turret.IDLE, "Idle");
     }
   }
 
@@ -49,7 +49,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
       } else {
         actor.setSpeed(0);
       }
-      return ActionStatus.of(TurretCode.MANUAL_CONTROL, "Manual");
+      return ActionStatus.of(Turret.MANUAL_CONTROL, "Manual");
     }
   }
 
@@ -66,7 +66,7 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
     public ActionStatus apply(TurretInputs data, TurretIO actor) {
       actor.setVoltage(m_volts);
       data.targetAngle = data.angle;
-      return ActionStatus.of(TurretCode.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + m_volts + "V");
+      return ActionStatus.of(Turret.MANUAL_OVERRIDE, StatusCodes.MANUAL_STATUS + m_volts + "V");
     }
   }
 
@@ -94,10 +94,10 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
           MathUtil.isNear(m_targetAngle.getDegrees(), data.angle.getDegrees(), toleranceDegrees);
 
       if (isLocked) {
-        return ActionStatus.of(TurretCode.LOCKED, StatusCodes.TARGETREACHED_STATUS);
+        return ActionStatus.of(Turret.LOCKED, StatusCodes.TARGETREACHED_STATUS);
       } else {
         return ActionStatus.of(
-            TurretCode.TRACKING,
+            Turret.TRACKING,
             StatusCodes.TARGET_STATUS + Math.round(m_targetAngle.getDegrees()) + "°");
       }
     }
@@ -165,9 +165,9 @@ public interface TurretRequest extends Request<TurretInputs, TurretIO> {
           MathUtil.isNear(targetRot.getDegrees(), data.angle.getDegrees(), toleranceDegrees);
 
       if (isLocked) {
-        return ActionStatus.of(TurretCode.LOCKED, StatusCodes.LOCK_STATUS);
+        return ActionStatus.of(Turret.LOCKED, StatusCodes.LOCK_STATUS);
       } else {
-        return ActionStatus.of(TurretCode.TRACKING, StatusCodes.MOVING_STATUS);
+        return ActionStatus.of(Turret.TRACKING, StatusCodes.MOVING_STATUS);
       }
     }
   }

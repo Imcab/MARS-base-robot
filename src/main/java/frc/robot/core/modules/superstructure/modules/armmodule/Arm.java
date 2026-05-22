@@ -4,13 +4,14 @@
 
 package frc.robot.core.modules.superstructure.modules.armmodule;
 
-import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.forgemini.io.NetworkIO;
-import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.diagnostics.ModuleColorCode;
+import com.stzteam.mars.diagnostics.StatusColorCode.Severity;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.Telemetry;
 import com.stzteam.mars.models.singlemodule.ModularSubsystem;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.core.modules.superstructure.modules.armmodule.ArmIO.ArmInputs;
@@ -20,6 +21,18 @@ import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
 import java.util.function.Supplier;
 
 public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements ArmCommands {
+
+  public static final ModuleColorCode IDLE =
+      ModuleColorCode.solid("IDLE", Severity.OK, Color.kDarkGreen, "Brazo en reposo");
+  public static final ModuleColorCode ON_TARGET =
+      ModuleColorCode.solid("ON_TARGET", Severity.OK, Color.kFirstBlue, "En objetivo: %.2f°");
+  public static final ModuleColorCode MOVING =
+      ModuleColorCode.solid("MOVING", Severity.WARNING, Color.kYellow, "Moviendo a %.2f°");
+  public static final ModuleColorCode OUT_OF_RANGE =
+      ModuleColorCode.solid(
+          "OUT_OF_RANGE", Severity.ERROR, Color.kOrange, "Peligro: Fuera de límite");
+  public static final ModuleColorCode MANUAL =
+      ModuleColorCode.solid("MANUAL", Severity.WARNING, Color.kBrown, "Control Manual: %.2fV");
 
   public Arm(ArmIO io) {
 
@@ -52,30 +65,12 @@ public class Arm extends ModularSubsystem<ArmIO.ArmInputs, ArmIO> implements Arm
 
   public static class ArmTelemetry extends Telemetry<ArmIO.ArmInputs> {
 
-    private String lastSentHex = "";
-    private String lastSentMessage = "";
-
     @Override
-    public void telemeterize(ArmInputs data, ActionStatus lastStatus) {
+    public void telemeterize(ArmInputs data) {
 
       NetworkIO.set(KeyManager.ARM_KEY, "Angle", data.position);
       NetworkIO.set(KeyManager.ARM_KEY, "TrageAngle", data.targetAngle);
       NetworkIO.set(KeyManager.ARM_KEY, "Current", data.current);
-
-      if (lastStatus != null && lastStatus.code != null) {
-        String currentHex = lastStatus.getPayload().colorHex();
-        String currentMessage = lastStatus.getPayload().message();
-
-        if (!currentHex.equals(lastSentHex) || !currentMessage.equals(lastSentMessage)) {
-
-          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.ARM_KEY);
-          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
-          NetworkIO.set(KeyManager.ARM_KEY, CommonTables.PAYLOAD_MESSAGE_KEY, currentMessage);
-
-          lastSentHex = currentHex;
-          lastSentMessage = currentMessage;
-        }
-      }
     }
   }
 }

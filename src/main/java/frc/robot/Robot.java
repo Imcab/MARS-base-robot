@@ -10,7 +10,7 @@ import com.stzteam.mars.builder.Environment;
 import com.stzteam.mars.builder.Environment.RunMode;
 import com.stzteam.mars.models.containers.IRobotContainer;
 import com.stzteam.mars.test.TestScheduler;
-import com.stzteam.mars.utils.TerminalGCS;
+import com.stzteam.mars.utils.GCSConsole;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -34,9 +34,8 @@ public class Robot extends TimedRobot {
     Environment.setMode(Manifest.CURRENT_MODE);
 
     if (Manifest.HAS_MARS_GCS) {
-      TerminalGCS.initNetworkStream();
 
-      TerminalGCS.bootSequence();
+      GCSConsole.bootSequence();
     }
 
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -44,7 +43,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     if (Manifest.HAS_MARS_GCS) {
-      TerminalGCS.printModuleSummary();
+      GCSConsole.printModuleSummary();
     }
 
     if (Environment.getMode() == RunMode.REAL) {
@@ -62,10 +61,6 @@ public class Robot extends TimedRobot {
 
     CommandScheduler.getInstance().run();
     m_robotContainer.updateNodes();
-
-    if (Manifest.HAS_MARS_GCS) {
-      TerminalGCS.updatePeriodic();
-    }
 
     matchTime = Math.round(DriverStation.getMatchTime());
     teleopTimeElapsed = 145.0 - matchTime;
@@ -102,6 +97,7 @@ public class Robot extends TimedRobot {
     NetworkIO.set("MatchData", "Shift Time", shiftTimer);
     NetworkIO.set("MatchData", "Raw Time", matchTime);
     NetworkIO.set("MatchData", "SHIFT", currentShift);
+
   }
 
   @Override

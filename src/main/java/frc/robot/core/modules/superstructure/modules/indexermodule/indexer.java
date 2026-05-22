@@ -6,10 +6,12 @@ package frc.robot.core.modules.superstructure.modules.indexermodule;
 
 import com.stzteam.features.dictionary.Dictionary.CommonTables;
 import com.stzteam.forgemini.io.NetworkIO;
-import com.stzteam.mars.diagnostics.ActionStatus;
+import com.stzteam.mars.diagnostics.ModuleColorCode;
+import com.stzteam.mars.diagnostics.StatusColorCode.Severity;
 import com.stzteam.mars.models.SubsystemBuilder;
 import com.stzteam.mars.models.Telemetry;
 import com.stzteam.mars.models.singlemodule.ModularSubsystem;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.configuration.KeyManager;
 import frc.robot.core.modules.superstructure.modules.indexermodule.IndexerIO.IndexerInputs;
@@ -19,6 +21,15 @@ import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
 import java.util.function.Supplier;
 
 public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implements IndexerCommands {
+
+  public static final ModuleColorCode IDLE =
+      ModuleColorCode.solid("IDLE", Severity.OK, Color.kDarkGreen, "Indexer en reposo");
+  public static final ModuleColorCode VOLTAGE =
+      ModuleColorCode.solid("VOLTAGE", Severity.OK, Color.kFirstBlue, "Indexer en voltaje");
+  public static final ModuleColorCode SPEED =
+      ModuleColorCode.solid("SPEED", Severity.OK, Color.kYellow, "Indexer en velocidad");
+  public static final ModuleColorCode STOPED =
+      ModuleColorCode.solid("STOPED", Severity.WARNING, Color.kRed, "Indexer detenido");
 
   public Indexer(IndexerIO io) {
 
@@ -47,30 +58,12 @@ public class Indexer extends ModularSubsystem<IndexerInputs, IndexerIO> implemen
     private static final String VELOCITY_INDEX_KEY = CommonTables.VELOCITY_KEY + "Index";
     private static final String VELOCITY_ROLL_KEY = CommonTables.VELOCITY_KEY + "Roll";
 
-    private String lastSentHex = "";
-
     @Override
-    public void telemeterize(IndexerInputs data, ActionStatus lastStatus) {
+    public void telemeterize(IndexerInputs data) {
       NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_INDEX_KEY, data.velocityIndex);
       NetworkIO.set(KeyManager.INDEX_KEY, VELOCITY_ROLL_KEY, data.velocityRoll);
 
       NetworkIO.set(KeyManager.INDEX_KEY, "Current", data.current);
-
-      if (lastStatus != null && lastStatus.code != null) {
-        NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_NAME_KEY, KeyManager.INDEX_KEY);
-        NetworkIO.set(
-            KeyManager.INDEX_KEY,
-            CommonTables.PAYLOAD_MESSAGE_KEY,
-            lastStatus.getPayload().message());
-
-        String currentHex = lastStatus.getPayload().colorHex();
-
-        if (!currentHex.equals(lastSentHex)) {
-          NetworkIO.set(KeyManager.INDEX_KEY, CommonTables.PAYLOAD_HEX_KEY, currentHex);
-
-          lastSentHex = currentHex;
-        }
-      }
     }
   }
 
