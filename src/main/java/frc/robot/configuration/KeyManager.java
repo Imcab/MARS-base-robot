@@ -4,6 +4,8 @@
 
 package frc.robot.configuration;
 
+import com.stzteam.mars.blackboard.BlackboardKey;
+
 public class KeyManager {
 
   private KeyManager() {}
@@ -25,4 +27,7 @@ public class KeyManager {
   public static final String COMPONENTS_KEY = "Components";
   public static final String GAMEPIECE_KEY = "GamePiece";
   public static final String CLIMBER_KEY = "Climber";
+
+  public static final BlackboardKey<Double> myBlackBoardKey =
+      new BlackboardKey<>("MyKey", Double.class);
 }

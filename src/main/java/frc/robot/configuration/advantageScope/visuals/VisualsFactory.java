@@ -13,8 +13,8 @@ import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceQ
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryQuery;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryReply;
-import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.src.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.src.modules.swerve.CommandSwerveDrivetrain;
 
 public class VisualsFactory {
 

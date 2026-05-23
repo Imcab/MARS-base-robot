@@ -20,13 +20,13 @@ import frc.robot.configuration.bindings.AutoBindings;
 import frc.robot.configuration.bindings.DriverBindings;
 import frc.robot.configuration.bindings.OperatorBindings;
 import frc.robot.configuration.bindings.TestBindings;
-import frc.robot.core.modules.superstructure.composite.Superstructure;
-import frc.robot.core.modules.superstructure.modules.armmodule.Arm;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
-import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
-import frc.robot.core.modules.superstructure.modules.intakemodule.Intake;
-import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.src.modules.superstructure.composite.Superstructure;
+import frc.robot.src.modules.superstructure.modules.armmodule.Arm;
+import frc.robot.src.modules.superstructure.modules.flywheelmodule.FlyWheel;
+import frc.robot.src.modules.superstructure.modules.indexermodule.Indexer;
+import frc.robot.src.modules.superstructure.modules.intakemodule.Intake;
+import frc.robot.src.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.src.modules.swerve.CommandSwerveDrivetrain;
 
 public class RobotContainer implements IRobotContainer {
 

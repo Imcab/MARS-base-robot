@@ -8,8 +8,8 @@ import com.stzteam.mars.test.MARSTest;
 import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.core.modules.superstructure.modules.flywheelmodule.FlyWheel;
-import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.src.modules.superstructure.modules.flywheelmodule.FlyWheel;
+import frc.robot.src.requests.moduleRequests.FlyWheelRequestFactory;
 
 @MARSTest(name = "ShooterVoltage Test")
 public class ShooterWheelsVoltage extends TestRoutine {

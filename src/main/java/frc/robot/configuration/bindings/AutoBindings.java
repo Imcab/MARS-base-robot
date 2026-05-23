@@ -10,9 +10,9 @@ import com.stzteam.mars.models.containers.Binding;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.core.modules.superstructure.composite.Superstructure;
-import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
-import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
+import frc.robot.src.modules.superstructure.composite.Superstructure;
+import frc.robot.src.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
+import frc.robot.src.requests.moduleRequests.IntakeRequestFactory;
 
 public class AutoBindings implements Binding {
 

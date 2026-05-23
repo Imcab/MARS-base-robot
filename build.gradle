@@ -66,7 +66,7 @@ wpi.java.debugJni = false
 def includeDesktopSupport = true
 
 def parsedFeatures = []
-def featuresDir = file("$projectDir/workspace/features")
+def featuresDir = file("$projectDir/workspace-mars/features")
 if (featuresDir.exists()) {
     featuresDir.listFiles().each { f ->
         if (f.name.endsWith(".json")) {
@@ -148,7 +148,7 @@ jar {
     
     exclude 'frc/robot/configuration/advantageScope/preferences/**'
 
-    exclude 'workspace/**'
+    exclude 'workspace-mars/**'
     exclude 'vendordeps/**'
 
     from { 
@@ -230,6 +230,6 @@ spotless {
 compileJava.dependsOn generateBuildConstants
 compileJava.dependsOn spotlessApply
 
-apply from: 'workspace/build/voice-announcer.gradle'
-apply from: 'workspace/build/ascii-logo.gradle'
-apply from : 'workspace/build/todo-hunter.gradle'
+apply from: 'workspace-mars/build/voice-announcer.gradle'
+apply from: 'workspace-mars/build/ascii-logo.gradle'
+apply from : 'workspace-mars/build/todo-hunter.gradle'

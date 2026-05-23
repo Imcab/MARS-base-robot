@@ -8,8 +8,8 @@ import com.stzteam.mars.test.MARSTest;
 import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.core.modules.superstructure.modules.indexermodule.Indexer;
-import frc.robot.core.requests.moduleRequests.IndexerRequestFactory;
+import frc.robot.src.modules.superstructure.modules.indexermodule.Indexer;
+import frc.robot.src.requests.moduleRequests.IndexerRequestFactory;
 
 @MARSTest(name = "Indexer test")
 public class IndexerTest extends TestRoutine {

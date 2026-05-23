@@ -12,13 +12,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.configuration.advantageScope.visuals.nodes.gamepiece.GamePieceNode.GamePieceMsg;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
 import frc.robot.configuration.constants.Constants;
-import frc.robot.core.modules.superstructure.composite.Superstructure;
-import frc.robot.core.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
-import frc.robot.core.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
-import frc.robot.core.requests.moduleRequests.ArmRequestFactory;
-import frc.robot.core.requests.moduleRequests.FlyWheelRequestFactory;
-import frc.robot.core.requests.moduleRequests.IntakeRequestFactory;
-import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
+import frc.robot.src.modules.superstructure.composite.Superstructure;
+import frc.robot.src.modules.superstructure.modules.armmodule.ArmIOKraken.ArmMODE;
+import frc.robot.src.modules.superstructure.modules.intakemodule.IntakeIOKraken.intakeMODE;
+import frc.robot.src.requests.moduleRequests.ArmRequestFactory;
+import frc.robot.src.requests.moduleRequests.FlyWheelRequestFactory;
+import frc.robot.src.requests.moduleRequests.IntakeRequestFactory;
+import frc.robot.src.requests.moduleRequests.TurretRequestFactory;
 
 public class OperatorBindings implements Binding {
 

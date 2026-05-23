@@ -8,7 +8,7 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.configuration.advantageScope.visuals.nodes.trajectory.TrajectoryNode.TrajectoryMsg;
-import frc.robot.helpers.AllianceUtil;
+import frc.robot.utils.AllianceUtil;
 import java.util.ArrayList;
 import java.util.List;
 

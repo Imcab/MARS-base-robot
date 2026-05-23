@@ -10,8 +10,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.configuration.constants.Constants;
-import frc.robot.core.modules.superstructure.modules.turretmodule.Turret;
-import frc.robot.core.requests.moduleRequests.TurretRequestFactory;
+import frc.robot.src.modules.superstructure.modules.turretmodule.Turret;
+import frc.robot.src.requests.moduleRequests.TurretRequestFactory;
 
 @MARSTest(name = "Turret Angle Test")
 public class TurretTest extends TestRoutine {

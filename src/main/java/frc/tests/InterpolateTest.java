@@ -8,7 +8,7 @@ import com.stzteam.mars.test.MARSTest;
 import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import frc.robot.core.modules.superstructure.composite.Superstructure;
+import frc.robot.src.modules.superstructure.composite.Superstructure;
 
 @MARSTest(name = "InterpolateTarget")
 public class InterpolateTest extends TestRoutine {

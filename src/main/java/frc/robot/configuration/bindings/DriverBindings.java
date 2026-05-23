@@ -9,8 +9,8 @@ import com.stzteam.mars.operator.ControllerOI;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.configuration.constants.ModuleConstants.SwerveConstants;
-import frc.robot.core.modules.swerve.CommandSwerveDrivetrain;
-import frc.robot.core.modules.swerve.SwerveRequestFactory;
+import frc.robot.src.modules.swerve.CommandSwerveDrivetrain;
+import frc.robot.src.modules.swerve.SwerveRequestFactory;
 
 public class DriverBindings implements Binding {
 

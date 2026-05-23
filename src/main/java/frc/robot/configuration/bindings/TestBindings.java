@@ -8,7 +8,7 @@ import com.stzteam.mars.models.containers.Binding;
 import com.stzteam.mars.test.TestRoutine;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.core.modules.superstructure.composite.Superstructure;
+import frc.robot.src.modules.superstructure.composite.Superstructure;
 import frc.tests.ArmTest;
 import frc.tests.IndexerTest;
 import frc.tests.IntakeTest;
