@@ -15,7 +15,7 @@ public class IndexerIOSim implements IndexerIO {
   private final FlywheelSim simRoll;
   private final FlywheelSim simIndex;
 
-  private double appliedVolts = 0.0;;
+  private double appliedVolts = 0.0;
   private final DCMotor gearbox;
 
   public IndexerIOSim() {
