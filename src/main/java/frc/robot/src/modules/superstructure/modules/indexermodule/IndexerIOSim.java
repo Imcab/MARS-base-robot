@@ -38,9 +38,6 @@ public class IndexerIOSim implements IndexerIO {
     simIndex.update(0.02);
     simRoll.update(0.02);
 
-    // 4. Actualizar las lecturas simuladas en la estructura de Inputs
-    // Nota: Asegúrate de que los nombres de las variables coincidan con tu clase FlyWheelInputs
-
     inputs.appliedVoltsRoll = appliedVolts;
     inputs.appliedVoltsIndex = appliedVolts;
 
